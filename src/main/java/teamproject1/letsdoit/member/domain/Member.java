@@ -1,6 +1,7 @@
 package teamproject1.letsdoit.member.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -19,6 +20,7 @@ public class Member extends BaseEntity {
 
     private String name;
 
+    @JsonIgnore
     private String password;
 
     private String imageUrl;

@@ -2,7 +2,6 @@ package teamproject1.letsdoit.member.domain.repository;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
-import teamproject1.letsdoit.common.exception.advice.assertThat.DefaultAssert;
 import teamproject1.letsdoit.member.domain.Member;
 
 import java.util.*;
@@ -16,7 +15,9 @@ public class MemoryMemberRepository implements MemberRepository{
 
     @Override
     public Member save(Member member) {
-        DefaultAssert.isOptionalPresent(findByEmail(member.getEmail()));
+        if(findByEmail(member.getEmail()).isPresent()){
+            throw new IllegalStateException();
+        }
         member.setId(++sequence);
         store.put(member.getId(), member);
         log.info(member.getId() + " " + member.getEmail() + " " + member.getName() + " " + member.getImageUrl());
