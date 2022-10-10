@@ -31,7 +31,6 @@ public class Member extends BaseEntity {
 
     private String providerId;
 
-
     @Builder
     public Member(String email, String name, String imageUrl, Role role, Provider provider, String providerId) {
         this.email = email;
