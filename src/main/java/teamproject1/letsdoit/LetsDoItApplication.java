@@ -7,6 +7,7 @@ import org.springframework.context.annotation.PropertySource;
 
 @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
 @PropertySource(value = {"classpath:application-security.properties"})
+@PropertySource(value = {"classpath:application-swagger.properties"})
 public class LetsDoItApplication {
 
 	public static void main(String[] args) {
