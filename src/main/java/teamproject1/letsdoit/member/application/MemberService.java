@@ -8,8 +8,6 @@ import teamproject1.letsdoit.common.dto.ApiResponse;
 import teamproject1.letsdoit.common.exception.advice.assertThat.DefaultAssert;
 import teamproject1.letsdoit.member.domain.Member;
 import teamproject1.letsdoit.member.domain.repository.MemberRepository;
-import teamproject1.letsdoit.member.domain.repository.MemoryMemberRepository;
-
 import java.util.Optional;
 
 @Service
@@ -26,4 +24,5 @@ public class MemberService {
         ApiResponse apiResponse = ApiResponse.builder().check(true).information(member.get()).build();
         return ResponseEntity.ok(apiResponse);
     }
+
 }
