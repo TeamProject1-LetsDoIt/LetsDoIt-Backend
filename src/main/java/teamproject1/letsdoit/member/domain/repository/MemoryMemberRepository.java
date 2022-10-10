@@ -20,7 +20,10 @@ public class MemoryMemberRepository implements MemberRepository{
         }
         member.setId(++sequence);
         store.put(member.getId(), member);
-        log.info(member.getId() + " " + member.getEmail() + " " + member.getName() + " " + member.getImageUrl());
+        log.info("Id", member.getId());
+        log.info("Email", member.getEmail());
+        log.info("Name", member.getName());
+        log.info("Image", member.getImageUrl());
         return member;
     }
 
