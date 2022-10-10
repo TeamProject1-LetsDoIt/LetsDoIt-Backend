@@ -10,10 +10,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import teamproject1.letsdoit.common.exception.advice.payload.ErrorResponse;
 import teamproject1.letsdoit.member.application.MemberService;
 import teamproject1.letsdoit.member.domain.Member;
@@ -32,7 +29,7 @@ public class MemberController {
             @ApiResponse(responseCode = "200", description = "유저 확인 성공", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Member.class))}),
             @ApiResponse(responseCode = "400", description = "유저 확인 실패", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))})
     })
-    @GetMapping("/me")
+    @PostMapping("/me")
     public ResponseEntity<?> me(
             @Parameter(description = "Schema => FindUserReq", required = true) @Validated @RequestBody FindUserByEmailReq findUserByEmailReq
     ) {
