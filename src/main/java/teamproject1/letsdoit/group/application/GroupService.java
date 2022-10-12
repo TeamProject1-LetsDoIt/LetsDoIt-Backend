@@ -24,6 +24,7 @@ public class GroupService {
 
         groupRepository.save(group);
         return ResponseEntity.ok(group);
+
     }
 
 
