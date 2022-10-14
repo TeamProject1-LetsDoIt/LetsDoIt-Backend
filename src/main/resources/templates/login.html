@@ -10,48 +10,50 @@
                 background-size : cover;
                 background-position : center;
             }
+            button {
+                -webkit-appeanrance: none;
+                -moz-appearance: none;
+                appearance : none;
+                background-color: transparent;
+                border : 0;
+                outline : 0;
+
+                cursor : pointer;
+            }
             .login_background{
-                z-index: 1;
-                position: absolute;
+                z-index: 20;
+                position: relative;
                 width: 490px;
                 height: 964px;
-                left: 480px;
-                top: 30px;
+                margin : 30px auto;
 
                 background: #D9D9D9;
                 box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25), inset -1px -2px 4px rgba(0, 0, 0, 0.25);
                 border-radius: 8px;
+                display : block;
             }
             .login_group {
                 z-index : 30;
+                position : absolute;
             }
             .logo_img {
                 z-index : 30;
+
                 position: absolute;
                 width: 327px;
                 height: 316px;
-                left: 557px;
+                left: 85px;
                 top: 214px;
 
                 filter: drop-shadow(0px 5px 5px rgba(0, 0, 0, 0.25));
             }
-            .button_font {
-                z-index : 30;
-
-                font-size : 22px;
-                font-weight: bold;
-                font-family : Verdana, Geneva, Tahoma, sans-serif;
-                text-align: center;
-                color: black;
-            }
-            a {text-decoration: none;}
             .naverbutton {
                 z-index : 30;
 
                 position: absolute;
                 width: 310px;
                 height: 80px;
-                left: 565px;
+                left: 90px;
                 top: 590px;
                 
                 background-color: #03bc66;
@@ -64,23 +66,12 @@
                 font-size : 16px;
                 font-weight : bold;
             }
-            .naverbutton:focus{
-                outline: 0;
-            }
-            .naverbutton:hover{
-                background-color:#00a85a;
-                cursor: pointer;
-            }
-            .naverbutton > a {
-                display: block;
-                line-height: 80px;
-            }
             .kakaobutton {
                 z-index : 30;
                 position: absolute;
                 width: 310px;
                 height: 80px;
-                left: 565px;
+                left: 90px;
                 top: 685px;
 
                 background-color: #fffb00;
@@ -89,34 +80,24 @@
                 color: white;
                 border-radius: 9px;
                 box-shadow: 2px 2px 2px #a9a9a9;
-     
+    
                 font-size : 16px;
                 font-weight : bold;
-            }
-            .kakaobutton:focus{
-                outline: 0;
-            }
-            .kakaobutton:hover{
-                background-color:#d8d400;
-                cursor: pointer;
-            }
-            .kakaobutton > a {
-                display: block;
-                line-height: 50px;
             }
         </style>
     </head>
     <body>
-        <div class = "login_background"></div>
-        <div class = "login_group">
-        <img src="https://jaksimharu.s3.ap-northeast-2.amazonaws.com/images/logo.png" alt="My Image" class = "logo_img">
-        <button class = "naverbutton" onclick="window.open('http://localhost:8080/oauth2/authorize/naver')">
-            <a class="button_font">네이버 소셜로그인</a>
-        </button>
-        <button class = "kakaobutton" onclick="window.open('http://localhost:8080/oauth2/authorize/kakao')">
-            <a class="button_font">카카오 소셜로그인</a>
-        </button>
+        <div class = "login_background">
+            <div class = "login_group">
+                <img style = "text-align:center"; src="https://jaksimharu.s3.ap-northeast-2.amazonaws.com/images/d74c2880d07d6d9a.png" alt="My Image" class = "logo_img">
+                <button onclick="location.href='http://localhost:8080/oauth2/authorize/naver'">
+                    <img src = "https://jaksimharu.s3.ap-northeast-2.amazonaws.com/images/btnG_.png" alt = "naverbutton" class = "naverbutton">
+                </button>
+                <button onclick="location.href='http://localhost:8080/oauth2/authorize/kakao'">
+                    <img src = "https://jaksimharu.s3.ap-northeast-2.amazonaws.com/images/kakao_login_large_narrow.png" alt = "kakaobutton" class = "kakaobutton">
+                </button>
+            </div>
         </div>
-        <script src = "../static/js/buttons_action.js"></script>
+        <script src = "./buttons_action.js"></script>
     </body>
 </html>

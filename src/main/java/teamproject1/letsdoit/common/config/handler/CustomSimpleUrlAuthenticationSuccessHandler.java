@@ -1,6 +1,7 @@
 package teamproject1.letsdoit.common.config.handler;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
@@ -10,6 +11,7 @@ import teamproject1.letsdoit.common.config.OAuth2Config;
 import teamproject1.letsdoit.common.domain.repository.CustomAuthorizationRequestRepository;
 import teamproject1.letsdoit.common.dto.TokenMapping;
 import teamproject1.letsdoit.common.exception.advice.assertThat.DefaultAssert;
+import teamproject1.letsdoit.common.presentation.ViewController;
 import teamproject1.letsdoit.common.util.CustomCookie;
 import teamproject1.letsdoit.token.domain.Token;
 import teamproject1.letsdoit.token.domain.repository.MemoryTokenRepository;
@@ -26,6 +28,7 @@ import static teamproject1.letsdoit.common.domain.repository.CustomAuthorization
 
 @RequiredArgsConstructor
 @Component
+@Slf4j
 public class CustomSimpleUrlAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
     private final CustomTokenProviderService customTokenProviderService;
@@ -40,7 +43,7 @@ public class CustomSimpleUrlAuthenticationSuccessHandler extends SimpleUrlAuthen
         String targetUrl = determineTargetUrl(request, response, authentication);
 
         clearAuthenticationAttributes(request, response);
-        getRedirectStrategy().sendRedirect(request, response, targetUrl);
+        getRedirectStrategy().sendRedirect(request, response, "/home");
     }
 
     protected String determineTargetUrl(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {

@@ -35,4 +35,5 @@ public class MemberController {
     ) {
         return memberService.me(findUserByEmailReq.getEmail());
     }
+
 }
