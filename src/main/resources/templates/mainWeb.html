@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- 화면 나눌 때 최소화하면 떨어져 나오지 않고 전체화면의 축소판으로 나오게 조정-->
+    <!--body의 diplay flex속성이 중요-->
+    <style>
+        html,body{
+            height:100%;
+        }
+       
+        body{
+           display: flex;
+            flex-direction: column;
+        }
+       .main{
+            margin-top:20px;
+            margin-bottom:30px;
+            margin-left:20px;
+            margin-right:20px;
+            flex:1;
+            text-align: center;
+       }
+        .groovyroom{
+            position:relative;
+            border-radius: 8px;
+            float:left;
+            width:1011px;
+            height:936px;
+            margin-bottom: 30px;
+            background-color: antiquewhite;
+        }
+        .group div{
+            display:inline-block;
+            position:relative;
+            width:400px;
+            height:160px;
+            background-color:darkseagreen;
+            margin-top:20px;
+            margin-bottom:20px;
+            margin-left:20px;
+            margin-right:20px;
+        }
+       
+        .button{
+            position:absolute;
+            width:100%;
+            bottom:30px;
+        }
+        .myPage{
+            position: relative;
+            justify-content: center;
+            display:flex;
+            border-radius: 8px;
+            float:right;
+            width:326px;
+            height:936px;
+            margin-bottom: 30px;
+            background-color: brown;
+        }
+        .profileCir{
+            position:absolute;
+            margin-top:90px;
+            width:138px;
+            height:138px;
+            border-radius: 70%;
+            background-color: aliceblue;
+        }
+       .myName{
+            position:absolute;
+            margin-top:280px;
+            width:103px;
+            height:40px;
+            font-size:30px;
+            border-bottom:solid black;   
+       }
+    </style>
+</head>
+<body>
+    <div class="main">
+        <section class="groovyroom">
+            <div class="group">
+                <div>
+                    group1
+                </div>
+                <div>
+                    group2
+                </div>
+                <div>
+                    group3
+                </div>
+                <div>
+                    group4
+                </div>
+                <div>
+                    group5
+                </div>
+                <div>
+                    group6
+                </div>
+                <div>
+                    group7
+                </div>
+                <div>
+                    group8
+                </div>
+            </div>
+            <div class="button">
+                <button style="background-color:red; border-color:blue; color:white">이전 페이지</button>
+                <button style="background-color:red; border-color:blue; color:white">다음 페이지</button>
+            </div>
+        </section>
+
+        <aside class="myPage">
+            <div class="profileCir"></div>
+            <div class="myName">이름</div>
+        </aside>
+    </div>
+
+</body>
+</html>
