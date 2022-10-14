@@ -8,11 +8,16 @@ public class ViewController {
 
     @GetMapping("/")
     public String beforeLoginForm() {
-        return "index";
+        return "beforeLogin";
     }
 
-    @GetMapping("/oauth2/callback")
+    @GetMapping("/oauth2/callback/*")
     public String afterLoginForm(){
         return "main";
+    }
+
+    @GetMapping("/login")
+    public String loginForm() {
+        return "login";
     }
 }
