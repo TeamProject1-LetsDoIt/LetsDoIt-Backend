@@ -6,120 +6,254 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <!-- 화면 나눌 때 최소화하면 떨어져 나오지 않고 전체화면의 축소판으로 나오게 조정-->
-    <!--body의 diplay flex속성이 중요-->
+    <script src="mainWeb.js"></script>
+
     <style>
-        html,body{
-            height:100%;
-        }
-       
+
+        /*웹페이지 뒷배경색*/
         body{
-           display: flex;
-            flex-direction: column;
+            background-color:#979797;
         }
-       .main{
-            margin-top:20px;
-            margin-bottom:30px;
-            margin-left:20px;
-            margin-right:20px;
-            flex:1;
-            text-align: center;
-       }
+        /*main창 크기 조정*/
+        .main{
+            position: relative;
+            width: 1440px;
+            height: 1024px;
+        
+        }
+        /*메인창의 왼쪽, 그룹에 대한 정보*/
+        /*버튼 구역과 모임 내용 구역으로 나눈다 */
         .groovyroom{
-            position:relative;
+            
+            position: absolute;
+            width: 1011px;
+            height: 938px;
+            left: 26px;
+            bottom: 24px;
+            top:62px;
+
+            background: #D9D9D9;
+            box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25), inset -1px -2px 4px rgba(0, 0, 0, 0.25);
             border-radius: 8px;
-            float:left;
-            width:1011px;
-            height:936px;
-            margin-bottom: 30px;
-            background-color: antiquewhite;
+
         }
-        .group div{
+        
+        /*메인창의 오른쪽, 유저 자신에 대한 정보 및 카테고리*/
+        .myPage{
+            
+            position: absolute;
+            width: 326px;
+            height: 936px;
+            left: 1069px;
+            top:64px;
+            bottom:24px;
+
+            background: #D9D9D9;
+            box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25), inset -1px -2px 4px rgba(0, 0, 0, 0.25);
+            border-radius: 8px;
+
+        }
+
+        /*모임 내용을 보여줄 구역*/
+        .group{
+            margin-top:18px;
+            margin-bottom:14px;
+            margin-left: 25px;
+            margin-right: 25px;
+           
+        }
+        /*버튼 구역*/
+        .button{
+            position: relative;
+            display:inline;
+            
+            width: 30px;
+            height: 30px;
+            left:44.5%;
+            
+            box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+            
+
+        }
+       #Btn1{
+          
+           background: #7A7A7A;
+                       
+       }
+       #Btn2{
+          
+           background: #7A7A7A;
+        
+            
+            
+       }
+        /*각각의 모임의 내용에 대해 보여줄 칸, 구역을 10개로 분할*/
+        #groupContents{
+            border-radius: 10px;
             display:inline-block;
             position:relative;
-            width:400px;
-            height:160px;
-            background-color:darkseagreen;
-            margin-top:20px;
-            margin-bottom:20px;
-            margin-left:20px;
-            margin-right:20px;
+            width: 460px;
+            height: 160px;
+            background-color:#7A7A7A;
+            margin-top:5px;
+            margin-bottom:5px;
+            margin-left:7.5px;
+            margin-right:7.5px;
+
+
+        }
+
+        /*각 모임의 제목*/
+        #grouptitle{
+            margin:5px 30px 5px 20px;
+            font-size:20px;
+            border-bottom:#D9D9D9 solid;
+            color: #FFFFFF;
+        }
+
+         /*각 모임의 간략한 내용*/
+        #contents{
+            height:80px;
+
+            margin:5px 30px 5px 20px;
+            border-bottom:#D9D9D9 solid;
+
+            font-style: normal;
+            font-weight: 400;
+            font-size: 15px;
+            line-height: 18px;
+            color: #FFFFFF;
+        }
+
+         /*각 모임의 인원수를 이미지로 표현*/
+        #numPeople{
+            margin:5px 30px 5px 20px;
+            color: #FFFFFF;
+        }
+
+         /*각 모임의 제한 인원과 참여 인원 수*/
+        #numP{
+            
+            position:relative;
+            float:right;
+
+            font-weight: 400;
+            font-size: 20px;
+            line-height: 29px;
+            color: #FFFFFF;
+            
         }
        
-        .button{
-            position:absolute;
-            width:100%;
-            bottom:30px;
-        }
-        .myPage{
+        /* 마이페이지의 유저 사진을 원에 나타낸다*/
+        .profile{
             position: relative;
-            justify-content: center;
-            display:flex;
-            border-radius: 8px;
-            float:right;
-            width:326px;
-            height:936px;
-            margin-bottom: 30px;
-            background-color: brown;
-        }
-        .profileCir{
-            position:absolute;
-            margin-top:90px;
-            width:138px;
-            height:138px;
+            width: 138px;
+            height: 138px;
+
+            margin-top:46px;
+            margin-left:94px;
+            margin-right:94px;
+
+            background-color: #9B5E5E;
             border-radius: 70%;
-            background-color: aliceblue;
         }
-       .myName{
-            position:absolute;
-            margin-top:280px;
-            width:103px;
-            height:40px;
+        
+        /*유저 사진 바로 아래 닉네임을 나타낸다*//*최대 닉네임 숫자를 제한한다.*/
+        .myName{
+            position:relative;
+            width:200px;
+            height:36px;
+            
+            
+            margin-top:9px;
+            margin-left:63px;
+            margin-right:63px;
+            
+            font-family: 'Inter';
             font-size:30px;
-            border-bottom:solid black;   
-       }
+            line-height: 36px;
+            font-weight: 400;
+            text-align:center;
+           
+            font-style: normal;
+
+            border-bottom:black solid;
+        }
     </style>
+ 
 </head>
 <body>
     <div class="main">
         <section class="groovyroom">
             <div class="group">
-                <div>
-                    group1
+                <div id="groupContents">
+                    <div id="grouptitle">제목1</div>
+                    <div id="contents">내용</div>
+                    <div id="numPeople">사람 수<span id="numP">5/5</span></div>
+                   
                 </div>
-                <div>
-                    group2
+                <div id="groupContents">
+                    <div id="grouptitle">제목1</div>
+                    <div id="contents">내용</div>
+                    <div id="numPeople">사람 수 <span id="numP">5/5</span></div>
                 </div>
-                <div>
-                    group3
+                <div id="groupContents">
+                    <div id="grouptitle">제목1</div>
+                    <div id="contents">내용</div>
+                    <div id="numPeople">사람 수 <span id="numP">5/5</span></div>
                 </div>
-                <div>
-                    group4
+                <div id="groupContents">
+                    <div id="grouptitle">제목1</div>
+                    <div id="contents">내용</div>
+                    <div id="numPeople">사람 수 <span id="numP">5/5</span></div>
                 </div>
-                <div>
-                    group5
+                <div id="groupContents">
+                    <div id="grouptitle">제목1</div>
+                    <div id="contents">내용</div>
+                    <div id="numPeople">사람 수 <span id="numP">5/5</span></div>
                 </div>
-                <div>
-                    group6
+                <div id="groupContents">
+                    <div id="grouptitle">제목1</div>
+                    <div id="contents">내용</div>
+                    <div id="numPeople">사람 수 <span id="numP">5/5</span></div>
                 </div>
-                <div>
-                    group7
+                <div id="groupContents">
+                    <div id="grouptitle">제목1</div>
+                    <div id="contents">내용</div>
+                    <div id="numPeople">사람 수 <span id="numP">5/5</span></div>
                 </div>
-                <div>
-                    group8
+                <div id="groupContents">
+                    <div id="grouptitle">제목1</div>
+                    <div id="contents">내용</div>
+                    <div id="numPeople">사람 수 <span id="numP">5/5</span></div>
+                </div>
+                <div id="groupContents">
+                    <div id="grouptitle">제목1</div>
+                    <div id="contents">내용</div>
+                    <div id="numPeople">사람 수 <span id="numP">5/5</span></div>
+                </div>
+                <div id="groupContents">
+                    <div id="grouptitle">제목1</div>
+                    <div id="contents">내용</div>
+                    <div id="numPeople">사람 수 <span id="numP">5/5</span></div>
                 </div>
             </div>
+
             <div class="button">
-                <button style="background-color:red; border-color:blue; color:white">이전 페이지</button>
-                <button style="background-color:red; border-color:blue; color:white">다음 페이지</button>
+                <span><button id="Btn1" >이전</button></span>
+                <span>pn</span>
+                <span><button id="Btn2" >다음</button></span>
+                
             </div>
+
         </section>
 
-        <aside class="myPage">
-            <div class="profileCir"></div>
-            <div class="myName">이름</div>
-        </aside>
-    </div>
+        <!--닉네임 글자 수 제한 필요, 밑줄을 벗어나지 않도록-->
+        <section class="myPage">
+            <div class="profile"></div>
+            <div class="myName">닉네임</div>
+        </section>
 
-</body>
+    </div>
+    </body>   
 </html>
