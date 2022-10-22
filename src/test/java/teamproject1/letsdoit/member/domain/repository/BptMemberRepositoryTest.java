@@ -42,4 +42,22 @@ class BptMemberRepositoryTest {
         Assertions.assertThat(memberRepository.findByEmail("se99@naver.com").get().getEmail()).isEqualTo(member3.getEmail());
     }
 
+    @Test
+    public void multipleTest() throws Exception {
+        //given
+        Member member1 = Member.builder()
+                .name("jin")
+                .email("jinpark99@naver.com")
+                .build();
+
+        Member member2 = Member.builder()
+                .name("ho")
+                .email("jinpark99@naver.com")
+                .build();
+
+        //when
+        memberRepository.save(member1);
+
+        //then
+    }
 }

@@ -11,13 +11,16 @@ import java.util.Optional;
 
 @Repository
 @Slf4j
-public class BptMemberRepository implements MemberRepository{
+public class BptMemberRepository implements MemberRepository {
 
     private static BTree<Integer, Member> bTree = new BTree<>();
     private static Long sequence = 0L;
 
     @Override
     public Member save(Member member) {
+        if (findByEmail(member.getEmail()).isPresent()) {
+            throw new IllegalStateException();
+        }
         member.setId(++sequence);
         bTree.insert(Math.toIntExact(member.getId()), member);
         log.info("\n" + "아이디: " + member.getId() + "\n" + "이메일: " + member.getEmail() + "\n" + "이름: " + member.getName() + "\n" + "프로필사진: " + member.getImageUrl());
