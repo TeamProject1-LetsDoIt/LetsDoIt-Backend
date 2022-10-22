@@ -1,13 +1,14 @@
-package teamproject1.letsdoit.group.domain;
+package teamproject1.letsdoit.room.domain;
 
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import teamproject1.letsdoit.common.domain.BaseEntity;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Group {
+public class Group extends BaseEntity {
 
     private Long id;
 
@@ -19,14 +20,17 @@ public class Group {
 
     private Integer maxPeople;
 
+    private Integer expireTime;
+
     private Status status;
 
     @Builder
-    public Group(String hostEmail, String title, String content, Integer maxPeople) {
+    public Group(String hostEmail, String title, String content, Integer maxPeople, Integer expireTime) {
         this.hostEmail = hostEmail;
         this.title = title;
         this.content = content;
         this.maxPeople = maxPeople;
+        this.expireTime = expireTime;
         this.status = Status.JOINABLE;
     }
 

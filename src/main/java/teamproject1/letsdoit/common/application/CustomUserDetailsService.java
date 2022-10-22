@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import teamproject1.letsdoit.common.config.token.UserPrincipal;
 import teamproject1.letsdoit.common.exception.advice.assertThat.DefaultAssert;
 import teamproject1.letsdoit.member.domain.Member;
-import teamproject1.letsdoit.member.domain.repository.MemoryMemberRepository;
+import teamproject1.letsdoit.member.domain.repository.MemberRepository;
 
 import java.util.Optional;
 
@@ -18,7 +18,7 @@ import java.util.Optional;
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
 
-    private final MemoryMemberRepository memberRepository;
+    private final MemberRepository memberRepository;
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {

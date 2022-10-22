@@ -36,7 +36,7 @@ out/
 ### VS Code ###
 .vscode/
 /src/main/resources/application-security.properties
-/.DS_Store
+**/.DS_Store
 /src/.DS_Store
 /src/main/.DS_Store
 
