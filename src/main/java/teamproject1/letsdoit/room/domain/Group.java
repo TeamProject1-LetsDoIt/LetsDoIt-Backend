@@ -4,10 +4,11 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import teamproject1.letsdoit.common.domain.BaseEntity;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Group {
+public class Group extends BaseEntity {
 
     private Long id;
 

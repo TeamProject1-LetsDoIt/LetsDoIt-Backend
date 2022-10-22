@@ -13,7 +13,7 @@ import teamproject1.letsdoit.common.exception.advice.assertThat.DefaultAssert;
 import teamproject1.letsdoit.member.domain.Member;
 import teamproject1.letsdoit.member.domain.Provider;
 import teamproject1.letsdoit.member.domain.Role;
-import teamproject1.letsdoit.member.domain.repository.MemoryMemberRepository;
+import teamproject1.letsdoit.member.domain.repository.MemberRepository;
 
 import java.util.Optional;
 
@@ -21,7 +21,7 @@ import java.util.Optional;
 @Service
 public class CustomDefaultOAuth2UserService extends DefaultOAuth2UserService {
 
-    private final MemoryMemberRepository memberRepository;
+    private final MemberRepository memberRepository;
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest oAuth2UserRequest) throws OAuth2AuthenticationException {
