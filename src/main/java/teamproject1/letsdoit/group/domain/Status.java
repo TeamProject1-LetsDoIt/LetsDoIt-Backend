@@ -1,4 +1,4 @@
-package teamproject1.letsdoit.room.domain;
+package teamproject1.letsdoit.group.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
