@@ -1,4 +1,4 @@
-package teamproject1.letsdoit.group.domain;
+package teamproject1.letsdoit.room.domain;
 
 import lombok.AccessLevel;
 import lombok.Builder;
