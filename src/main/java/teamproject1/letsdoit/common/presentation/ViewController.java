@@ -4,15 +4,14 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import teamproject1.letsdoit.common.exception.advice.assertThat.DefaultAssert;
 import teamproject1.letsdoit.common.presentation.dto.GroupForm;
-import teamproject1.letsdoit.member.application.MemberService;
-import teamproject1.letsdoit.member.domain.Member;
 import teamproject1.letsdoit.group.application.GroupService;
 import teamproject1.letsdoit.group.domain.Group;
+import teamproject1.letsdoit.member.application.MemberService;
+import teamproject1.letsdoit.member.domain.Member;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
