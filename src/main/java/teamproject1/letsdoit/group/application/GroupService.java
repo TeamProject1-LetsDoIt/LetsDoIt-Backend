@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import teamproject1.letsdoit.group.domain.Group;
 import teamproject1.letsdoit.group.domain.repository.GroupRepository;
+import teamproject1.letsdoit.group.presentation.dto.SaveGroupReq;
 
 import java.util.List;
 
