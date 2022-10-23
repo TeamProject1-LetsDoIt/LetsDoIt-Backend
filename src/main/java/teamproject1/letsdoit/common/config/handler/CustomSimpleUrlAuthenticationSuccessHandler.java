@@ -12,6 +12,7 @@ import teamproject1.letsdoit.common.config.OAuth2Config;
 import teamproject1.letsdoit.common.domain.repository.CustomAuthorizationRequestRepository;
 import teamproject1.letsdoit.common.dto.TokenMapping;
 import teamproject1.letsdoit.common.exception.advice.assertThat.DefaultAssert;
+import teamproject1.letsdoit.common.presentation.ViewController;
 import teamproject1.letsdoit.common.util.CustomCookie;
 import teamproject1.letsdoit.token.domain.Token;
 import teamproject1.letsdoit.token.domain.repository.MemoryTokenRepository;
