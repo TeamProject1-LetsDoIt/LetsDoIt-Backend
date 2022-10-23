@@ -27,6 +27,10 @@ public class MemberService {
         return ResponseEntity.ok(apiResponse);
     }
 
+    public Optional<Member> findByMemberByEmail(String email) {
+        return memberRepository.findByEmail(email);
+    }
+
     public List<Member> findMembers() {
         return memberRepository.findAll();
     }

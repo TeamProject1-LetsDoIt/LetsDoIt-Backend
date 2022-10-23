@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     
     <meta charset="UTF-8">
@@ -251,7 +251,7 @@
         <!--닉네임 글자 수 제한 필요, 밑줄을 벗어나지 않도록-->
         <section class="myPage">
             <div class="profile"></div>
-            <div class="myName">닉네임</div>
+            <div class="myName"><p th:text="${member.getName()}"></p></div>
         </section>
 
     </div>

@@ -4,15 +4,21 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import teamproject1.letsdoit.common.exception.advice.assertThat.DefaultAssert;
 import teamproject1.letsdoit.common.presentation.dto.GroupForm;
 import teamproject1.letsdoit.member.application.MemberService;
 import teamproject1.letsdoit.member.domain.Member;
-import teamproject1.letsdoit.room.application.GroupService;
-import teamproject1.letsdoit.room.domain.Group;
+import teamproject1.letsdoit.group.application.GroupService;
+import teamproject1.letsdoit.group.domain.Group;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
@@ -34,12 +40,23 @@ public class ViewController {
     }
 
     @GetMapping("/home")
-    public String mainForm(Model model) {
+    public String mainForm(Model model, HttpServletRequest request) {
+        String userEmail = "";
+        Cookie[] cookies = request.getCookies();
+
+        Optional<Cookie> emailCookie = Arrays.stream(cookies).filter(cookie -> cookie.getName().equals("email")).findAny();
+        DefaultAssert.isOptionalPresent(emailCookie);
+        userEmail = emailCookie.get().getValue();
+
         List<Group> groups = groupService.findGroups();
-        List<Member> members = memberService.findMembers();
+        Optional<Member> result = memberService.findByMemberByEmail(userEmail);
+        DefaultAssert.isOptionalPresent(result);
+        log.info(result.get().getEmail());
+
+        Member member = result.get();
 
         model.addAttribute("groups", groups);
-        model.addAttribute("members", members);
+        model.addAttribute("member", member);
 
         return "home";
     }

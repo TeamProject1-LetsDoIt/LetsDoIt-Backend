@@ -1,6 +1,6 @@
-package teamproject1.letsdoit.room.domain.repository;
+package teamproject1.letsdoit.group.domain.repository;
 
-import teamproject1.letsdoit.room.domain.Group;
+import teamproject1.letsdoit.group.domain.Group;
 
 import java.util.List;
 import java.util.Optional;
