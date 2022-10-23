@@ -1,8 +1,8 @@
-package teamproject1.letsdoit.group.domain.repository;
+package teamproject1.letsdoit.room.domain.repository;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
-import teamproject1.letsdoit.group.domain.Group;
+import teamproject1.letsdoit.room.domain.Group;
 
 import java.util.HashMap;
 import java.util.List;

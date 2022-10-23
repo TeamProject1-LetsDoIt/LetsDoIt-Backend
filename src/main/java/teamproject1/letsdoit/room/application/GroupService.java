@@ -1,10 +1,12 @@
-package teamproject1.letsdoit.group.application;
+package teamproject1.letsdoit.room.application;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import teamproject1.letsdoit.room.domain.Group;
 import teamproject1.letsdoit.room.domain.repository.GroupRepository;
+import teamproject1.letsdoit.room.presentation.dto.SaveGroupReq;
 
 import java.util.List;
 

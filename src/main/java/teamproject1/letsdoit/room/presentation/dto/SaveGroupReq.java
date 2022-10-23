@@ -1,4 +1,4 @@
-package teamproject1.letsdoit.group.presentation.dto;
+package teamproject1.letsdoit.room.presentation.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
