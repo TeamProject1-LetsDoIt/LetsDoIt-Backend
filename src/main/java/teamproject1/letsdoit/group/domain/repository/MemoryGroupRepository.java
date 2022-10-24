@@ -30,6 +30,11 @@ public class MemoryGroupRepository implements GroupRepository{
     }
 
     @Override
+    public Optional<Group> findByEmail(String email) {
+        return null;
+    }
+
+    @Override
     public List<Group> findAll() {
         return null;
     }
