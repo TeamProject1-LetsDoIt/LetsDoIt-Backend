@@ -1,6 +1,5 @@
 package teamproject1.letsdoit.member.domain.repository;
 
-import org.springframework.stereotype.Repository;
 import teamproject1.letsdoit.member.domain.Member;
 
 import java.util.List;

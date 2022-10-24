@@ -10,6 +10,6 @@ public class GroupForm {
     private String content;
     private String email;
     private int memberNum;
-    private int expireTime;
+    private String expireTime;
 
 }

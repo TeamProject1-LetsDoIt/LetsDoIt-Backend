@@ -145,7 +145,7 @@
         }
        
         /* 마이페이지의 유저 사진을 원에 나타낸다*/
-        .profile{
+        .profile img{
             position: relative;
             width: 138px;
             height: 138px;
@@ -251,7 +251,7 @@
 
         <!--닉네임 글자 수 제한 필요, 밑줄을 벗어나지 않도록-->
         <section class="myPage">
-            <div class="profile"></div>
+            <div class="profile"><img th:src="${member.getImageUrl()}"></div>
             <div class="myName"><p th:text="${member.getName()}"></p></div>
         </section>
 

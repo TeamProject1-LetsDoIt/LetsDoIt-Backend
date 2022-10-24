@@ -16,18 +16,21 @@ public class Group extends BaseEntity {
 
     private String title;
 
+    private String category;
+    
     private String content;
 
     private Integer maxPeople;
 
-    private Integer expireTime;
+    private String expireTime;
 
     private Status status;
 
     @Builder
-    public Group(String hostEmail, String title, String content, Integer maxPeople, Integer expireTime) {
+    public Group(String hostEmail, String title, String category, String content, Integer maxPeople, String expireTime) {
         this.hostEmail = hostEmail;
         this.title = title;
+        this.category = category;
         this.content = content;
         this.maxPeople = maxPeople;
         this.expireTime = expireTime;
