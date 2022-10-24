@@ -17,7 +17,7 @@ public class Group extends BaseEntity {
     private String title;
 
     private String category;
-
+    
     private String content;
 
     private Integer maxPeople;
