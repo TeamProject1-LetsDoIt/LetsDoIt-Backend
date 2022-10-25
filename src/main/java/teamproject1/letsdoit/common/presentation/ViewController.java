@@ -40,12 +40,7 @@ public class ViewController {
 
     @GetMapping("/home")
     public String mainForm(Model model, HttpServletRequest request) {
-        String userEmail = "";
-        Cookie[] cookies = request.getCookies();
-
-        Optional<Cookie> emailCookie = Arrays.stream(cookies).filter(cookie -> cookie.getName().equals("email")).findAny();
-        DefaultAssert.isOptionalPresent(emailCookie);
-        userEmail = emailCookie.get().getValue();
+        String userEmail = getEmail(request);
 
         List<Group> groups = groupService.findGroups();
         Optional<Member> result = memberService.findByMemberByEmail(userEmail);
@@ -60,19 +55,39 @@ public class ViewController {
         return "home";
     }
 
+
+    @GetMapping("/home/new")
+    public String groupCreateForm(Model model) {
+        model.addAttribute("group", new GroupForm());
+        return "makeParty";
+    }
+
     @PostMapping("/home/new")
-    public String roomCreate(GroupForm groupForm) {
+    public String groupCreate(GroupForm groupForm, HttpServletRequest request) {
+
+        String email = getEmail(request);
+
         Group group = Group.builder()
                 .title(groupForm.getTitle())
                 .content(groupForm.getContent())
-                .hostEmail(groupForm.getEmail())
-                .maxPeople(groupForm.getMemberNum())
+                .hostEmail(email)
+                .maxPeople(groupForm.getMaxPeople())
                 .expireTime(groupForm.getExpireTime())
                 .build();
 
         groupService.saveGroup(group);
 
         return "redirect:/home";
+    }
+
+    private static String getEmail(HttpServletRequest request) {
+        String userEmail = "";
+        Cookie[] cookies = request.getCookies();
+
+        Optional<Cookie> emailCookie = Arrays.stream(cookies).filter(cookie -> cookie.getName().equals("email")).findAny();
+        DefaultAssert.isOptionalPresent(emailCookie);
+        userEmail = emailCookie.get().getValue();
+        return userEmail;
     }
 
 }

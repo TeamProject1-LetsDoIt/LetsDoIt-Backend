@@ -8,8 +8,9 @@ public class GroupForm {
 
     private String title;
     private String content;
-    private String email;
-    private int memberNum;
+    private String category;
+    private Integer maxPeople;
+    private String date;
     private String expireTime;
 
 }
