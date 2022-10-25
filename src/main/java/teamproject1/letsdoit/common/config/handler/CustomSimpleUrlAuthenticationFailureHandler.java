@@ -31,8 +31,11 @@ public class CustomSimpleUrlAuthenticationFailureHandler extends SimpleUrlAuthen
                 .queryParam("error", exception.getLocalizedMessage())
                 .build().toUriString();
 
-        customAuthorizationRequestRepository.removeAuthorizationRequestCookies(request, response);
-
-        getRedirectStrategy().sendRedirect(request, response, targetUrl);
+        if (CustomCookie.getCookie(request, "email").isPresent()) {
+            getRedirectStrategy().sendRedirect(request, response, "/home");
+        }else {
+            customAuthorizationRequestRepository.removeAuthorizationRequestCookies(request, response);
+            getRedirectStrategy().sendRedirect(request, response, targetUrl);
+        }
     }
 }
