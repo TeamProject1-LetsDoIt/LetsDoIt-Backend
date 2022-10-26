@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import teamproject1.letsdoit.common.exception.advice.assertThat.DefaultAssert;
 import teamproject1.letsdoit.common.presentation.dto.GroupForm;
@@ -43,11 +44,8 @@ public class ViewController {
         String userEmail = getEmail(request);
 
         List<Group> groups = groupService.findGroups();
-        Optional<Member> result = memberService.findByMemberByEmail(userEmail);
-        DefaultAssert.isOptionalPresent(result);
-        log.info(result.get().getEmail());
-
-        Member member = result.get();
+        Member member = memberService.findByMemberByEmail(userEmail);
+        log.info(member.getEmail());
 
         model.addAttribute("groups", groups);
         model.addAttribute("member", member);
@@ -78,6 +76,17 @@ public class ViewController {
         groupService.saveGroup(group);
 
         return "redirect:/home";
+    }
+
+    @GetMapping("/group/{groupId}")
+    public String seeGroup(@PathVariable("groupId") Long groupId, Model model) {
+        log.info("groupId: ", groupId);
+        Group group = groupService.findGroupById(groupId);
+        Member member = memberService.findByMemberByEmail(group.getHostEmail());
+        model.addAttribute("member", member);
+        model.addAttribute("group", group);
+
+        return "partyInfo";
     }
 
     private static String getEmail(HttpServletRequest request) {

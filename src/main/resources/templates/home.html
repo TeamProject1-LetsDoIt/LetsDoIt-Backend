@@ -195,11 +195,11 @@
 <body>
 <div class="main">
     <section class="groovyroom">
-        <div class="group" th:each="group : ${groups}"  >
-            <div id="groupContents" onclick='checkInfo();'>
+        <div class="group" th:each="group : ${groups}" th:inline-block >
+            <div id="groupContents" th:onclick="|location.href='@{group/{groupId}(groupId=${group.id})}'|">
                 <h1 id="grouptitle" th:text="${group.title}">제목1</h1>
                 <p id="contents" th:text="${group.content}">내용</p>
-                <p id="numPeople"th:text="${(group.maxPeople)}">사람 수<span id="numP">5/5</span></p>
+                <p id="numPeople"th:text="${(group.maxPeople)}">사람 수<span id="numP" th:text="${group.getCurrentPeople()} / ${group.getMaxPeople()}"></span></p>
 
             </div>
 
@@ -232,12 +232,14 @@
 </div>
 </body>
 <script th:inline="javascript">
-    function checkInfo(){
-        window.open("https://letsdoit.kro.kr/home/info","파티 생성창","width:500, height=500");
-    }
+    // function checkInfo(id){
+    //     location.href(url,"파티 생성창","width:500, height=500");
+    //     location.href=`http://localhost:8080/group/${id}`;
+    // }
 
     function create(){
-        window.open("https://letsdoit.kro.kr/home/new","파티 생성창","width:500, height=500");
+        // location.href("http://localhost:8080/home/new","파티 생성창","width:500, height=500");
+        location.href="http://localhost:8080/home/new"
     }
 
 </script>
