@@ -362,14 +362,19 @@
 
     </div>
     <section class="groovyroom">
+<!--        <div class="group" th:each="group : ${groups}" th:inline-block >-->
+<!--            <div id="groupContents" th:onclick="|window.open('@{group/{groupId}(groupId=${group.id})}', 'seeGroup', 'width=620, height=320, resizable=no, scrollbars=no, status=no')|" th:>-->
+<!--                <h1 id="grouptitle" th:text="${group.title}">제목1</h1>-->
+<!--                <p id="contents" th:text="${group.content}">내용</p>-->
+<!--                <p id="numPeople"><span th:text="${group.getCurrentPeople()}"></span> / <span th:text="${group.getMaxPeople()}"></span></p>-->
+<!--            </div>-->
+<!--        </div>-->
         <div class="group" th:each="group : ${groups}" th:inline-block >
-            <div id="groupContents" th:onclick="|location.href='@{group/{groupId}(groupId=${group.id})}'|">
+            <div id="groupContents" th:attr="onclick=|checkInfo(${group.getId()})|">
                 <h1 id="grouptitle" th:text="${group.title}">제목1</h1>
                 <p id="contents" th:text="${group.content}">내용</p>
                 <p id="numPeople"><span th:text="${group.getCurrentPeople()}"></span> / <span th:text="${group.getMaxPeople()}"></span></p>
-
             </div>
-
         </div>
 
         <div class="button">
@@ -409,16 +414,16 @@
 
 </div>
 </body>
-<script type="text/javascript">
-    // function checkInfo(id){
-    //     location.href(url,"파티 생성창","width:500, height=500");
-    //     location.href=`http://localhost:8080/group/${id}`;
-    // }
+<script th:inline="javascript">
+    function checkInfo(id){
+        window.name="homePage";
+        window.open(`/group/${id}`, "createGroup", "width:300, height=350, resizable=no, scrollbars=no, status=no");
+    }
 
     function create(){
-        // location.href("http://localhost:8080/home/new","파티 생성창","width:500, height=500");
+        // location.href("/home/new","파티 생성창","width:500, height=500");
         window.name="homePage";
-        window.open("http://localhost:8080/home/new", "createGroup", "width:300, height=350, resizable=no, scrollbars=no, status=no");
+        window.open("/home/new", "createGroup", "width:300, height=350, resizable=no, scrollbars=no, status=no");
     }
 
 </script>
