@@ -42,6 +42,20 @@ public class ViewController {
         return "login";
     }
 
+    @GetMapping("/me")
+    public String myPage(Model model, HttpServletRequest request){
+        String email = getEmail(request);
+        Member member = memberService.findByMemberByEmail(email);
+        List<Group> joinGroups = groupService.findGroupsMemberJoined(email);
+        List<Group> createGroups = groupService.findGroupsMemberCreate(email);
+
+        model.addAttribute("joinGroups", joinGroups);
+        model.addAttribute("createGroups", createGroups);
+        model.addAttribute("member", member);
+
+        return "myPage";
+    }
+
     @GetMapping("/home")
     public String mainForm(Model model, HttpServletRequest request) {
         String userEmail = getEmail(request);
@@ -61,7 +75,6 @@ public class ViewController {
     public String groupCreateForm(Model model) {
         model.addAttribute("group", new GroupForm());
         model.addAttribute("categories", Category.values());
-        log.info("categories: " + Arrays.toString(Category.values()));
         return "makeGroup";
     }
 
@@ -87,7 +100,6 @@ public class ViewController {
 
     @GetMapping("/group/{groupId}")
     public String seeGroup(@PathVariable("groupId") Long groupId, Model model) {
-        log.info("groupId: " + groupId);
         Group group = groupService.findGroupById(groupId);
         Member member = memberService.findByMemberByEmail(group.getHostEmail());
 
