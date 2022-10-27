@@ -174,8 +174,8 @@
         <div class = "vertical_line1"></div>
         <hr class = "horizontal_line1"></hr>
         <hr class = "horizontal_line2"></hr>
-        <p class = "name" >이  름:</p>
-        <p class = "email">이메일:</p>
+        <p class = "name" >이  름: <span th:text="${member.getName()}"></span></p>
+        <p class = "email">이메일: <span th:text="${member.getEmail()}"></span></p>
         <button class = "button_privacy">개인정보</button>
         <button class = "button_participated_party">참여한 모임</button>
         <button class = "button_recruiting_party">모집중인 모임</button>
