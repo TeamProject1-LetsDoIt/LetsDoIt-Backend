@@ -257,11 +257,10 @@
             <input type = "text" class = "input_title" th:field="*{title}" value ="파티 제목"><br>
         </div>
         <div class = "party_category">
-            <select class = "select_category" th:value="${group.category}">
-                <option disabled selected>「카테고리 선택」</option>
-                <option th:value = "'category1'" th:text = "식사">식사 합시다</option>
-                <option th:value = "'category2'" th:text = "공부">공부 합시다</option>
-                <option th:value = "'category3'" th:text = "운동">운동 합시다</option>
+            <select class = "select_category" th:field="*{category}">
+                <option value="">카테고리 선택</option>
+                <option th:each="category : ${categories}"
+                        th:value="${category}" th:utext="${category}"></option>
             </select>
         </div>
         <div class = "party_contents">

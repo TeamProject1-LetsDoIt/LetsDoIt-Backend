@@ -12,6 +12,7 @@ public class GroupForm {
     private String title;
     @NotNull
     private String content;
+    @NotNull
     private String category;
     @NotNull
     private Integer maxPeople;

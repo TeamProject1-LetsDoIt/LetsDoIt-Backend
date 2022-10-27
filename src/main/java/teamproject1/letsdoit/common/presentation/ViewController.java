@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import teamproject1.letsdoit.common.exception.advice.assertThat.DefaultAssert;
+import teamproject1.letsdoit.common.presentation.dto.Category;
 import teamproject1.letsdoit.common.presentation.dto.GroupForm;
 import teamproject1.letsdoit.member.application.MemberService;
 import teamproject1.letsdoit.member.domain.Member;
@@ -17,6 +18,7 @@ import teamproject1.letsdoit.group.domain.Group;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -58,6 +60,8 @@ public class ViewController {
     @GetMapping("/home/new")
     public String groupCreateForm(Model model) {
         model.addAttribute("group", new GroupForm());
+        model.addAttribute("categories", Category.values());
+        log.info("categories: " + Arrays.toString(Category.values()));
         return "makeGroup";
     }
 
@@ -69,6 +73,7 @@ public class ViewController {
         Group group = Group.builder()
                 .title(groupForm.getTitle())
                 .content(groupForm.getContent())
+                .category(groupForm.getCategory())
                 .hostEmail(email)
                 .maxPeople(groupForm.getMaxPeople())
                 .currentPeople(1)
@@ -82,9 +87,10 @@ public class ViewController {
 
     @GetMapping("/group/{groupId}")
     public String seeGroup(@PathVariable("groupId") Long groupId, Model model) {
-        log.info("groupId: ", groupId);
+        log.info("groupId: " + groupId);
         Group group = groupService.findGroupById(groupId);
         Member member = memberService.findByMemberByEmail(group.getHostEmail());
+
         model.addAttribute("member", member);
         model.addAttribute("group", group);
 
