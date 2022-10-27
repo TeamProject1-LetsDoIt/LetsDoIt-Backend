@@ -432,13 +432,16 @@
 <script th:inline="javascript">
     function checkInfo(id){
         window.name="homePage";
-        window.open(`/group/${id}`, "createGroup", "width:300, height=350, resizable=no, scrollbars=no, status=no");
+        const myWindow = window.open(`/group/${id}`, "createGroup", "width:300, height=350, resizable=no, scrollbars=no, status=no");
+        myWindow.moveTo(500, 100);
+        myWindow.resizeTo(650, 400);
     }
 
     function create(){
-        // location.href("/home/new","파티 생성창","width:500, height=500");
         window.name="homePage";
-        window.open("/home/new", "createGroup", "width:300, height=350, resizable=no, scrollbars=no, status=no");
+        const myWindow = window.open("/home/new", "createGroup", "scrollbars=no, status=no");
+        myWindow.moveTo(500, 100);
+        myWindow.resizeTo(700, 800);
     }
 
 </script>
