@@ -71,7 +71,7 @@ public class ViewController {
                 .content(groupForm.getContent())
                 .hostEmail(email)
                 .maxPeople(groupForm.getMaxPeople())
-                .currentPeople(0)
+                .currentPeople(1)
                 .expireTime(groupForm.getExpireTime())
                 .build();
 
