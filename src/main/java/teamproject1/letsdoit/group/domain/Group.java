@@ -42,6 +42,7 @@ public class Group extends BaseEntity {
         this.maxPeople = maxPeople;
         this.currentPeople = currentPeople;
         this.peopleList = new ArrayList<>();
+        peopleList.add(hostEmail);
         this.expireTime = expireTime;
         this.status = Status.JOINABLE;
     }
