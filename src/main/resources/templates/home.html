@@ -9,39 +9,31 @@
     <script src="mainWeb.js"></script>
 
     <style>
-
         /*웹페이지 뒷배경색*/
-        body{
-            background-color:#424242;
+        body {
+            background-color: #424242;
         }
-        /* button 기본 CSS 제거 */
-        button {
-            -webkit-appearance: none;
-            -moz-appearance: none;
-            appearance: none;
-            background-color: transparent;
-            border : 0;
-            outline : 0;
 
-            cursor : pointer;
-        }
         /*main창 크기 조정*/
-        .main{
-            position: relative;
+        .main {
+            position: absolute;
             width: 1440px;
             height: 1024px;
 
+            left: 50vw;
+            margin-left: -715px;
         }
+
         /*메인창의 왼쪽, 그룹에 대한 정보*/
         /*버튼 구역과 모임 내용 구역으로 나눈다 */
-        .groovyroom{
+        .groovyroom {
 
             position: absolute;
             width: 1011px;
             height: 938px;
             left: 26px;
             bottom: 24px;
-            top:62px;
+            top: 62px;
 
             background: #D9D9D9;
             box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25), inset -1px -2px 4px rgba(0, 0, 0, 0.25);
@@ -50,14 +42,14 @@
         }
 
         /*메인창의 오른쪽, 유저 자신에 대한 정보 및 카테고리*/
-        .myPage{
+        .myPage {
 
             position: absolute;
             width: 326px;
-            height: 936px;
+            height: 938px;
             left: 1069px;
-            top:64px;
-            bottom:24px;
+            top: 62px;
+            bottom: 24px;
 
             background: #D9D9D9;
             box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25), inset -1px -2px 4px rgba(0, 0, 0, 0.25);
@@ -66,66 +58,69 @@
         }
 
         /*모임 내용을 보여줄 구역*/
-        .group{
-            margin-top:18px;
-            margin-bottom:14px;
+        .group {
+            margin-top: 18px;
+            margin-bottom: 14px;
             margin-left: 25px;
             margin-right: 25px;
 
         }
+
         /*버튼 구역*/
-        .button{
+        .button {
             position: absolute;
 
-            top:899px;
+            top: 899px;
             height: 30px;
-            left:44.5%;
+            left: 44.5%;
 
             box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 
+
         }
-        #Btn1{
+
+        #Btn1 {
 
             background: #7A7A7A;
 
         }
-        #Btn2{
+
+        #Btn2 {
 
             background: #7A7A7A;
 
-
-
         }
+
         /*각각의 모임의 내용에 대해 보여줄 칸, 구역을 10개로 분할*/
-        #groupContents{
+        #groupContents {
             border-radius: 10px;
-            display:inline-block;
-            position:relative;
+            display: inline-block;
+            position: relative;
             width: 460px;
             height: 160px;
-            background-color:#7A7A7A;
-            margin-top:5px;
-            margin-bottom:5px;
-            margin-left:7.5px;
-            margin-right:7.5px;
+            background-color: #585858;
+            margin-top: 5px;
+            margin-bottom: 5px;
+            margin-left: 7.5px;
+            margin-right: 7.5px;
 
 
         }
 
         /*각 모임의 제목*/
-        #grouptitle{
-            margin:5px 30px 5px 20px;
-            font-size:20px;
-            border-bottom:#D9D9D9 solid;
+        #grouptitle {
+            margin: 10px 30px 5px 20px;
+            font-size: 20px;
+            border-bottom: #E0C35C solid 1px;
             color: #FFFFFF;
         }
 
         /*각 모임의 간략한 내용*/
-        #contents{
-            height:80px;
+        #contents {
+            height: 80px;
 
-            margin:5px 30px 5px 20px;
-            border-bottom:#D9D9D9 solid;
+            margin: 5px 30px 5px 20px;
+            border-bottom: #D9D9D9 solid 1px;
 
             font-style: normal;
             font-weight: 400;
@@ -135,16 +130,16 @@
         }
 
         /*각 모임의 인원수를 이미지로 표현*/
-        #numPeople{
-            margin:5px 30px 5px 20px;
+        #numPeople {
+            margin: 5px 30px 5px 20px;
             color: #FFFFFF;
         }
 
         /*각 모임의 제한 인원과 참여 인원 수*/
-        #numP{
+        #numP {
 
-            position:relative;
-            float:right;
+            position: relative;
+            float: right;
 
             font-weight: 400;
             font-size: 20px;
@@ -159,36 +154,37 @@
             width: 138px;
             height: 138px;
 
-            margin-top:46px;
-            margin-left:94px;
-            margin-right:94px;
+            margin-top: 46px;
+            margin-left: 94px;
+            margin-right: 94px;
 
             background-color: #9B5E5E;
             border-radius: 70%;
         }
 
-        /*유저 사진 바로 아래 닉네임을 나타낸다*//*최대 닉네임 숫자를 제한한다.*/
-        .myName{
-            position:relative;
-            width:200px;
-            height:36px;
+        /*유저 사진 바로 아래 닉네임을 나타낸다*/
+        /*최대 닉네임 숫자를 제한한다.*/
+        .myName {
+            position: relative;
+            width: 200px;
+            height: 36px;
 
 
-            margin-top:9px;
-            margin-left:63px;
-            margin-right:63px;
+            margin-top: 9px;
+            margin-left: 63px;
+            margin-right: 63px;
 
             font-family: 'Inter';
-            font-size:30px;
+            font-size: 30px;
             line-height: 36px;
             font-weight: 400;
-            text-align:center;
+            text-align: center;
 
             font-style: normal;
 
-            border-bottom:black solid;
+            border-bottom: #585858 solid;
         }
-        /* 방만들기 버튼 */
+
         #createBtn {
             position: absolute;
             width: 240px;
@@ -209,143 +205,163 @@
             color: #EDEDED;
         }
 
+        #createBtn:active {
+            background: #1b1b1b;
+        }
+
         /* 여기서부터 복사하시면 됩니다*/
 
 
         /* 검색 창 */
-        #search_bar{
-            position:absolute;
-            z-index : 10;
+        #search_bar {
+            position: absolute;
+            z-index: 10;
 
-            width:653px;
-            height:29px;
+            width: 653px;
+            height: 29px;
 
-            left:26px;
-            top:23px;
+            left: 26px;
+            top: 23px;
 
             background: #D9D9D9;
             border-radius: 15px;
         }
+
         /* 검색 모양 png */
         #search_shape {
-            position:absolute;
-            z-index : 20;
+            position: absolute;
+            z-index: 20;
 
-            width:20px;
-            height:20px;
+            width: 20px;
+            height: 20px;
 
-            left:7px;
-            top:5px;
+            left: 7px;
+            top: 5px;
         }
+
         /* 검색 입력 창 */
         #search_input {
-            position:absolute;
-            z-index : 20;
+            position: absolute;
+            z-index: 20;
 
-            width:600px;
-            height:20px;
+            width: 600px;
+            height: 20px;
 
-            left:30px;
-            top:5px;
+            left: 30px;
+            top: 5px;
 
-            background : transparent;
-            border : 0;
+            background: transparent;
+            border: 0;
         }
+
         /* category 구현 */
         .category {
-            position:absolute;
+            position: absolute;
 
-            margin:0;
-            padding:0;
+            margin: 0;
+            padding: 0;
             list-style-type: none;
 
-            width:160px;
-            height:30px;
+            width: 160px;
+            height: 30px;
 
-            top:320px;
-            left:80px;
+            top: 320px;
+            left: 80px;
 
-            text-align:center;
+            text-align: center;
             line-height: 30px;
-            border-top :1px solid #646464;
-            background-color:transparent;
+            border-top: 1px solid #646464;
+            background-color: transparent;
 
-            color : #585858;
+            color: #585858;
         }
 
-        .category > li {
-            float : center;
+        .category>li {
+            float: center;
         }
+
         /* 정렬 글씨 */
-        .category > li > a {
-            font-family : 'Inter';
-            font-style : normal;
-            font-size : 25px;
+        .category>li>a {
+            font-family: 'Inter';
+            font-style: normal;
+            font-size: 25px;
             line-height: 30px;
-            color : #585858;
+            color: #585858;
             text-align: center;
             text-decoration: none;
             letter-spacing: 0.05em;
 
-            display : block;
-            padding : 12px 30px;
+            display: block;
+            padding: 12px 30px;
         }
+
         /* 하위 메뉴들 */
         .menu {
-            font-family : 'Inter';
-            font-style : normal;
-            font-size : 15px;
+            font-family: 'Inter';
+            font-style: normal;
+            font-size: 15px;
             line-height: 20px;
-            color : #585858;
-            margin:0;
-            padding:0;
+            color: #585858;
+            margin: 0;
+            padding: 0;
             list-style-type: none;
             position: absolute;
             opacity: 0;
             visibility: hidden;
 
-            left : 10px;
+            left: 10px;
         }
-        .menu > li {
-            padding : 10px 30px;
+
+        .menu>li {
+            padding: 10px 30px;
         }
-        .menu > li > a {
-            color : #585858;
+
+        .menu>li>a {
+            color: #585858;
             text-decoration: none;
         }
+
         /* 밥 합시다 위에 윤곽선 */
-        .menu > li:nth-child(1) {
-            border-top :1px dashed #646464;
+        .menu>li:nth-child(1) {
+            border-top: 1px dashed #646464;
         }
+
         /* 마감 시간 아래에 윤곽선 */
-        .menu > li:nth-child(4) {
-            border-bottom :1px dashed #646464;
+        .menu>li:nth-child(4) {
+            border-bottom: 1px dashed #646464;
         }
+
         /* 정렬 옆에 역삼각형 모양 */
-        .category > li:hover .menu {
+        .category>li:hover .menu {
             opacity: 1;
             visibility: visible;
         }
+
         /* 정렬 옆에 역삼각형 모양 */
         .reverse_triangle {
-            display : absolute;
-            z-index : 20;
-            width : 20px;
-            height : 18px;
-            margin-left : 190px;
-            margin-top : 30px;
+            display: absolute;
+            z-index: 20;
+            width: 20px;
+            height: 18px;
+            margin-left: 190px;
+            margin-top: 30px;
 
         }
+
         /*내 정보 */
         .myInfo {
-            font-family : 'Inter';
-            font-style : normal;
-            font-size : 25px;
+            font-family: 'Inter';
+            font-style: normal;
+            font-size: 25px;
             line-height: 30px;
-            color : #585858;
-            margin-left:110px;
-            margin-top : 20px;
+            color: #585858;
+            margin-left: 110px;
+            margin-top: 20px;
+            border: 0;
+            outline: 0;
+            background-color: #D9D9D9;
         }
+
         /*여기까지 */
     </style>
 
