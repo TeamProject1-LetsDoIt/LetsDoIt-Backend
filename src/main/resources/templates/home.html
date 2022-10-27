@@ -199,7 +199,7 @@
             <div id="groupContents" th:onclick="|location.href='@{group/{groupId}(groupId=${group.id})}'|">
                 <h1 id="grouptitle" th:text="${group.title}">제목1</h1>
                 <p id="contents" th:text="${group.content}">내용</p>
-                <p id="numPeople"th:text="${(group.maxPeople)}">사람 수<span id="numP" th:text="${group.getCurrentPeople()}"></span></p>
+                <p id="numPeople"><span th:text="${group.getCurrentPeople()}"></span> / <span th:text="${group.getMaxPeople()}"></span></p>
 
             </div>
 

@@ -174,7 +174,7 @@
             </div>
             <div class = "party_group">
                 <p class = "date" th:text="${group.getExpireTime()}"></p>
-                <p class = "member" th:text="${group.getMaxPeople()}" ></p>
+                <p class = "member"><span th:text="${group.getCurrentPeople()}"></span> / <span th:text="${group.getMaxPeople()}"></span></p>
                 <button type = "button" class = "button_Letsdoit">합시다</button>
             </div>
             </div>
