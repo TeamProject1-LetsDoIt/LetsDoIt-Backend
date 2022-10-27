@@ -12,17 +12,11 @@ public class GroupForm {
     private String title;
     @NotNull
     private String content;
-<<<<<<< HEAD
     @NotNull
     private String category;
     @NotNull
     private Integer maxPeople;
     @NotNull
-=======
-    private String category;
-    private Integer maxPeople;
-    private String date;
->>>>>>> main
     private String expireTime;
 
 }

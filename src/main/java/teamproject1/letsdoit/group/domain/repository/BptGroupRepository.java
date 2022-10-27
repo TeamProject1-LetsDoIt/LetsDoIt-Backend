@@ -26,11 +26,7 @@ public class BptGroupRepository implements GroupRepository{
                 + "\n" + "카테코리: " + group.getCategory()
                 + "\n" + "내용: " + group.getContent()
                 + "\n" + "인원수: " + group.getMaxPeople()
-<<<<<<< HEAD
                 + "\n" + "만료 기한: " + group.getExpireTime());
-=======
-                + "\n" + "만료 기한" + group.getExpireTime());
->>>>>>> main
         return group;
     }
 
