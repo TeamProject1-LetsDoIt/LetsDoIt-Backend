@@ -91,6 +91,20 @@ public class ViewController {
         return "groupInfo";
     }
 
+    @PostMapping("/group/{groupId}")
+    public String joinGroup(HttpServletRequest request, @PathVariable String groupId){
+        String email = getEmail(request);
+        Group group = groupService.findGroupById(Long.valueOf(groupId));
+
+        if(group.getPeopleList().stream().anyMatch(people -> people.equals(email))){
+            return "redirect:/home";
+        }
+        group.addPeople(email);
+        group.countUp();
+
+        return "redirect:/home";
+    }
+
     private static String getEmail(HttpServletRequest request) {
         String userEmail = "";
         Cookie[] cookies = request.getCookies();
