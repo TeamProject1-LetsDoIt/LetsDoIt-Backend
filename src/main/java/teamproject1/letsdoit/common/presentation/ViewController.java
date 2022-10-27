@@ -16,6 +16,7 @@ import teamproject1.letsdoit.group.domain.Group;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -61,7 +62,7 @@ public class ViewController {
     }
 
     @PostMapping("/home/new")
-    public String groupCreate(GroupForm groupForm, HttpServletRequest request) {
+    public String groupCreate(@Valid GroupForm groupForm, HttpServletRequest request) {
 
         String email = getEmail(request);
 
