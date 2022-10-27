@@ -57,7 +57,7 @@ public class ViewController {
     @GetMapping("/home/new")
     public String groupCreateForm(Model model) {
         model.addAttribute("group", new GroupForm());
-        return "makeParty";
+        return "makeGroup";
     }
 
     @PostMapping("/home/new")
@@ -86,7 +86,7 @@ public class ViewController {
         model.addAttribute("member", member);
         model.addAttribute("group", group);
 
-        return "partyInfo";
+        return "groupInfo";
     }
 
     private static String getEmail(HttpServletRequest request) {
