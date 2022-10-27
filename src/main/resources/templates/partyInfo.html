@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset = "UTF-8">
+        <title>팀프로젝트1 1조 - 합시다 웹</title>
+        <meta name = "viewport" content = "width=600, height=300" />
+        <style>
+            p {
+                color : #FFFFFF;
+                font-family: 'Inter';
+                font-style: normal;
+                font-weight: 400;
+                font-size: 15px;
+                line-height: 18px;
+            }
+            button {
+                -webkit-appearance: none;
+                -moz-appearance: none;
+                appearance: none;
+                background-color: transparent;
+                border : 0;
+                outline : 0;
+
+                cursor : pointer;
+            }  
+            body {
+                background-color : #5f5f5f;
+                background-size : cover;
+                background-position : center;
+            }
+            button {
+                border : 0;
+                outline : 0;
+
+                cursor : pointer;
+            }
+            .party_background{ /*relative*/
+                position: relative;
+                width: 600px;
+                height: 300px;
+
+                background: #5F5F5F;
+                border-radius: 8px;
+                display : block;
+            }
+            /*party_name : 제목과 x버튼 */
+            .party_name {
+                z-index : 30;
+                position : absolute;
+                display : inline-block;
+            }
+            .button_x {
+                z-index : 10;
+                position: absolute;
+                width: 20px;
+                height: 20px;
+                left: 570px;
+                border: 0;
+                
+                border-radius: 20px;
+                display: inline-block;
+            }
+            /* 파티 제목 */
+            .title {
+                position: absolute;
+                font-size: 20px;
+                line-height: 24px;
+                width: 80px;
+                height: 20px;
+                top : -10px;
+                text-align: left;
+            }
+            
+            /* party_info : 수평선, 닉네임, category, 모임 설명*/
+            .party_info {
+                z-index: 30;
+                position : absolute;
+                display : block;
+                top : 40px;
+            }
+            .hr_1 {
+                z-index : 30;
+                width : 450px;
+                border: 1px solid #DEC054;
+            }
+            /* 닉네임 */
+            .nickname {
+                position: absolute;
+                font-size: 15px;
+                line-height: 18px;
+                width: 80px;
+                height: 18px;
+            }
+            .category {
+                position: absolute;
+                font-size: 15px;
+                line-height: 1em;
+                width: 300px;
+                height: 18px;
+                top : 40px;
+            }
+            .content{
+                position: absolute;
+                font-size: 15px;
+                line-height: 18px;
+                width: 500px;
+                height: 18px;
+                top : 80px;
+            }
+            /*party_group : 날짜, 시간, 인원수, 버튼*/
+            .party_group {
+                z-index: 30;
+                position : absolute;
+                display : inline-block;
+                top : 240px;
+            }
+            /* 날짜 */
+            .date {
+                position: absolute;
+                top : -10px;
+                font-size: 15px;
+                line-height: 1em;
+                width: 140px;
+                height: 18px;
+            }
+            /* 시간 */
+            .time {
+                position: absolute;
+                left : 200px;
+                top : -10px;
+                font-size: 15px;
+                line-height: 1em;
+                width: 140px;
+                height: 18px;
+            }
+            /* 인원 생성 글씨 */
+            .member {
+                position: absolute;
+                left: 450px;
+                top: -20px;
+                font-size: 24px;
+                line-height: 30px;
+                text-align: right;
+                width: 40px;
+                height: 30px;
+            }
+            /* 합시다 버튼 */
+            .button_Letsdoit {
+                z-index : 30;
+                position: absolute;
+                width: 75px;
+                height: 40px;
+                left: 520px;
+
+                background: #D9D9D9;
+                border-radius: 20px;
+                display: inline-block;
+            }
+        </style>
+    </head>
+    <body>
+        <div class = "party_background">
+            <div class = "party_name">
+                <p class = "title">파티제목</p>
+                <button type = "button" onClick='window.close()'>
+                    <img src = "../static/image/x-png-33.png" alt = "button_x" class="button_x">
+                </button>
+            </div>
+            <div class = "party_info">
+                <hr class = "hr_1">
+                <p class = "nickname">닉네임 : </p>
+                <p class = "category">카테고리 : (ex 밥 타임 합시다)</p>
+                <p class = "content">내  용 : (ex 식당에서 같이 식사해요~~)</p>
+            </div>
+            <div class = "party_group">
+                <p class = "date">날짜<br>(2022/10/17)</p>
+                <p class = "time">시간<br>(PM 19:00)</p>
+                <p class = "member">4/5</p>
+                <button type = "button" class = "button_Letsdoit">합시다</button>
+            </div>
+            </div>
+        </div>
+    </body>
+</html>
