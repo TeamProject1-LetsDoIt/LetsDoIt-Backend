@@ -5,8 +5,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import teamproject1.letsdoit.common.exception.advice.assertThat.DefaultAssert;
+import teamproject1.letsdoit.common.presentation.dto.Category;
 import teamproject1.letsdoit.common.presentation.dto.GroupForm;
 import teamproject1.letsdoit.member.application.MemberService;
 import teamproject1.letsdoit.member.domain.Member;
@@ -15,6 +17,8 @@ import teamproject1.letsdoit.group.domain.Group;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -38,16 +42,27 @@ public class ViewController {
         return "login";
     }
 
+    @GetMapping("/me")
+    public String myPage(Model model, HttpServletRequest request){
+        String email = getEmail(request);
+        Member member = memberService.findByMemberByEmail(email);
+        List<Group> joinGroups = groupService.findGroupsMemberJoined(email);
+        List<Group> createGroups = groupService.findGroupsMemberCreate(email);
+
+        model.addAttribute("joinGroups", joinGroups);
+        model.addAttribute("createGroups", createGroups);
+        model.addAttribute("member", member);
+
+        return "myPage";
+    }
+
     @GetMapping("/home")
     public String mainForm(Model model, HttpServletRequest request) {
         String userEmail = getEmail(request);
 
         List<Group> groups = groupService.findGroups();
-        Optional<Member> result = memberService.findByMemberByEmail(userEmail);
-        DefaultAssert.isOptionalPresent(result);
-        log.info(result.get().getEmail());
-
-        Member member = result.get();
+        Member member = memberService.findByMemberByEmail(userEmail);
+        log.info(member.getEmail());
 
         model.addAttribute("groups", groups);
         model.addAttribute("member", member);
@@ -59,23 +74,51 @@ public class ViewController {
     @GetMapping("/home/new")
     public String groupCreateForm(Model model) {
         model.addAttribute("group", new GroupForm());
-        return "makeParty";
+        model.addAttribute("categories", Category.values());
+        return "makeGroup";
     }
 
     @PostMapping("/home/new")
-    public String groupCreate(GroupForm groupForm, HttpServletRequest request) {
+    public String groupCreate(@Valid GroupForm groupForm, HttpServletRequest request) {
 
         String email = getEmail(request);
 
         Group group = Group.builder()
                 .title(groupForm.getTitle())
                 .content(groupForm.getContent())
+                .category(groupForm.getCategory())
                 .hostEmail(email)
                 .maxPeople(groupForm.getMaxPeople())
+                .currentPeople(1)
                 .expireTime(groupForm.getExpireTime())
                 .build();
 
         groupService.saveGroup(group);
+
+        return "redirect:/home";
+    }
+
+    @GetMapping("/group/{groupId}")
+    public String seeGroup(@PathVariable("groupId") Long groupId, Model model) {
+        Group group = groupService.findGroupById(groupId);
+        Member member = memberService.findByMemberByEmail(group.getHostEmail());
+
+        model.addAttribute("member", member);
+        model.addAttribute("group", group);
+
+        return "groupInfo";
+    }
+
+    @PostMapping("/group/{groupId}")
+    public String joinGroup(HttpServletRequest request, @PathVariable String groupId){
+        String email = getEmail(request);
+        Group group = groupService.findGroupById(Long.valueOf(groupId));
+
+        if(group.getPeopleList().stream().anyMatch(people -> people.equals(email))){
+            return "redirect:/home";
+        }
+        group.addPeople(email);
+        group.countUp();
 
         return "redirect:/home";
     }

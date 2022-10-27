@@ -43,7 +43,6 @@ public class CustomSimpleUrlAuthenticationSuccessHandler extends SimpleUrlAuthen
 
         String targetUrl = determineTargetUrl(request, response, authentication);
 
-        log.info(authentication.getName());
         CustomCookie.addCookie(response, "email", authentication.getName(), 3600000);
         clearAuthenticationAttributes(request, response);
         getRedirectStrategy().sendRedirect(request, response, "/home");

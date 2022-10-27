@@ -6,6 +6,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import teamproject1.letsdoit.common.domain.BaseEntity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Group extends BaseEntity {
@@ -22,23 +25,38 @@ public class Group extends BaseEntity {
 
     private Integer maxPeople;
 
+    private Integer currentPeople;
+
+    private List<String> peopleList;
+
     private String expireTime;
 
     private Status status;
 
     @Builder
-    public Group(String hostEmail, String title, String category, String content, Integer maxPeople, String expireTime) {
+    public Group(String hostEmail, String title, String category, String content, Integer maxPeople, Integer currentPeople,  String expireTime) {
         this.hostEmail = hostEmail;
         this.title = title;
         this.category = category;
         this.content = content;
         this.maxPeople = maxPeople;
+        this.currentPeople = currentPeople;
+        this.peopleList = new ArrayList<>();
+        peopleList.add(hostEmail);
         this.expireTime = expireTime;
         this.status = Status.JOINABLE;
     }
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public void countUp(){
+        this.currentPeople++;
+    }
+
+    public void addPeople(String email) {
+        peopleList.add(email);
     }
 
     public void updateTitle(String title) {

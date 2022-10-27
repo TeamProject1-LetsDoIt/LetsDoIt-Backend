@@ -27,8 +27,10 @@ public class MemberService {
         return ResponseEntity.ok(apiResponse);
     }
 
-    public Optional<Member> findByMemberByEmail(String email) {
-        return memberRepository.findByEmail(email);
+    public Member findByMemberByEmail(String email) {
+        Optional<Member> member = memberRepository.findByEmail(email);
+        DefaultAssert.isOptionalPresent(member);
+        return member.get();
     }
 
     public List<Member> findMembers() {

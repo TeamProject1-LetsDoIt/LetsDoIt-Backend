@@ -161,24 +161,31 @@
     <body>
         <div class = "party_background">
             <div class = "party_name">
-                <p class = "title">파티제목</p>
+                <p class = "title" th:text="${group.getTitle()}"></p>
                 <button type = "button" onClick='window.close()'>
-                    <img src = "../static/image/x-png-33.png" alt = "button_x" class="button_x">
+                    <img src = "https://jaksimharu.s3.ap-northeast-2.amazonaws.com/images/x-png-33.png" alt = "button_x" class="button_x">
                 </button>
             </div>
             <div class = "party_info">
                 <hr class = "hr_1">
-                <p class = "nickname">닉네임 : </p>
-                <p class = "category">카테고리 : (ex 밥 타임 합시다)</p>
-                <p class = "content">내  용 : (ex 식당에서 같이 식사해요~~)</p>
+                <p class = "nickname" th:text="${member.getName()}"></p>
+                <p class = "category" th:text="${group.getCategory()}"></p>
+                <p class = "content" th:text="${group.getContent()}"></p>
             </div>
             <div class = "party_group">
-                <p class = "date">날짜<br>(2022/10/17)</p>
-                <p class = "time">시간<br>(PM 19:00)</p>
-                <p class = "member">4/5</p>
-                <button type = "button" class = "button_Letsdoit">합시다</button>
+                <p class = "date" th:text="${group.getExpireTime()}"></p>
+                <p class = "member"><span th:text="${group.getCurrentPeople()}"></span> / <span th:text="${group.getMaxPeople()}"></span></p>
+                <form th:action="@{/group/{groupId}(groupId=${group.id})}"  method="POST" target="homePage" >
+                     <button type = "submit" class = "button_Letsdoit">합시다</button>
+                </form>
+
             </div>
             </div>
         </div>
     </body>
+<script>
+    function joinGroup() {
+
+    }
+</script>
 </html>
