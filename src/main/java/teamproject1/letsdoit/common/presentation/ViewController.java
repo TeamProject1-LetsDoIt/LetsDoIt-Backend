@@ -105,7 +105,7 @@ public class ViewController {
         Member member = memberService.findByMemberByEmail(group.getHostEmail());
         List<Member> participants =
                 group.getPeopleList().stream().map(memberService::findByMemberByEmail).collect(Collectors.toList());
-        log.info(participants.toString());
+
 
         model.addAttribute("participants", participants);
         model.addAttribute("member", member);

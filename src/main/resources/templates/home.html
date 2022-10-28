@@ -499,7 +499,7 @@
         <div class="profile"><img th:src="${member.getImageUrl()}"></div>
         <div class="myName"><p th:text="${member.getName()}"></p></div>
 
-        <button class = "myInfo">내 정보</button>
+        <button class = "myInfo" onclick="myPage()">내 정보</button>
         <div>
             <img class = "reverse_triangle" src ="https://jaksimharu.s3.ap-northeast-2.amazonaws.com/images/reverse_triangle.png"></img>
             <ul class = "category">
@@ -535,6 +535,10 @@
         const myWindow = window.open("/home/new", "createGroup", "scrollbars=no, status=no");
         myWindow.moveTo(500, 100);
         myWindow.resizeTo(700, 800);
+    }
+
+    function myPage(){
+        location.href="/me"
     }
 
 </script>

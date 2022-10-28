@@ -18,7 +18,7 @@
                 background-color: transparent;
                 border : 0;
                 outline : 0;
-                
+
                 font-family: 'Inter';
                 font-style: normal;
                 font-weight: 400;
@@ -27,7 +27,7 @@
                 color : #585858;
 
                 cursor : pointer;
-            }  
+            }
             body {
                 position: relative;
                 background-color : #424242;
@@ -39,13 +39,14 @@
                 position: relative;
                 width: 1340px;
                 height: 878px;
-                left : 40px;
+                padding: 0px 40px 0px 40px ;
                 top : 110px;
-
                 background: #D9D9D9;
                 box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25), inset -1px -2px 4px rgba(0, 0, 0, 0.25);
                 border-radius: 8px;
                 display : block;
+                margin : 0px auto;
+
             }
             .circle_white {
                 z-index: 10;
@@ -53,37 +54,37 @@
                 width: 220px;
                 height: 220px;
                 left : 1080px;
-                top : 40px;
+                top : -110px;
 
                 background: #D9D9D9;
-                
+
                 border-radius: 110px;
                 display : block;
             }
-            .circle_red {
+            .circle_red img{
                 z-index: 40;
                 position : absolute;
                 width: 186px;
                 height: 186px;
                 left : 1097px;
-                top : 60px;
+                top : -90px;
 
                 background: #834B4B;
-                
+
                 border-radius: 93px;
                 display : block;
             }
-            
+
             /* name */
             .name {
                 z-index : 30;
                 position : absolute;
                 display : inline-block;
-                width: 170px;
-                height: 186px;
+                width: 1200px;
+                height: 54px;
                 left : 120px;
-                top : 190px;
-                
+                top : 110px;
+
                 font-size : 45px;
                 font-weight: 54px;
             }
@@ -91,11 +92,11 @@
                 z-index : 30;
                 position : absolute;
                 display : inline-block;
-                width: 170px;
-                height: 186px;
+                width: 1200px;
+                height: 54px;
                 left : 120px;
-                top : 300px;
-                
+                top : 210px;
+
                 font-size : 45px;
                 font-weight: 54px;
             }
@@ -107,7 +108,7 @@
                 height: 36px;
                 left: 1120px;
                 top : 335px;
-                
+
                 text-align: left;
                 display: inline-block;
             }
@@ -139,7 +140,7 @@
                 width: 0.1px;
                 height: 675.5px;
                 left: 1079px;
-                top: 258px;
+                top: 150px;
 
                 border: 3px solid #424242;
             }
@@ -147,9 +148,9 @@
                 z-index : 30;
                 position: absolute;
                 width: 180px;
-                height: 0.1px;
-                left: 1118px;
-                top: 321px;
+                height: 0px;
+                left: 1120px;
+                top: 200px;
 
                 background: #585858;
                 border: 2px solid #646464;
@@ -159,8 +160,8 @@
                 position: absolute;
                 width: 180px;
                 height: 0px;
-                left: 1118px;
-                top: 896px;
+                left: 1120px;
+                top: 780px;
 
                 background: #585858;
                 border: 2px solid #646464;
@@ -168,16 +169,20 @@
         </style>
     </head>
     <body>
-        <div class = "party_background"></div>
+    <div class = "party_background">
         <div class = "circle_white"></div>
-        <div class = "circle_red"></div>
-        <div class = "vertical_line1"></div>
-        <hr class = "horizontal_line1"></hr>
-        <hr class = "horizontal_line2"></hr>
-        <p class = "name" >이  름: <span th:text="${member.getName()}"></span></p>
-        <p class = "email">이메일: <span th:text="${member.getEmail()}"></span></p>
-        <button class = "button_privacy">개인정보</button>
-        <button class = "button_participated_party">참여한 모임</button>
-        <button class = "button_recruiting_party">모집중인 모임</button>
+        <div class = "circle_red"><img th:src="${member.getImageUrl()}"></div>
+
+        <p class = "name" ><span th:text="'이  름 : ' + ${member.getName()}"></span></p>
+        <p class = "email"><span th:text="'이메일 : ' +${member.getEmail()}"></span></p>
+        <div>
+            <div class = "vertical_line1"></div>
+            <hr class = "horizontal_line1"></hr>
+            <hr class = "horizontal_line2"></hr>
+            <button class = "button_privacy">개인정보</button>
+            <button class = "button_participated_party">참여한 모임</button>
+            <button class = "button_recruiting_party">모집중인 모임</button>
+        </div>
+    </div>
     </body>
 </html>
