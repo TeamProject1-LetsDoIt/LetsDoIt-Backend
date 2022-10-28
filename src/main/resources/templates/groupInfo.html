@@ -22,17 +22,12 @@
                 outline : 0;
 
                 cursor : pointer;
-            }  
+            }
             body {
                 background-color : #5f5f5f;
                 background-size : cover;
                 background-position : center;
-            }
-            button {
-                border : 0;
-                outline : 0;
 
-                cursor : pointer;
             }
             .party_background{ /*relative*/
                 position: relative;
@@ -42,6 +37,7 @@
                 background: #5F5F5F;
                 border-radius: 8px;
                 display : block;
+                margin : 0px auto;
             }
             /*party_name : 제목과 x버튼 */
             .party_name {
@@ -56,7 +52,6 @@
                 height: 20px;
                 left: 570px;
                 border: 0;
-                
                 border-radius: 20px;
                 display: inline-block;
             }
@@ -65,7 +60,7 @@
                 position: absolute;
                 font-size: 20px;
                 line-height: 24px;
-                width: 80px;
+                width: 500px;
                 height: 20px;
                 top : -10px;
                 text-align: left;
@@ -88,24 +83,44 @@
                 position: absolute;
                 font-size: 15px;
                 line-height: 18px;
-                width: 80px;
+                width: 500px;
                 height: 18px;
+                top : 0px;
             }
             .category {
                 position: absolute;
                 font-size: 15px;
-                line-height: 1em;
-                width: 300px;
+                line-height: 18px;
+                width: 500px;
                 height: 18px;
-                top : 40px;
+                top : 20px;
             }
             .content{
                 position: absolute;
                 font-size: 15px;
                 line-height: 18px;
                 width: 500px;
+                height: 76px;
+                top : 40px;
+            }
+            .participant {
+                color : #FFFFFF;
+                font-family: 'Inter';
+                font-style: normal;
+                font-weight: 400;
+                position: absolute;
+                font-size: 15px;
+                line-height: 18px;
+                width: 500px;
                 height: 18px;
-                top : 80px;
+                top : 120px;
+            }
+            .participant_hi {
+                position: relative;
+                display : inline-block;
+                font-size: 15px;
+                line-height: 18px;
+                margin-right : 10px;
             }
             /*party_group : 날짜, 시간, 인원수, 버튼*/
             .party_group {
@@ -119,29 +134,19 @@
                 position: absolute;
                 top : -10px;
                 font-size: 15px;
-                line-height: 1em;
-                width: 140px;
-                height: 18px;
-            }
-            /* 시간 */
-            .time {
-                position: absolute;
-                left : 200px;
-                top : -10px;
-                font-size: 15px;
-                line-height: 1em;
-                width: 140px;
+                line-height: 18px;
+                width: 350px;
                 height: 18px;
             }
             /* 인원 생성 글씨 */
             .member {
                 position: absolute;
-                left: 450px;
+                left: 400px;
                 top: -20px;
                 font-size: 24px;
                 line-height: 30px;
                 text-align: right;
-                width: 40px;
+                width: 60px;
                 height: 30px;
             }
             /* 합시다 버튼 */
@@ -153,6 +158,7 @@
                 left: 520px;
 
                 background: #D9D9D9;
+                color : #424242;
                 border-radius: 20px;
                 display: inline-block;
             }
@@ -168,24 +174,36 @@
             </div>
             <div class = "party_info">
                 <hr class = "hr_1">
-                <p class = "nickname" th:text="${member.getName()}"></p>
-                <p class = "category" th:text="${group.getCategory()}"></p>
-                <p class = "content" th:text="${group.getContent()}"></p>
+                <p class = "nickname" th:text="'파티장 :' + ${member.getName()}">파티장</p>
+                <p class = "category" th:text="'카테고리 :' + ${group.getCategory()}">카테고리</p>
+                <p class = "content" th:text="'내용 :' + ${group.getContent()}">내용</p>
+                <div class = "participant" th:each="participant: ${participants}">참가자 :
+                    <p class = "participant_hi" th:text = "${participant.getName()}">ㅎㅇ</p>
+                </div>
             </div>
             <div class = "party_group">
-                <p class = "date" th:text="${group.getExpireTime()}"></p>
+                <input type="hidden" id = expireTime th:value="${group.getExpireTime()}"/>
+                <p class = "date" id="outputTime"></p>
                 <p class = "member"><span th:text="${group.getCurrentPeople()}"></span> / <span th:text="${group.getMaxPeople()}"></span></p>
-                <form th:action="@{/group/{groupId}(groupId=${group.id})}"  method="POST" target="homePage" >
-                     <button type = "submit" class = "button_Letsdoit">합시다</button>
+                <form th:action="@{/group/{groupId}(groupId=${group.id})}" method="POST" target="homePage" >
+                    <button type = "submit" class = "button_Letsdoit">합시다</button>
                 </form>
-
             </div>
             </div>
-        </div>
     </body>
-<script>
-    function joinGroup() {
+    <script th:inline="javascript">
+        printExpireTime();
 
-    }
-</script>
+        function printExpireTime(){
+            let ExpireTime = document.getElementById('expireTime').value;
+            console.log(ExpireTime);
+            ExpireTime = ExpireTime.split('T');
+            const date = ExpireTime[0].split('-');
+            const time = ExpireTime[1].split(':');
+            const result = "기한 : " + date[0] + "년 " + date[1] + "월 " + date[2] + "일 " +
+                time[0] + "시 " + time[1] + "분 마감";
+            console.log(result);
+            document.getElementById("outputTime").innerHTML = result;
+        }
+    </script>
 </html>

@@ -254,24 +254,24 @@
             </button>
         </div>
         <div class = "party_name">
-            <input type = "text" class = "input_title" th:field="*{title}" value ="파티 제목"><br>
+            <input type = "text" class = "input_title" th:field="*{title}" value ="파티 제목"  placeholder="제목" required maxlength="50"><br>
         </div>
         <div class = "party_category">
-            <select class = "select_category" th:field="*{category}">
+            <select class = "select_category" th:field="*{category}" required>
                 <option value="">카테고리 선택</option>
                 <option th:each="category : ${categories}"
                         th:value="${category}" th:utext="${category}"></option>
             </select>
         </div>
         <div class = "party_contents">
-            <textarea placeholder="파티 상세 설명" class = "input_content" th:field="*{content}" maxlength="300"></textarea>
+            <textarea placeholder="내용" class = "input_content" th:field="*{content}" required maxlength="200"></textarea>
         </div>
         <div>
             <div class = "party_datetime"> <!-- 출력 방식 : 2022-10-23T23:45-->
-                <input type = "datetime-local" class = "input_datetime" th:field="*{expireTime}"><br>
+                <input type = "datetime-local" class = "input_datetime" th:field="*{expireTime}" required><br>
             </div>
             <div class = "party_member">
-                <input type = "number" class = "input_member" th:field="*{maxPeople}" min="1" max ="8"><br>
+                <input type = "number" class = "input_member" th:field="*{maxPeople}" min="1" max ="8"  placeholder="인원 수" required><br>
             </div>
         </div>
         <input type ="submit" class = "button_makeParty" value = "확인">

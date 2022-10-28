@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import teamproject1.letsdoit.common.exception.advice.assertThat.DefaultAssert;
 import teamproject1.letsdoit.common.presentation.dto.Category;
 import teamproject1.letsdoit.common.presentation.dto.GroupForm;
@@ -22,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Controller
 @RequiredArgsConstructor
@@ -57,19 +59,25 @@ public class ViewController {
     }
 
     @GetMapping("/home")
-    public String mainForm(Model model, HttpServletRequest request) {
+    public String mainForm(Model model, HttpServletRequest request,
+                           @RequestParam(value = "category", required = false) String category) {
         String userEmail = getEmail(request);
-
-        List<Group> groups = groupService.findGroups();
         Member member = memberService.findByMemberByEmail(userEmail);
+
         log.info(member.getEmail());
+        List<Group> groups;
+
+        if (category != null) {
+            groups = groupService.sortGroupByCategory(category);
+        } else {
+            groups = groupService.findGroups();
+        }
 
         model.addAttribute("groups", groups);
         model.addAttribute("member", member);
 
         return "home";
     }
-
 
     @GetMapping("/home/new")
     public String groupCreateForm(Model model) {
@@ -99,10 +107,14 @@ public class ViewController {
     }
 
     @GetMapping("/group/{groupId}")
-    public String seeGroup(@PathVariable("groupId") Long groupId, Model model) {
+    public String seeGroup(@PathVariable Long groupId, Model model) {
         Group group = groupService.findGroupById(groupId);
         Member member = memberService.findByMemberByEmail(group.getHostEmail());
+        List<Member> participants =
+                group.getPeopleList().stream().map(memberService::findByMemberByEmail).collect(Collectors.toList());
 
+
+        model.addAttribute("participants", participants);
         model.addAttribute("member", member);
         model.addAttribute("group", group);
 
@@ -117,6 +129,7 @@ public class ViewController {
         if(group.getPeopleList().stream().anyMatch(people -> people.equals(email))){
             return "redirect:/home";
         }
+
         group.addPeople(email);
         group.countUp();
 
