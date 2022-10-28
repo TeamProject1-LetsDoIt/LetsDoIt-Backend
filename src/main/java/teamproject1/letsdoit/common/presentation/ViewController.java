@@ -58,7 +58,6 @@ public class ViewController {
         return "myPage";
     }
 
-
     @GetMapping("/home")
     public String mainForm(Model model, HttpServletRequest request,
                            @RequestParam(value = "category", required = false) String category) {
