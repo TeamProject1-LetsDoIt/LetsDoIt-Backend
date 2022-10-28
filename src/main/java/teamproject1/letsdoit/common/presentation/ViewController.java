@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Controller
 @RequiredArgsConstructor
@@ -87,10 +88,13 @@ public class ViewController {
 
     @GetMapping("/group/{groupId}")
     public String seeGroup(@PathVariable("groupId") Long groupId, Model model) {
-        log.info("groupId: " + groupId);
         Group group = groupService.findGroupById(groupId);
         Member member = memberService.findByMemberByEmail(group.getHostEmail());
+        List<Member> participants =
+                group.getPeopleList().stream().map(memberService::findByMemberByEmail).collect(Collectors.toList());
+        log.info(participants.toString());
 
+        model.addAttribute("participants", participants);
         model.addAttribute("member", member);
         model.addAttribute("group", group);
 
