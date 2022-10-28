@@ -105,6 +105,10 @@
                 top : 40px;
             }
             .participant {
+                color : #FFFFFF;
+                font-family: 'Inter';
+                font-style: normal;
+                font-weight: 400;
                 position: absolute;
                 font-size: 15px;
                 line-height: 18px;
@@ -113,13 +117,11 @@
                 top : 120px;
             }
             .participant_hi {
-                position: absolute;
-                display : inline;
+                position: relative;
+                display : inline-block;
                 font-size: 15px;
                 line-height: 18px;
-                width: 500px;
-                height: 18px;
-                top : 150px;
+                margin-right : 10px;
             }
             /*party_group : 날짜, 시간, 인원수, 버튼*/
             .party_group {
@@ -176,8 +178,7 @@
                 <p class = "nickname" th:text="'파티장 :' + ${member.getName()}">파티장</p>
                 <p class = "category" th:text="'카테고리 :' + ${group.getCategory()}">카테고리</p>
                 <p class = "content" th:text="'내용 :' + ${group.getContent()}">내용</p>
-                <div th:each="participant : ${participants}">
-                    <p class = "participant">참가자</p>
+                <div class = "participant" th:each="participant: ${participants}">참가자 :
                     <p class = "participant_hi" th:text = "${participant.getName()}">ㅎㅇ</p>
                 </div>
             </div>
