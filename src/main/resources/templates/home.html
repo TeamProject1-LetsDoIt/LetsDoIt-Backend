@@ -24,18 +24,6 @@
             margin-left: -715px;
         }
 
-        /* button 기본 CSS 제거 */
-        button {
-            -webkit-appearance: none;
-            -moz-appearance: none;
-            appearance: none;
-            background-color: transparent;
-            border: 0;
-            outline: 0;
-
-            cursor: pointer;
-        }
-
         /*메인창의 왼쪽, 그룹에 대한 정보*/
         /*버튼 구역과 모임 내용 구역으로 나눈다 */
         .groovyroom {
@@ -51,7 +39,6 @@
             box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25), inset -1px -2px 4px rgba(0, 0, 0, 0.25);
             border-radius: 8px;
 
-            z-index: 1;
         }
 
         /*메인창의 오른쪽, 유저 자신에 대한 정보 및 카테고리*/
@@ -65,102 +52,18 @@
             bottom: 24px;
 
             background: #D9D9D9;
-            box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.25);
+            box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25), inset -1px -2px 4px rgba(0, 0, 0, 0.25);
             border-radius: 8px;
 
         }
 
         /*모임 내용을 보여줄 구역*/
         .group {
-            margin-top: 13px;
-            margin-bottom: 13px;
+            margin-top: 18px;
+            margin-bottom: 14px;
             margin-left: 25px;
             margin-right: 25px;
-        }
 
-        /* 빈칸 모임 구역 */
-        .nonegroup {
-            box-sizing: border-box;
-            display: inline-block;
-
-            width: 460px;
-            height: 160px;
-
-            margin-top: 5px;
-            margin-bottom: 5px;
-            margin-left: 7.5px;
-            margin-right: 7.5px;
-
-            background: #BBBBBB;
-            border: 1px solid #BBBBBB;
-            box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-            border-radius: 8px;
-
-            flex: none;
-            order: 0;
-            flex-grow: 0;
-
-            z-index: 2;
-        }
-
-        .none1 {
-            position: absolute;
-            left: 25px;
-            top: 13px;
-        }
-
-        .none2 {
-            position: absolute;
-            left: 25px;
-            top: 189px;
-        }
-
-        .none3 {
-            position: absolute;
-            left: 25px;
-            top: 366px;
-        }
-
-        .none4 {
-            position: absolute;
-            left: 25px;
-            top: 543px;
-        }
-
-        .none5 {
-            position: absolute;
-            left: 25px;
-            top: 720px;
-        }
-
-        .none6 {
-            position: absolute;
-            right: 25px;
-            top: 13px;
-        }
-
-        .none7 {
-            position: absolute;
-            right: 25px;
-            top: 189px;
-        }
-
-        .none8 {
-            position: absolute;
-            right: 25px;
-            top: 366px;
-        }
-
-        .none9 {
-            position: absolute;
-            right: 25px;
-            top: 543px;
-        }
-
-        .none10 {
-            position: absolute;
-            right: 25px;
-            top: 720px;
         }
 
         /*버튼 구역*/
@@ -172,6 +75,8 @@
             left: 44.5%;
 
             box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+
+
         }
 
         #Btn1 {
@@ -181,7 +86,9 @@
         }
 
         #Btn2 {
+
             background: #7A7A7A;
+
         }
 
         /*각각의 모임의 내용에 대해 보여줄 칸, 구역을 10개로 분할*/
@@ -197,8 +104,7 @@
             margin-left: 7.5px;
             margin-right: 7.5px;
 
-            flex-flow: row-reverse wrap;
-            z-index: 3;
+
         }
 
         /*각 모임의 제목*/
@@ -296,13 +202,15 @@
             font-weight: 100;
             font-size: 45px;
             line-height: 54px;
-
             color: #EDEDED;
         }
 
         #createBtn:active {
             background: #1b1b1b;
         }
+
+        /* 여기서부터 복사하시면 됩니다*/
+
 
         /* 검색 창 */
         #search_bar {
@@ -449,7 +357,12 @@
             color: #585858;
             margin-left: 110px;
             margin-top: 20px;
+            border: 0;
+            outline: 0;
+            background-color: #D9D9D9;
         }
+
+        /*여기까지 */
     </style>
 
 
@@ -464,25 +377,19 @@
 
     </div>
     <section class="groovyroom">
+<!--        <div class="group" th:each="group : ${groups}" th:inline-block >-->
+<!--            <div id="groupContents" th:onclick="|window.open('@{group/{groupId}(groupId=${group.id})}', 'seeGroup', 'width=620, height=320, resizable=no, scrollbars=no, status=no')|" th:>-->
+<!--                <h1 id="grouptitle" th:text="${group.title}">제목1</h1>-->
+<!--                <p id="contents" th:text="${group.content}">내용</p>-->
+<!--                <p id="numPeople"><span th:text="${group.getCurrentPeople()}"></span> / <span th:text="${group.getMaxPeople()}"></span></p>-->
+<!--            </div>-->
+<!--        </div>-->
         <div class="group" th:each="group : ${groups}" th:inline-block >
             <div id="groupContents" th:attr="onclick=|checkInfo(${group.getId()})|">
                 <h1 id="grouptitle" th:text="${group.title}">제목1</h1>
                 <p id="contents" th:text="${group.content}">내용</p>
                 <p id="numPeople"><span th:text="${group.getCurrentPeople()}"></span> / <span th:text="${group.getMaxPeople()}"></span></p>
             </div>
-        </div>
-
-        <div>
-            <div class="nonegroup none1"></div>
-            <div class="nonegroup none2"></div>
-            <div class="nonegroup none3"></div>
-            <div class="nonegroup none4"></div>
-            <div class="nonegroup none5"></div>
-            <div class="nonegroup none6"></div>
-            <div class="nonegroup none7"></div>
-            <div class="nonegroup none8"></div>
-            <div class="nonegroup none9"></div>
-            <div class="nonegroup none10"></div>
         </div>
 
         <div class="button">
@@ -513,6 +420,8 @@
                 </li>
             </ul>
         </div>
+
+
 
         <button id="createBtn" onclick="create();">방 만들기</button>
 
