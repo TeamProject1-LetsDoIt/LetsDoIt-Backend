@@ -67,8 +67,13 @@ public class ViewController {
         log.info(member.getEmail());
         List<Group> groups;
 
+
         if (category != null) {
-            groups = groupService.sortGroupByCategory(category);
+            if (category.equals("expireTime")) {
+                groups = groupService.sortGroupsByDeadline();
+            }else {
+                groups = groupService.sortGroupByCategory(category);
+            }
         } else {
             groups = groupService.findGroups();
         }
