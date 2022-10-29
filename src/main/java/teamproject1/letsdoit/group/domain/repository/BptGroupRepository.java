@@ -47,7 +47,7 @@ public class BptGroupRepository implements GroupRepository{
     public List<Group> findAll() {
         List<Group> groups = bTree.values();
         groups.removeIf(group -> group.getExpireTime().isBefore(LocalDateTime.now()));
-
+        log.info(LocalDateTime.now().toString());
         return groups;
     }
 }
