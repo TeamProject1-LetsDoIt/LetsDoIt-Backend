@@ -52,6 +52,7 @@
                 height: 20px;
                 left: 570px;
                 border: 0;
+
                 border-radius: 20px;
                 display: inline-block;
             }
@@ -65,7 +66,7 @@
                 top : -10px;
                 text-align: left;
             }
-            
+
             /* party_info : 수평선, 닉네임, category, 모임 설명*/
             .party_info {
                 z-index: 30;
@@ -73,6 +74,7 @@
                 display : block;
                 top : 40px;
             }
+            /*노란색 수평선*/
             .hr_1 {
                 z-index : 30;
                 width : 450px;
@@ -87,6 +89,7 @@
                 height: 18px;
                 top : 0px;
             }
+            /*카테고리*/
             .category {
                 position: absolute;
                 font-size: 15px;
@@ -95,6 +98,7 @@
                 height: 18px;
                 top : 20px;
             }
+            /*이 부분부터*/
             .content{
                 position: absolute;
                 font-size: 15px;
@@ -102,26 +106,31 @@
                 width: 500px;
                 height: 76px;
                 top : 40px;
+                word-break:break-all;
+
             }
+            /*참가자 그룹*/
             .participant {
                 color : #FFFFFF;
                 font-family: 'Inter';
                 font-style: normal;
                 font-weight: 400;
                 position: absolute;
+                display : inline;
                 font-size: 15px;
                 line-height: 18px;
                 width: 500px;
                 height: 18px;
                 top : 120px;
             }
+            /*참가자 명단*/
             .participant_hi {
                 position: relative;
-                display : inline-block;
+                display : inline;
                 font-size: 15px;
-                line-height: 18px;
                 margin-right : 10px;
             }
+            /*이 부분까지*/
             /*party_group : 날짜, 시간, 인원수, 버튼*/
             .party_group {
                 z-index: 30;
@@ -178,7 +187,9 @@
                 <p class = "category" th:text="'카테고리 :' + ${group.getCategory()}">카테고리</p>
                 <p class = "content" th:text="'내용 :' + ${group.getContent()}">내용</p>
                 <div class = "participant" th:each="participant: ${participants}">참가자 :
-                    <p class = "participant_hi" th:text = "${participant.getName()}">ㅎㅇ</p>
+                    <div class = "participant_hi">
+                        <span th:text = "${participant.getName()}">ㅎㅇ</span>
+                    </div>
                 </div>
             </div>
             <div class = "party_group">
