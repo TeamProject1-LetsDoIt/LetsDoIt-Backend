@@ -254,7 +254,7 @@
             </button>
         </div>
         <div class = "party_name">
-            <input type = "text" class = "input_title" th:field="*{title}" value ="파티 제목"  placeholder="제목" required maxlength="50"><br>
+            <input type = "text" class = "input_title" th:field="*{title}" value ="파티 제목"  placeholder="제목" required maxlength="20"><br>
         </div>
         <div class = "party_category">
             <select class = "select_category" th:field="*{category}" required>
@@ -264,7 +264,7 @@
             </select>
         </div>
         <div class = "party_contents">
-            <textarea placeholder="내용" class = "input_content" th:field="*{content}" required maxlength="200"></textarea>
+            <textarea placeholder="내용" class = "input_content" th:field="*{content}" required maxlength="100"></textarea>
         </div>
         <div>
             <div class = "party_datetime"> <!-- 출력 방식 : 2022-10-23T23:45-->
