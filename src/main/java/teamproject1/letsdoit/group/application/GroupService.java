@@ -8,7 +8,10 @@ import teamproject1.letsdoit.common.exception.advice.assertThat.DefaultAssert;
 import teamproject1.letsdoit.group.domain.Group;
 import teamproject1.letsdoit.group.domain.repository.GroupRepository;
 
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -51,6 +54,13 @@ public class GroupService {
                 .collect(Collectors.toList());
         log.info(result.toString());
         return result;
+    }
+
+    public List<Group> sortGroupsByDeadline() {
+        List<Group> groups = groupRepository.findAll();
+        groups.sort((b, a) -> (int) (ChronoUnit.SECONDS.between(a.getExpireTime(), LocalDateTime.now()) - ChronoUnit.SECONDS.between(b.getExpireTime(), LocalDateTime.now())));
+
+        return groups;
     }
 
     public List<Group> sortGroupByCategory(String category) {

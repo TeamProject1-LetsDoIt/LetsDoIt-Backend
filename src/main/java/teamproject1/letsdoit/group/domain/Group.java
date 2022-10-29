@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import teamproject1.letsdoit.common.domain.BaseEntity;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,7 +30,7 @@ public class Group extends BaseEntity {
 
     private List<String> peopleList;
 
-    private String expireTime;
+    private LocalDateTime expireTime;
 
     private Status status;
 
@@ -43,7 +44,7 @@ public class Group extends BaseEntity {
         this.currentPeople = currentPeople;
         this.peopleList = new ArrayList<>();
         peopleList.add(hostEmail);
-        this.expireTime = expireTime;
+        this.expireTime = LocalDateTime.parse(expireTime);
         this.status = Status.JOINABLE;
     }
 
