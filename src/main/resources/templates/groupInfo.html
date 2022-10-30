@@ -189,8 +189,10 @@
                 <p class = "nickname" th:text="'파티장 :' + ${member.getName()}">파티장</p>
                 <p class = "category" th:text="'카테고리 :' + ${group.getCategory()}">카테고리</p>
                 <p class = "content" th:text="'내용 :' + ${group.getContent()}">내용</p>
-                <div class = "participant" th:each="participant: ${participants}">참가자 :
-                    <p class = "participant_span" th:text = "${participant.getName()}">남궁찬</p>
+                <div class = "participant" >참가자 :
+                    <div class = "participant_hi" th:each="participant: ${participants}">
+                        <span class = "participant_span" th:text = "${participant.getName()}">남궁찬</span>
+                    </div>
                 </div>
             </div>
             <div class = "party_group">
