@@ -129,12 +129,14 @@
                 position: relative;
                 font-size: 15px;
                 width : 580px;
+                display : inline;
                 margin-right : 5px;
                 flex-flow : row wrap;
             }
             /*참가자 글씨 */
             .participant_span {
                 position: relative;
+                display : inline;
                 margin : 5px;
             }
             /* 여기까지 */
@@ -195,7 +197,7 @@
                 <p class = "content" th:text="'내용 :' + ${group.getContent()}">내용</p>
                 <div class = "participant" th:each="participant: ${participants}">참가자 :
                     <div class = "participant_hi">
-                        <span class = "participant_span" th:text = "${participant.getName()}">남궁찬</span>
+                        <p class = "participant_span" th:text = "${participant.getName()}">남궁찬</p>
                     </div>
                 </div>
             </div>
