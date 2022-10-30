@@ -190,9 +190,9 @@
                 <p class = "category" th:text="'카테고리 :' + ${group.getCategory()}">카테고리</p>
                 <p class = "content" th:text="'내용 :' + ${group.getContent()}">내용</p>
                 <div class = "participant" >참가자 :
-                    <div class = "participant_hi" th:each="participant: ${participants}">
+                    <span class = "participant_hi" th:each="participant: ${participants}">
                         <span class = "participant_span" th:text = "${participant.getName()}">남궁찬</span>
-                    </div>
+                    </span>
                 </div>
             </div>
             <div class = "party_group">
