@@ -109,6 +109,7 @@
                 word-break:break-all;
 
             }
+            /* 여기부터 */
             /*참가자 그룹*/
             .participant {
                 color : #FFFFFF;
@@ -122,15 +123,21 @@
                 width: 500px;
                 height: 18px;
                 top : 120px;
+
             }
             /*참가자 명단*/
             .participant_hi {
                 position: relative;
                 display : inline;
                 font-size: 15px;
-                margin-right : 10px;
             }
-            /*이 부분까지*/
+            /*참가자 글씨 */
+            .participant_span {
+                position: relative;
+                margin-right: 20px;
+
+            }
+            /* 여기까지 */
             /*party_group : 날짜, 시간, 인원수, 버튼*/
             .party_group {
                 z-index: 30;
@@ -188,7 +195,7 @@
                 <p class = "content" th:text="'내용 :' + ${group.getContent()}">내용</p>
                 <div class = "participant" th:each="participant: ${participants}">참가자 :
                     <div class = "participant_hi">
-                        <span th:text = "${participant.getName()}">ㅎㅇ</span>
+                        <span class = "participant_span" th:text = "${participant.getName()}">남궁찬</span>
                     </div>
                 </div>
             </div>
