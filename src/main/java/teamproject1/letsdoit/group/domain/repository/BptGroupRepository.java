@@ -23,7 +23,7 @@ public class BptGroupRepository implements GroupRepository{
         group.setId(++sequence);
         bTree.insert(Math.toIntExact(group.getId()), group);
         log.info("\n" + "아이디: " + group.getId()
-                + "\n" + "이메일: " + group.getHostEmail()
+                + "\n" + "이메일: " + group.getHostMember().getEmail()
                 + "\n" + "제목: " + group.getTitle()
                 + "\n" + "카테코리: " + group.getCategory()
                 + "\n" + "내용: " + group.getContent()
@@ -40,7 +40,7 @@ public class BptGroupRepository implements GroupRepository{
     @Override
     public Optional<Group> findByEmail(String email) {
         return bTree.values().stream()
-                .filter(group -> group.getHostEmail().equals(email)).findAny();
+                .filter(group -> group.getHostMember().getEmail().equals(email)).findAny();
     }
 
     @Override

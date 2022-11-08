@@ -162,7 +162,7 @@ public class ViewController {
         Member member = memberRepository.findByEmail(email).orElseThrow(() -> new DefaultException(ErrorCode.INVALID_CHECK, "존재하지 않는 멤버입니다."));
         Group group = groupService.findGroupById(Long.valueOf(groupId));
 
-        if(group.getPeopleList().stream().anyMatch(people -> people.equals(email))){
+        if(group.getPeopleList().stream().anyMatch(people -> people.getEmail().equals(email))){
             return "redirect:/home";
         }
 

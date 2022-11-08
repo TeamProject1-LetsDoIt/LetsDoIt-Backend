@@ -97,19 +97,17 @@ public class GroupService {
     }
 
     public List<Group> findCreateGroups(String email) {
+        Member member = memberRepository.findByEmail(email).orElseThrow(() -> new DefaultException(ErrorCode.INVALID_CHECK, "존재하지 않는 유저입니다"));
         return groupRepository.findAll().stream()
-                .filter(group -> group.getHostMember().getEmail().equals(email))
+                .filter(group -> group.getHostMember().equals(member))
                 .collect(Collectors.toList());
     }
 
     public List<Group> findJoinGroups(String email) {
         Member member = memberRepository.findByEmail(email).orElseThrow(() -> new DefaultException(ErrorCode.INVALID_CHECK, "존재하지 않는 유저입니다."));
-        List<Group> groups = groupRepository.findAll().stream()
-                .filter(group -> group.getPeopleList()
-                        .contains(member.getName()))
+        return groupRepository.findAll().stream()
+                .filter(group -> group.getPeopleList().contains(member))
                 .collect(Collectors.toList());
-        log.info(groups.toString());
-        return groups;
     }
 
 }
