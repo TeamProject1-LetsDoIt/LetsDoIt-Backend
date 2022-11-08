@@ -5,8 +5,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import teamproject1.letsdoit.common.exception.advice.assertThat.DefaultAssert;
+import teamproject1.letsdoit.common.exception.advice.error.DefaultException;
+import teamproject1.letsdoit.common.exception.advice.payload.ErrorCode;
 import teamproject1.letsdoit.group.domain.Group;
 import teamproject1.letsdoit.group.domain.repository.GroupRepository;
+import teamproject1.letsdoit.member.domain.Member;
+import teamproject1.letsdoit.member.domain.repository.MemberRepository;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
@@ -18,10 +22,10 @@ import java.util.stream.Collectors;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
 public class GroupService {
 
     private final GroupRepository groupRepository;
+    private final MemberRepository memberRepository;
 
     public void saveGroup(Group group) {
         groupRepository.save(group);
@@ -89,6 +93,20 @@ public class GroupService {
 
         Collections.reverse(groups);
         return groups;
+    }
+
+    public List<Group> findCreateGroups(String email) {
+        return groupRepository.findAll().stream()
+                .filter(group -> group.getHostEmail().equals(email))
+                .collect(Collectors.toList());
+    }
+
+    public List<Group> findJoinGroups(String email) {
+        Member member = memberRepository.findByEmail(email).orElseThrow(() -> new DefaultException(ErrorCode.INVALID_CHECK, "존재하지 않는 유저입니다."));
+        return groupRepository.findAll().stream()
+                .filter(group -> group.getPeopleList().stream()
+                        .map(m -> m.equals(member.getName())).isParallel())
+                .collect(Collectors.toList());
     }
 
 }

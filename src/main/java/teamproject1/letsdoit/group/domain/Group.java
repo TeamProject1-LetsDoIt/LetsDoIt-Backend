@@ -52,12 +52,11 @@ public class Group extends BaseEntity {
         this.id = id;
     }
 
-    public void countUp(){
-        this.currentPeople++;
-    }
-
     public void addPeople(String email) {
-        peopleList.add(email);
+        if (currentPeople < maxPeople) {
+            peopleList.add(email);
+            currentPeople ++;
+        }
     }
 
     public void updateTitle(String title) {
