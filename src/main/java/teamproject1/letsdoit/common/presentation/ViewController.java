@@ -9,12 +9,15 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import teamproject1.letsdoit.common.exception.advice.assertThat.DefaultAssert;
+import teamproject1.letsdoit.common.exception.advice.error.DefaultException;
+import teamproject1.letsdoit.common.exception.advice.payload.ErrorCode;
 import teamproject1.letsdoit.common.presentation.dto.Category;
 import teamproject1.letsdoit.common.presentation.dto.GroupForm;
 import teamproject1.letsdoit.member.application.MemberService;
 import teamproject1.letsdoit.member.domain.Member;
 import teamproject1.letsdoit.group.application.GroupService;
 import teamproject1.letsdoit.group.domain.Group;
+import teamproject1.letsdoit.member.domain.repository.MemberRepository;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -29,6 +32,8 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Slf4j
 public class ViewController {
+
+    private final MemberRepository memberRepository;
 
     private final GroupService groupService;
     private final MemberService memberService;
@@ -77,6 +82,7 @@ public class ViewController {
         Member member = memberService.findByMemberByEmail(userEmail);
 
         List<Group> joinGroups = groupService.findJoinGroups(userEmail);
+        log.info(joinGroups.toString());
 
         model.addAttribute("member", member);
         model.addAttribute("groups", joinGroups);
@@ -121,12 +127,13 @@ public class ViewController {
     public String groupCreate(@Valid GroupForm groupForm, HttpServletRequest request) {
 
         String email = getEmail(request);
+        Member member = memberRepository.findByEmail(email).orElseThrow(() -> new DefaultException(ErrorCode.INVALID_CHECK, "존재하지 않는 멤버입니다"));
 
         Group group = Group.builder()
                 .title(groupForm.getTitle())
                 .content(groupForm.getContent())
                 .category(groupForm.getCategory())
-                .hostEmail(email)
+                .hostMember(member)
                 .maxPeople(groupForm.getMaxPeople())
                 .currentPeople(1)
                 .expireTime(groupForm.getExpireTime())
@@ -140,13 +147,10 @@ public class ViewController {
     @GetMapping("/group/{groupId}")
     public String seeGroup(@PathVariable Long groupId, Model model) {
         Group group = groupService.findGroupById(groupId);
-        Member member = memberService.findByMemberByEmail(group.getHostEmail());
-        List<Member> participants =
-                group.getPeopleList().stream().map(memberService::findByMemberByEmail).collect(Collectors.toList());
-
+        List<Member> participants = group.getPeopleList();
 
         model.addAttribute("participants", participants);
-        model.addAttribute("member", member);
+        model.addAttribute("member", group.getHostMember());
         model.addAttribute("group", group);
 
         return "groupInfo";
@@ -155,13 +159,14 @@ public class ViewController {
     @PostMapping("/group/{groupId}")
     public String joinGroup(HttpServletRequest request, @PathVariable String groupId){
         String email = getEmail(request);
+        Member member = memberRepository.findByEmail(email).orElseThrow(() -> new DefaultException(ErrorCode.INVALID_CHECK, "존재하지 않는 멤버입니다."));
         Group group = groupService.findGroupById(Long.valueOf(groupId));
 
         if(group.getPeopleList().stream().anyMatch(people -> people.equals(email))){
             return "redirect:/home";
         }
 
-        group.addPeople(email);
+        group.addPeople(member);
 
         return "redirect:/home";
     }

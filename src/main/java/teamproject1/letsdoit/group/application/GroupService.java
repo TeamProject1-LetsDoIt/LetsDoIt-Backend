@@ -14,6 +14,7 @@ import teamproject1.letsdoit.member.domain.repository.MemberRepository;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -53,7 +54,7 @@ public class GroupService {
 
     public List<Group> findGroupsMemberCreate(String email) {
         List<Group> result = groupRepository.findAll().stream()
-                .filter(group -> group.getHostEmail().equals(email))
+                .filter(group -> group.getHostMember().getEmail().equals(email))
                 .collect(Collectors.toList());
         log.info(result.toString());
         return result;
@@ -97,16 +98,18 @@ public class GroupService {
 
     public List<Group> findCreateGroups(String email) {
         return groupRepository.findAll().stream()
-                .filter(group -> group.getHostEmail().equals(email))
+                .filter(group -> group.getHostMember().getEmail().equals(email))
                 .collect(Collectors.toList());
     }
 
     public List<Group> findJoinGroups(String email) {
         Member member = memberRepository.findByEmail(email).orElseThrow(() -> new DefaultException(ErrorCode.INVALID_CHECK, "존재하지 않는 유저입니다."));
-        return groupRepository.findAll().stream()
-                .filter(group -> group.getPeopleList().stream()
-                        .map(m -> m.equals(member.getName())).isParallel())
+        List<Group> groups = groupRepository.findAll().stream()
+                .filter(group -> group.getPeopleList()
+                        .contains(member.getName()))
                 .collect(Collectors.toList());
+        log.info(groups.toString());
+        return groups;
     }
 
 }

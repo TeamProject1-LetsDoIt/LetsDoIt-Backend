@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import teamproject1.letsdoit.common.domain.BaseEntity;
+import teamproject1.letsdoit.member.domain.Member;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -16,7 +17,7 @@ public class Group extends BaseEntity {
 
     private Long id;
 
-    private String hostEmail;
+    private Member hostMember;
 
     private String title;
 
@@ -28,22 +29,22 @@ public class Group extends BaseEntity {
 
     private Integer currentPeople;
 
-    private List<String> peopleList;
+    private List<Member> peopleList;
 
     private LocalDateTime expireTime;
 
     private Status status;
 
     @Builder
-    public Group(String hostEmail, String title, String category, String content, Integer maxPeople, Integer currentPeople,  String expireTime) {
-        this.hostEmail = hostEmail;
+    public Group(Member hostMember, String title, String category, String content, Integer maxPeople, Integer currentPeople,  String expireTime) {
+        this.hostMember = hostMember;
         this.title = title;
         this.category = category;
         this.content = content;
         this.maxPeople = maxPeople;
         this.currentPeople = currentPeople;
         this.peopleList = new ArrayList<>();
-        peopleList.add(hostEmail);
+        peopleList.add(hostMember);
         this.expireTime = LocalDateTime.parse(expireTime);
         this.status = Status.JOINABLE;
     }
@@ -52,9 +53,9 @@ public class Group extends BaseEntity {
         this.id = id;
     }
 
-    public void addPeople(String email) {
+    public void addPeople(Member member) {
         if (currentPeople < maxPeople) {
-            peopleList.add(email);
+            peopleList.add(member);
             currentPeople ++;
         }
     }
