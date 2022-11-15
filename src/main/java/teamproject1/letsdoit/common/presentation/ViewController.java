@@ -110,10 +110,8 @@ public class ViewController {
 
         Group group = groupService.findGroupById(id);
 
-        if (group.getHostMember().equals(member)) {
-            return "redirect:/me/joinGroups";
-        }
-        group.getPeopleList().remove(member);
+        group.deletePeople(member);
+
         return "redirect:/me/joinGroups";
     }
 

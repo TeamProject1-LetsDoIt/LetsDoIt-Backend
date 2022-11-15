@@ -60,6 +60,14 @@ public class Group extends BaseEntity {
         }
     }
 
+    public void deletePeople(Member member) {
+        if (hostMember.equals(member) || !getPeopleList().contains(member)) {
+            return;
+        }
+        getPeopleList().remove(member);
+        currentPeople--;
+    }
+
     public void updateTitle(String title) {
         this.title = title;
     }
