@@ -181,13 +181,17 @@
             <hr class = "horizontal_line2"></hr>
             <button class = "button_privacy">개인정보</button>
             <button class = "button_participated_party" onclick="joinGroups()">참여한 모임</button>
-            <button class = "button_recruiting_party">모집중인 모임</button>
+            <button class = "button_recruiting_party" onclick="gatherGroups()">모집중인 모임</button>
         </div>
     </div>
     </body>
 <script>
     function joinGroups() {
         location.href="/me/joinGroups"
+    }
+
+    function gatherGroups(){
+        location.href="/me/gatherGroups"
     }
 </script>
 </html>
