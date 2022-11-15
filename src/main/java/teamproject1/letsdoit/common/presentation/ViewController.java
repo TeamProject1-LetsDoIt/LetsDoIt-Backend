@@ -94,11 +94,12 @@ public class ViewController {
     public String joinGroupsInfo(@PathVariable Long id,  Model model, HttpServletRequest request) {
         String userEmail = getEmail(request);
         Member member = memberService.findByMemberByEmail(userEmail);
-
         Group group = groupService.findGroupById(id);
+        List<Member> participants = group.getPeopleList();
 
         model.addAttribute("member", member);
         model.addAttribute("group", group);
+        model.addAttribute("participants", participants);
 
         return "participatedGroupInfo";
     }
@@ -107,7 +108,6 @@ public class ViewController {
     public String leaveGroup(@PathVariable Long id, HttpServletRequest request) {
         String userEmail = getEmail(request);
         Member member = memberService.findByMemberByEmail(userEmail);
-
         Group group = groupService.findGroupById(id);
 
         group.deletePeople(member);
