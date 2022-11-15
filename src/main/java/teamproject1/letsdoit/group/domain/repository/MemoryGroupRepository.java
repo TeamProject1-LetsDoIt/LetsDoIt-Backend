@@ -36,4 +36,9 @@ public class MemoryGroupRepository implements GroupRepository{
     public List<Group> findAll() {
         return null;
     }
+
+    @Override
+    public void deleteById(Long id) {
+
+    }
 }

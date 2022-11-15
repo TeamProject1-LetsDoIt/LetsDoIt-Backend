@@ -54,4 +54,9 @@ public class BptGroupRepository implements GroupRepository{
         groups.removeIf(group -> group.getExpireTime().isBefore(LocalDateTime.now()));
         return groups;
     }
+
+    @Override
+    public void deleteById(Long id) {
+        bTree.delete(Math.toIntExact(id));
+    }
 }

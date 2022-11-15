@@ -110,4 +110,7 @@ public class GroupService {
                 .collect(Collectors.toList());
     }
 
+    public void deleteGroup(Long id) {
+        groupRepository.deleteById(id);
+    }
 }

@@ -14,4 +14,6 @@ public interface GroupRepository {
     Optional<Group> findByEmail(String email);
 
     List<Group> findAll();
+
+    void deleteById(Long id);
 }

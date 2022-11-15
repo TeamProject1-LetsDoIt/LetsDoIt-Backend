@@ -50,7 +50,7 @@ public class ViewController {
     }
 
     @GetMapping("/me")
-    public String myPage(Model model, HttpServletRequest request){
+    public String myPage(Model model, HttpServletRequest request) {
         String email = getEmail(request);
         Member member = memberService.findByMemberByEmail(email);
         List<Group> joinGroups = groupService.findGroupsMemberJoined(email);
@@ -91,7 +91,7 @@ public class ViewController {
     }
 
     @GetMapping("/me/joinGroups/{id}")
-    public String joinGroupsInfo(@PathVariable Long id,  Model model, HttpServletRequest request) {
+    public String joinGroupsInfo(@PathVariable Long id, Model model, HttpServletRequest request) {
         String userEmail = getEmail(request);
         Member member = memberService.findByMemberByEmail(userEmail);
         Group group = groupService.findGroupById(id);
@@ -115,6 +115,46 @@ public class ViewController {
         return "redirect:/me/joinGroups";
     }
 
+    @GetMapping("/me/gatherGroups")
+    public String gatherGroups(Model model, HttpServletRequest request) {
+        String userEmail = getEmail(request);
+        Member member = memberService.findByMemberByEmail(userEmail);
+
+        List<Group> gatherGroups = groupService.findCreateGroups(userEmail);
+
+        model.addAttribute("member", member);
+        model.addAttribute("groups", gatherGroups);
+
+        return "joinGroups";
+    }
+
+    @GetMapping("/me/gatherGroups/{id}")
+    public String gatherGroupsInfo(@PathVariable Long id, Model model, HttpServletRequest request) {
+        String userEmail = getEmail(request);
+        Member member = memberService.findByMemberByEmail(userEmail);
+        Group group = groupService.findGroupById(id);
+        List<Member> participants = group.getPeopleList();
+
+        model.addAttribute("member", member);
+        model.addAttribute("group", group);
+        model.addAttribute("participants", participants);
+
+        return "gatheringGroupInfo";
+    }
+
+    @DeleteMapping("/me/gatherGroups/{id}")
+    public String deleteGroup(@PathVariable Long id, HttpServletRequest request) {
+        String userEmail = getEmail(request);
+        Member member = memberService.findByMemberByEmail(userEmail);
+        Group group = groupService.findGroupById(id);
+
+        if (group.getHostMember().equals(member)) {
+            groupService.deleteGroup(id);
+        }
+
+        return "redirect:/me/joinGroups";
+    }
+
     @GetMapping("/home")
     public String mainForm(Model model, HttpServletRequest request,
                            @RequestParam(value = "category", required = false) String category) {
@@ -128,7 +168,7 @@ public class ViewController {
         if (category != null) {
             if (category.equals("expireTime")) {
                 groups = groupService.sortGroupsByDeadline();
-            }else {
+            } else {
                 groups = groupService.sortGroupByCategory(category);
             }
         } else {
@@ -182,12 +222,12 @@ public class ViewController {
     }
 
     @PostMapping("/group/{groupId}")
-    public String joinGroup(HttpServletRequest request, @PathVariable String groupId){
+    public String joinGroup(HttpServletRequest request, @PathVariable String groupId) {
         String email = getEmail(request);
         Member member = memberRepository.findByEmail(email).orElseThrow(() -> new DefaultException(ErrorCode.INVALID_CHECK, "존재하지 않는 멤버입니다."));
         Group group = groupService.findGroupById(Long.valueOf(groupId));
 
-        if(group.getPeopleList().stream().anyMatch(people -> people.getEmail().equals(email))){
+        if (group.getPeopleList().stream().anyMatch(people -> people.getEmail().equals(email))) {
             return "redirect:/home";
         }
 
@@ -195,7 +235,6 @@ public class ViewController {
 
         return "redirect:/home";
     }
-
 
 
     private static String getEmail(HttpServletRequest request) {
