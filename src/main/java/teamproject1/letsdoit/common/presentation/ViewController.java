@@ -4,10 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import teamproject1.letsdoit.common.exception.advice.assertThat.DefaultAssert;
 import teamproject1.letsdoit.common.exception.advice.error.DefaultException;
 import teamproject1.letsdoit.common.exception.advice.payload.ErrorCode;
@@ -22,11 +19,9 @@ import teamproject1.letsdoit.member.domain.repository.MemberRepository;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Controller
 @RequiredArgsConstructor
@@ -42,6 +37,11 @@ public class ViewController {
     public String beforeLoginForm() {
 
         return "beforeLogin";
+    }
+
+    @GetMapping("/error")
+    public String error() {
+        return "redirect:/login";
     }
 
     @GetMapping("/login")
@@ -88,6 +88,33 @@ public class ViewController {
         model.addAttribute("groups", joinGroups);
 
         return "joinGroups";
+    }
+
+    @GetMapping("/me/joinGroups/{id}")
+    public String joinGroupsInfo(@PathVariable Long id,  Model model, HttpServletRequest request) {
+        String userEmail = getEmail(request);
+        Member member = memberService.findByMemberByEmail(userEmail);
+
+        Group group = groupService.findGroupById(id);
+
+        model.addAttribute("member", member);
+        model.addAttribute("group", group);
+
+        return "participatedGroupInfo";
+    }
+
+    @DeleteMapping("/me/joinGroups/{id}")
+    public String leaveGroup(@PathVariable Long id, HttpServletRequest request) {
+        String userEmail = getEmail(request);
+        Member member = memberService.findByMemberByEmail(userEmail);
+
+        Group group = groupService.findGroupById(id);
+
+        if (group.getHostMember().equals(member)) {
+            return "redirect:/me/joinGroups";
+        }
+        group.getPeopleList().remove(member);
+        return "redirect:/me/joinGroups";
     }
 
     @GetMapping("/home")
@@ -170,6 +197,8 @@ public class ViewController {
 
         return "redirect:/home";
     }
+
+
 
     private static String getEmail(HttpServletRequest request) {
         String userEmail = "";
