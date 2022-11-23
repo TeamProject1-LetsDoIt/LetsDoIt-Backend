@@ -155,16 +155,20 @@
 
       display: inline-block;
     }
-
+    /*그룹에 대한 정보*/
     .groovyroom {
 
       position: absolute;
-      width: 1100px;
+      width: 1200px;
       height: 800px;
       top : -100px;
       left : -20px;
 
       z-index: 1;
+    }
+    .group {
+      flex-flow: row-reverse wrap;
+      display : inline-block;
     }
 
     .nonegroup {
@@ -199,38 +203,38 @@
 
     .none2 {
       position: absolute;
-      left: 571px;
-      top: 165px;
+      left: 72px;
+      top: 360px;
     }
 
     .none3 {
       position: absolute;
       left: 72px;
-      top: 360px;
+      top: 555px;
     }
 
     .none4 {
       position: absolute;
-      left: 571px;
-      top: 360px;
+      left : 72px;
+      top: 750px;
     }
 
     .none5 {
       position: absolute;
-      left: 72px;
-      top: 555px;
+      left: 571px;
+      top: 165px;
     }
 
     .none6 {
       position: absolute;
       left: 571px;
-      top: 555px;
+      top: 360px;
     }
 
     .none7 {
       position: absolute;
-      left : 72px;
-      top: 750px;
+      left: 571px;
+      top: 555px;
     }
 
     .none8 {
@@ -253,7 +257,7 @@
       margin-top: 4.8px;
       margin-bottom: 10px;
       margin-left: 8px;
-      margin-right: 5px;
+      margin-right: 10px;
 
       flex-flow: row-reverse wrap;
       z-index: 3;
@@ -304,42 +308,42 @@
 </head>
 
 <body>
-<div class="party_background">
-  <button onclick="location.href='/home'"><img class="button_home" src="https://jaksimharu.s3.ap-northeast-2.amazonaws.com/images/home_button.png"></button>
-  <div class="circle_white"></div>
-  <div class="circle_red"><img th:src="${member.getImageUrl()}"></div>
+  <div class="party_background">
+    <button onclick="location.href='/home'"><img class="button_home" src="https://jaksimharu.s3.ap-northeast-2.amazonaws.com/images/home_button.png"></button>
+    <div class="circle_white"></div>
+    <div class="circle_red"><img th:src="${member.getImageUrl()}"></div>
 
-  <section class="groovyroom">
-    <div class="group" th:each="group : ${groups}" th:inline-block>
-      <div id="groupContents" th:attr="onclick=|checkInfo(${group.getId()})|">
-        <h1 id="grouptitle" th:text="${group.title}">제목1</h1>
-        <p id="contents" th:text="${group.content}">내용</p>
-        <p id="numPeople"><span th:text="${group.getCurrentPeople()}"></span> / <span th:text="${group.getMaxPeople()}"></span>
-          <span id="numP" th:text="${group.getCategory()}">공부해요</span>
-        </p>
+    <section class="groovyroom">
+      <div class="group" th:each="group : ${groups}" th:inline-block>
+        <div id="groupContents" th:attr="onclick=|checkInfo(${group.getId()})|">
+          <h1 id="grouptitle" th:text="${group.title}">제목1</h1>
+          <p id="contents" th:text="${group.content}">내용</p>
+          <p id="numPeople"><span th:text="${group.getCurrentPeople()}"></span> / <span th:text="${group.getMaxPeople()}"></span>
+            <span id="numP" th:text="${group.getCategory()}">공부해요</span>
+          </p>
+        </div>
       </div>
-    </div>
 
+      <div>
+        <div class="nonegroup none1"></div>
+        <div class="nonegroup none2"></div>
+        <div class="nonegroup none3"></div>
+        <div class="nonegroup none4"></div>
+        <div class="nonegroup none5"></div>
+        <div class="nonegroup none6"></div>
+        <div class="nonegroup none7"></div>
+        <div class="nonegroup none8"></div>
+      </div>
+    </section>
     <div>
-      <div class="nonegroup none1"></div>
-      <div class="nonegroup none2"></div>
-      <div class="nonegroup none3"></div>
-      <div class="nonegroup none4"></div>
-      <div class="nonegroup none5"></div>
-      <div class="nonegroup none6"></div>
-      <div class="nonegroup none7"></div>
-      <div class="nonegroup none8"></div>
+      <div class="vertical_line1"></div>
+      <hr class="horizontal_line1">
+      </hr>
+      <button onclick="location.href=''" class="button_privacy">개인정보</button>
+      <button onclick="location.href=''" class="button_participated_party">참여한 모임</button>
+      <button onclick="location.href=''" class="button_recruiting_party">모집중인 모임</button>
     </div>
-  </section>
-  <div>
-    <div class="vertical_line1"></div>
-    <hr class="horizontal_line1">
-    </hr>
-    <button onclick="location.href=''" class="button_privacy">개인정보</button>
-    <button onclick="location.href=''" class="button_participated_party">참여한 모임</button>
-    <button onclick="location.href=''" class="button_recruiting_party">모집중인 모임</button>
   </div>
-</div>
 </body>
 <script>
   function checkInfo(id){

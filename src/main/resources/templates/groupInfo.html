@@ -174,6 +174,15 @@
                 border-radius: 20px;
                 display: inline-block;
             }
+
+            .current_email {
+                display: none;
+            }
+
+            .host_email {
+                display: none;
+            }
+
         </style>
     </head>
     <body>
@@ -197,13 +206,15 @@
             </div>
             <div class = "party_group">
                 <input type="hidden" id = expireTime th:value="${group.getExpireTime()}"/>
+                <p th:type="hidden" class="host_email" id=host_email th:text="${group.getHostMember().getEmail()}">
+                <p th:type="hidden" class="current_email" id=current_email th:text="${member.getEmail()}">
                 <p class = "date" id="outputTime"></p>
-                <p class = "member"><span th:text="${group.getCurrentPeople()}"></span> / <span th:text="${group.getMaxPeople()}"></span></p>
-                <form th:action="@{/group/{groupId}(groupId=${group.id})}" method="POST" target="homePage" >
-                    <button type = "submit" class = "button_Letsdoit">합시다</button>
+                <p class = "member"><span id = "curr_people" th:text="${group.getCurrentPeople()}"></span> / <span id = "max_people" th:text="${group.getMaxPeople()}"></span></p>
+                <form name = "doit" th:action="@{/group/{groupId}(groupId=${group.id})}" method="POST" target="homePage" >
+                    <button type = "submit" class = "button_Letsdoit" onclick = "participate_party();">합시다</button>
                 </form>
             </div>
-            </div>
+        </div>
     </body>
     <script th:inline="javascript">
         printExpireTime();
@@ -218,6 +229,22 @@
                 time[0] + "시 " + time[1] + "분 마감";
             console.log(result);
             document.getElementById("outputTime").innerHTML = result;
+        }
+        function participate_party(){
+            let current_email = document.querySelector('#current_email').innerHTML;
+            let host_email = document.querySelector('#host_email').innerHTML;
+            let curr_people = document.querySelector('#curr_people').innerHTML;
+            let max_people = document.querySelector('#max_people').innerHTML;
+            if(host_email === current_email){
+                alert('방장은 방에 참여할 수 없습니다.')
+                return false;
+            }else if(curr_people >= max_people){
+                alert('모임 인원이 꽉 차 모임 참여가 불가능합니다!');
+                return false;
+            } else {
+                alert('성공적으로 모임에 참여 되었습니다!');
+                document.doit.submit();
+            }
         }
     </script>
 </html>
