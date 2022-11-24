@@ -267,7 +267,7 @@
     </style>
 </head>
 <body>
-<form action="/home/new" name="createGroup" th:action th:object="${group}" method="post" target="homePage">
+<form action="/home/new" id="createGroup" th:action th:object="${group}" method="post" target="homePage">
     <div class="party_background">
         <div class="make_party_title">
             <p class="make_title">모임 생성하기</p>
@@ -301,27 +301,14 @@
                        placeholder="인원 수" required><br>
             </div>
         </div>
-        <input type="submit" class="button_makeParty" onclick="makeGroup()" value="확인">
+        <input type="submit" class="button_makeParty" value="확인">
     </div>
 </form>
 </body>
 <script type="text/javascript">
-    // function popupClose(form){
-    //     form.target=opener.name;
-    //     form.submit();
-    //     if(opener != null){
-    //         opener.insert=null;
-    //         self.close();
-    //     }
-    // }
-    function makeGroup() {
-        let form = document.forms[0];
-        if (form.inputTitle.value === null || form.content.value === null || form.category.value === null || form.dateTime.value === null || form.inputMember.value === null) {
-            alert("내용을 입력해 주세요");
-        } else {
-            alert('성공적으로 모임이 생성 되었습니다!');
-            document.createGroup.submit();
-        }
-    }
+    document.getElementById("createGroup").onsubmit = function () {
+        alert("모임이 생성되었습니다");
+        window.close();
+    };
 </script>
 </html>
