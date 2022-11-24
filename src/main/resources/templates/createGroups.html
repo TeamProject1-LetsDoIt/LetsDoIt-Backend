@@ -98,15 +98,10 @@
       z-index: 30;
       position: absolute;
       width: 180px;
-      height: 60px;
+      height: 36px;
       left: 1134px;
       top: 380px;
 
-      line-height: 60px;
-
-      color: #FFFFFF;
-      background: #424242;
-      text-align: center;
       display: block;
     }
 
@@ -114,10 +109,15 @@
       z-index: 30;
       position: absolute;
       width: 220px;
-      height: 36px;
+      height: 60px;
       left: 1120px;
-      top: 465px;
+      top: 430px;
 
+      line-height: 60px;
+
+      color: #FFFFFF;
+      background: #424242;
+      text-align: center;
       display: block;
     }
 
@@ -308,49 +308,50 @@
 </head>
 
 <body>
-  <div class="party_background">
-    <button onclick="location.href='/home'"><img class="button_home" src="https://jaksimharu.s3.ap-northeast-2.amazonaws.com/images/home_button.png"></button>
-    <div class="circle_white"></div>
-    <div class="circle_red"><img th:src="${member.getImageUrl()}"></div>
+<div class="party_background">
+  <button onclick="location.href='/home'"><img class="button_home" src="https://jaksimharu.s3.ap-northeast-2.amazonaws.com/images/home_button.png"></button>
+  <div class="circle_white"></div>
+  <div class="circle_red"><img th:src="${member.getImageUrl()}"></div>
 
-    <section class="groovyroom">
-      <div class="group" th:each="group : ${groups}" th:inline-block>
-        <div id="groupContents" th:attr="onclick=|checkInfo(${group.getId()})|">
-          <h1 id="grouptitle" th:text="${group.title}">제목1</h1>
-          <p id="contents" th:text="${group.content}">내용</p>
-          <p id="numPeople"><span th:text="${group.getCurrentPeople()}"></span> / <span th:text="${group.getMaxPeople()}"></span>
-            <span id="numP" th:text="${group.getCategory()}">공부해요</span>
-          </p>
-        </div>
+  <section class="groovyroom">
+    <div class="group" th:each="group : ${groups}" th:inline-block>
+      <div id="groupContents" th:attr="onclick=|checkInfo(${group.getId()})|">
+        <h1 id="grouptitle" th:text="${group.title}">제목1</h1>
+        <p id="contents" th:text="${group.content}">내용</p>
+        <p id="numPeople"><span th:text="${group.getCurrentPeople()}"></span> / <span th:text="${group.getMaxPeople()}"></span>
+          <span id="numP" th:text="${group.getCategory()}">공부해요</span>
+        </p>
       </div>
-
-      <div>
-        <div class="nonegroup none1"></div>
-        <div class="nonegroup none2"></div>
-        <div class="nonegroup none3"></div>
-        <div class="nonegroup none4"></div>
-        <div class="nonegroup none5"></div>
-        <div class="nonegroup none6"></div>
-        <div class="nonegroup none7"></div>
-        <div class="nonegroup none8"></div>
-      </div>
-    </section>
-    <div>
-      <div class="vertical_line1"></div>
-      <hr class="horizontal_line1">
-      </hr>
-      <button onclick="location.href='/me'" class="button_privacy">개인정보</button>
-      <button onclick="location.href='/me/joinGroups'" class="button_participated_party">참여한 모임</button>
-      <button onclick="location.href='/me/createGroups'" class="button_recruiting_party">모집중인 모임</button>
     </div>
+
+    <div>
+      <div class="nonegroup none1"></div>
+      <div class="nonegroup none2"></div>
+      <div class="nonegroup none3"></div>
+      <div class="nonegroup none4"></div>
+      <div class="nonegroup none5"></div>
+      <div class="nonegroup none6"></div>
+      <div class="nonegroup none7"></div>
+      <div class="nonegroup none8"></div>
+    </div>
+  </section>
+  <div>
+    <div class="vertical_line1"></div>
+    <hr class="horizontal_line1">
+    </hr>
+    <button onclick="location.href='/me'" class="button_privacy">개인정보</button>
+    <button onclick="location.href='/me/joinGroups'" class="button_participated_party">참여한 모임</button>
+    <button onclick="location.href='/me/createGroups'" class="button_recruiting_party">모집중인 모임</button>
   </div>
+</div>
 </body>
 <script>
   function checkInfo(id){
     window.name="homePage";
-    const myWindow = window.open(`/me/joinGroups/${id}`, "createGroup", "width:300, height=350, resizable=no, scrollbars=no, status=no");
+    const myWindow = window.open(`/me/createGroups/${id}`, "createGroup", "width:300, height=350, resizable=no, scrollbars=no, status=no");
     myWindow.moveTo(500, 100);
     myWindow.resizeTo(650, 400);
   }
 </script>
+
 </html>

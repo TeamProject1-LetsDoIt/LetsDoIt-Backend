@@ -46,7 +46,7 @@ public class Group extends BaseEntity {
         this.peopleList = new ArrayList<>();
         peopleList.add(hostMember);
         this.expireTime = LocalDateTime.parse(expireTime);
-        this.status = Status.JOINABLE;
+        this.status = Status.ACTIVE;
     }
 
     public void setId(Long id) {
@@ -78,6 +78,10 @@ public class Group extends BaseEntity {
 
     public void updateMaxPeople(Integer maxPeople) {
         this.maxPeople = maxPeople;
+    }
+
+    public void updateStatus(Status status) {
+        this.status = status;
     }
 
 }

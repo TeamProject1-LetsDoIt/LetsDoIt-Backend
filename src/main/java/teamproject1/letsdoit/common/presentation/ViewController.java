@@ -63,26 +63,12 @@ public class ViewController {
         return "myPage";
     }
 
-    @GetMapping("/me/createGroups")
-    public String createGroups(Model model, HttpServletRequest request) {
-        String userEmail = getEmail(request);
-        Member member = memberService.findByMemberByEmail(userEmail);
-
-        List<Group> createGroups = groupService.findCreateGroups(userEmail);
-
-        model.addAttribute("member", member);
-        model.addAttribute("groups", createGroups);
-
-        return "createGroups";
-    }
-
     @GetMapping("/me/joinGroups")
     public String joinGroups(Model model, HttpServletRequest request) {
         String userEmail = getEmail(request);
         Member member = memberService.findByMemberByEmail(userEmail);
 
         List<Group> joinGroups = groupService.findJoinGroups(userEmail);
-        log.info(joinGroups.toString());
 
         model.addAttribute("member", member);
         model.addAttribute("groups", joinGroups);
@@ -101,7 +87,7 @@ public class ViewController {
         model.addAttribute("group", group);
         model.addAttribute("participants", participants);
 
-        return "participatedGroupInfo";
+        return "joinGroupInfo";
     }
 
     @DeleteMapping("/me/joinGroups/{id}")
@@ -115,7 +101,7 @@ public class ViewController {
         return "redirect:/me/joinGroups";
     }
 
-    @GetMapping("/me/gatherGroups")
+    @GetMapping("/me/createGroups")
     public String gatherGroups(Model model, HttpServletRequest request) {
         String userEmail = getEmail(request);
         Member member = memberService.findByMemberByEmail(userEmail);
@@ -125,10 +111,10 @@ public class ViewController {
         model.addAttribute("member", member);
         model.addAttribute("groups", gatherGroups);
 
-        return "joinGroups";
+        return "createGroups";
     }
 
-    @GetMapping("/me/gatherGroups/{id}")
+    @GetMapping("/me/createGroups/{id}")
     public String gatherGroupsInfo(@PathVariable Long id, Model model, HttpServletRequest request) {
         String userEmail = getEmail(request);
         Member member = memberService.findByMemberByEmail(userEmail);
@@ -139,10 +125,10 @@ public class ViewController {
         model.addAttribute("group", group);
         model.addAttribute("participants", participants);
 
-        return "gatheringGroupInfo";
+        return "createGroupInfo";
     }
 
-    @DeleteMapping("/me/gatherGroups/{id}")
+    @DeleteMapping("/me/createGroups/{id}")
     public String deleteGroup(@PathVariable Long id, HttpServletRequest request) {
         String userEmail = getEmail(request);
         Member member = memberService.findByMemberByEmail(userEmail);
@@ -152,7 +138,7 @@ public class ViewController {
             groupService.deleteGroup(id);
         }
 
-        return "redirect:/me/joinGroups";
+        return "redirect:/me/createGroups";
     }
 
     @GetMapping("/home")

@@ -48,7 +48,6 @@ public class GroupService {
         List<Group> result = groupRepository.findAll().stream()
                 .filter(group -> group.getPeopleList().stream().anyMatch(mail -> mail.equals(email)))
                 .collect(Collectors.toList());
-        log.info(result.toString());
         return result;
     }
 
@@ -56,7 +55,6 @@ public class GroupService {
         List<Group> result = groupRepository.findAll().stream()
                 .filter(group -> group.getHostMember().getEmail().equals(email))
                 .collect(Collectors.toList());
-        log.info(result.toString());
         return result;
     }
 

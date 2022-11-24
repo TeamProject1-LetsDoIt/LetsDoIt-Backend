@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 import teamproject1.letsdoit.common.util.BPlusTree.BTree;
 import teamproject1.letsdoit.group.domain.Group;
+import teamproject1.letsdoit.group.domain.Status;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
@@ -34,29 +35,26 @@ public class BptGroupRepository implements GroupRepository{
 
     @Override
     public Optional<Group> findById(Long id) {
-        return Optional.ofNullable(bTree.search(Math.toIntExact(id)));
+        return bTree.values().stream()
+                .filter(group -> group.getStatus().equals(Status.ACTIVE) && group.getId().equals(id)).findAny();
     }
 
     @Override
     public Optional<Group> findByEmail(String email) {
         return bTree.values().stream()
-                .filter(group -> group.getHostMember().getEmail().equals(email)).findAny();
+                .filter(group -> group.getStatus().equals(Status.ACTIVE) && group.getHostMember().getEmail().equals(email)).findAny();
     }
 
     @Override
     public List<Group> findAll() {
         List<Group> groups = bTree.values();
-        if (groups.size() > 9) {
-            for (int i = 10; i< groups.size(); i++) {
-                groups.remove(i);
-            }
-        }
-        groups.removeIf(group -> group.getExpireTime().isBefore(LocalDateTime.now()));
+        groups.removeIf(group -> group.getExpireTime().isBefore(LocalDateTime.now()) || group.getStatus().equals(Status.DELETE));
         return groups;
     }
 
     @Override
     public void deleteById(Long id) {
-        bTree.delete(Math.toIntExact(id));
+        Group group = bTree.search(Math.toIntExact(id));
+        group.updateStatus(Status.DELETE);
     }
 }

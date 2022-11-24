@@ -6,6 +6,6 @@ import lombok.Getter;
 @AllArgsConstructor
 @Getter
 public enum Status {
-    JOINABLE, FULL, DELETE
+    ACTIVE, DELETE
 }
 
