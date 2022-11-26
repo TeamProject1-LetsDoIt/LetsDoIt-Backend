@@ -86,26 +86,28 @@
     .button_privacy {
       z-index: 30;
       position: absolute;
-      width: 180px;
+      width: 220px;
       height: 36px;
-      left: 1134px;
+      left: 1120px;
       top: 320px;
 
+      text-align: center;
       display: block;
     }
 
     .button_participated_party {
       z-index: 30;
       position: absolute;
-      width: 180px;
+      width: 220px;
       height: 60px;
-      left: 1134px;
+      left: 1120px;
       top: 380px;
 
       line-height: 60px;
 
       color: #FFFFFF;
       background: #424242;
+
       text-align: center;
       display: block;
     }
@@ -116,8 +118,21 @@
       width: 220px;
       height: 36px;
       left: 1120px;
-      top: 465px;
+      top: 460px;
 
+      text-align: center;
+      display: block;
+    }
+
+    .button_notification {
+      z-index : 30;
+      position: absolute;
+      width: 220px;
+      height: 36px;
+      left: 1120px;
+      top : 520px;
+
+      text-align: center;
       display: block;
     }
 
@@ -342,6 +357,7 @@
       <button onclick="location.href='/me'" class="button_privacy">개인정보</button>
       <button onclick="location.href='/me/joinGroups'" class="button_participated_party">참여한 모임</button>
       <button onclick="location.href='/me/createGroups'" class="button_recruiting_party">모집중인 모임</button>
+      <button onclick="location.href='/me/notification'" class="button_notification">알림</button>
     </div>
   </div>
 </body>

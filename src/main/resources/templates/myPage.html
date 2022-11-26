@@ -1,197 +1,281 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
-    <head>
-        <meta charset = "UTF-8">
-        <title>팀프로젝트1 1조 - 합시다 웹</title>
-        <meta name = "viewport" content = "width=1420, height=1024" />
-        <style>
-            p {
-                color : #585858;
-                font-family: 'Inter';
-                font-style: normal;
-                font-weight: 400;
-            }
-            button {
-                -webkit-appearance: none;
-                -moz-appearance: none;
-                appearance: none;
-                background-color: transparent;
-                border : 0;
-                outline : 0;
+<head>
+    <meta charset = "UTF-8">
+    <title>팀프로젝트1 1조 - 합시다 웹</title>
+    <meta name = "viewport" content = "width=1440, height=1024" />
+    <style>
+        p {
+            color : #585858;
+            font-family: 'Inter';
+            font-style: normal;
+            font-weight: 400;
+        }
+        /* button 기본 CSS 제거 */
+        button {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            background-color: transparent;
+            border : 0;
+            outline : 0;
 
-                font-family: 'Inter';
-                font-style: normal;
-                font-weight: 400;
-                font-size : 30px;
-                line-height : 36px;
-                color : #585858;
+            font-family: 'Inter';
+            font-style: normal;
+            font-size : 30px;
+            line-height : 36px;
+            color : #585858;
 
-                cursor : pointer;
-            }
-            body {
-                position: relative;
-                background-color : #424242;
-                background-size : cover;
-                background-position : center;
-            }
-            .party_background{ /*relative*/
-                z-index: 20;
-                position: relative;
-                width: 1340px;
-                height: 878px;
-                padding: 0px 40px 0px 40px ;
-                top : 110px;
-                background: #D9D9D9;
-                box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25), inset -1px -2px 4px rgba(0, 0, 0, 0.25);
-                border-radius: 8px;
-                display : block;
-                margin : 0px auto;
+            cursor : pointer;
+        }
+        body {
+            position: relative;
+            background-color : #424242;
+            background-size : cover;
+            background-position : center;
+        }
+        .main {
+            position: absolute;
+            width: 1440px;
+            height: 1024px;
 
-            }
-            .circle_white {
-                z-index: 10;
-                position : absolute;
-                width: 220px;
-                height: 220px;
-                left : 1080px;
-                top : -110px;
+            left: 50vw;
+            margin-left: -715px;
+        }
 
-                background: #D9D9D9;
 
-                border-radius: 110px;
-                display : block;
-            }
-            .circle_red img{
-                z-index: 40;
-                position : absolute;
-                width: 186px;
-                height: 186px;
-                left : 1097px;
-                top : -90px;
+        button {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            background-color: transparent;
+            border: 0;
+            outline: 0;
 
-                background: #834B4B;
+            cursor: pointer;
+        }
 
-                border-radius: 93px;
-                display : block;
-            }
+        /*메인창의 왼쪽, 그룹에 대한 정보*/
+        /*버튼 구역과 모임 내용 구역으로 나눈다 */
+        .groovyroom {
 
-            /* name */
-            .name {
-                z-index : 30;
-                position : absolute;
-                display : inline-block;
-                width: 1200px;
-                height: 54px;
-                left : 120px;
-                top : 110px;
+            position: absolute;
+            width: 1011px;
+            height: 938px;
+            left: 26px;
+            bottom: 24px;
+            top: 62px;
 
-                font-size : 45px;
-                font-weight: 54px;
-            }
-            .email {
-                z-index : 30;
-                position : absolute;
-                display : inline-block;
-                width: 1200px;
-                height: 54px;
-                left : 120px;
-                top : 210px;
+            background: #D9D9D9;
+            box-shadow: inset -1px -2px 4px rgba(0, 0, 0, 0.25);
+            border-radius: 8px;
 
-                font-size : 45px;
-                font-weight: 54px;
-            }
+            z-index: 1;
+        }
 
-            .button_privacy {
-                z-index : 30;
-                position: absolute;
-                width: 140px;
-                height: 36px;
-                left: 1120px;
-                top : 335px;
+        /*메인창의 오른쪽, 유저 자신에 대한 정보 및 카테고리*/
+        .myPage {
 
-                text-align: left;
-                display: inline-block;
-            }
-            .button_participated_party {
-                z-index : 30;
-                position: absolute;
-                width: 180px;
-                height: 36px;
-                left: 1120px;
-                top : 400px;
+            position: absolute;
+            width: 326px;
+            height: 938px;
+            left: 1069px;
+            top: 62px;
+            bottom: 24px;
 
-                text-align: left;
-                display: inline-block;
-            }
-            .button_recruiting_party {
-                z-index : 30;
-                position: absolute;
-                width: 220px;
-                height: 36px;
-                left: 1120px;
-                top : 465px;
+            background: #D9D9D9;
+            box-shadow: inset 0px -2px 4px rgba(0, 0, 0, 0.25);
+            border-radius: 8px;
 
-                text-align: left;
-                display: inline-block;
-            }
-            .vertical_line1{
-                z-index : 30;
-                position: absolute;
-                width: 0.1px;
-                height: 675.5px;
-                left: 1079px;
-                top: 150px;
+        }
 
-                border: 3px solid #424242;
-            }
-            .horizontal_line1{
-                z-index : 30;
-                position: absolute;
-                width: 180px;
-                height: 0px;
-                left: 1120px;
-                top: 200px;
+        /*모임 내용을 보여줄 구역*/
+        .group {
+            margin-top: 12px;
+            margin-left: 25px;
+            margin-right: 15px;
+        }
 
-                background: #585858;
-                border: 2px solid #646464;
-            }
-            .horizontal_line2{
-                z-index : 30;
-                position: absolute;
-                width: 180px;
-                height: 0px;
-                left: 1120px;
-                top: 780px;
+        .party_background{ /*relative*/
+            z-index: 20;
+            position: relative;
+            width: 1340px;
+            height: 878px;
+            padding: 0px 40px 0px 40px ;
+            top : 110px;
+            background: #D9D9D9;
+            box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25), inset -1px -2px 4px rgba(0, 0, 0, 0.25);
+            border-radius: 8px;
+            display : block;
+            margin : 0px auto;
 
-                background: #585858;
-                border: 2px solid #646464;
-            }
-        </style>
-    </head>
-    <body>
-    <div class = "party_background">
-        <div class = "circle_white"></div>
-        <div class = "circle_red"><img th:src="${member.getImageUrl()}"></div>
+        }
+        .circle_white {
+            z-index: 10;
+            position : absolute;
+            width: 220px;
+            height: 220px;
+            left : 1080px;
+            top : -110px;
 
-        <p class = "name" ><span th:text="'이  름 : ' + ${member.getName()}"></span></p>
-        <p class = "email"><span th:text="'이메일 : ' +${member.getEmail()}"></span></p>
-        <div>
-            <div class = "vertical_line1"></div>
-            <hr class = "horizontal_line1"></hr>
-            <hr class = "horizontal_line2"></hr>
-            <button class = "button_privacy">개인정보</button>
-            <button class = "button_participated_party" onclick="joinGroups()">참여한 모임</button>
-            <button class = "button_recruiting_party" onclick="gatherGroups()">모집중인 모임</button>
-        </div>
+            background: #D9D9D9;
+
+            border-radius: 110px;
+            display : block;
+        }
+        .circle_red img{
+            z-index: 40;
+            position : absolute;
+            width: 186px;
+            height: 186px;
+            left : 1097px;
+            top : -90px;
+
+            background: #834B4B;
+
+            border-radius: 93px;
+            display : block;
+        }
+
+        /* name */
+        .name {
+            z-index : 30;
+            position : absolute;
+            display : inline-block;
+            width: 1200px;
+            height: 54px;
+            left : 120px;
+            top : 110px;
+
+            font-size : 45px;
+            font-weight: 54px;
+        }
+        .email {
+            z-index : 30;
+            position : absolute;
+            display : inline-block;
+            width: 1200px;
+            height: 54px;
+            left : 120px;
+            top : 210px;
+
+            font-size : 45px;
+            font-weight: 54px;
+        }
+
+        .button_privacy {
+            z-index : 30;
+            position: absolute;
+            width: 220px;
+            height: 60px;
+            left: 1120px;
+            top : 320px;
+            line-height : 60px;
+
+            color : #FFFFFF;
+            background: #424242;
+
+            text-align: center;
+            display: block;
+        }
+        .button_participated_party {
+            z-index : 30;
+            position: absolute;
+            width: 220px;
+            height: 36px;
+            left: 1120px;
+            top : 400px;
+
+            text-align: center;
+            display: block;
+        }
+        .button_recruiting_party {
+            z-index : 30;
+            position: absolute;
+            width: 220px;
+            height: 36px;
+            left: 1120px;
+            top : 460px;
+
+            text-align: center;
+            display: block;
+        }
+        .button_notification {
+            z-index : 30;
+            position: absolute;
+            width: 220px;
+            height: 36px;
+            left: 1120px;
+            top : 520px;
+
+            text-align: center;
+            display: block;
+        }
+        .vertical_line1{
+            z-index : 30;
+            position: absolute;
+            width: 0.1px;
+            height: 675.5px;
+            left: 1079px;
+            top: 150px;
+
+            border: 3px solid #424242;
+        }
+        .horizontal_line1{
+            z-index : 30;
+            position: absolute;
+            width: 200px;
+            height: 0px;
+            left: 1120px;
+            top: 780px;
+
+            background: #585858;
+            border: 2px solid #646464;
+        }
+        .button_home {
+            z-index : 30;
+            position: relative;
+            width : 50px;
+            height : 50px;
+            left : -40px;
+            top : -60px;
+
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+<div class = "party_background">
+    <button onclick="location.href='/home'"><img class = "button_home" src="https://jaksimharu.s3.ap-northeast-2.amazonaws.com/images/home_button.png"></button>
+    <div class = "circle_white"></div>
+    <div class = "circle_red"><img th:src="${member.getImageUrl()}"></div>
+
+    <p class = "name" ><span th:text="'이  름 : ' + ${member.getName()}"></span></p>
+    <p class = "email"><span th:text="'이메일 : ' +${member.getEmail()}"></span></p>
+    <div>
+        <div class = "vertical_line1"></div>
+        <hr class = "horizontal_line1"></hr>
+        <button class = "button_privacy">개인정보</button>
+        <button class = "button_participated_party" onclick="joinGroups()" >참여한 모임</button>
+        <button class = "button_recruiting_party" onclick="gatherGroups()">모집중인 모임</button>
+        <button class = "button_notification" onclick="notification()">알림</button>
     </div>
-    </body>
+</div>
+</body>
 <script>
+    function home() {
+        location.href="/home"
+    }
     function joinGroups() {
         location.href="/me/joinGroups"
     }
 
     function gatherGroups(){
         location.href="/me/createGroups"
+    }
+
+    function notification(){
+        location.href="me/notification"
     }
 </script>
 </html>
