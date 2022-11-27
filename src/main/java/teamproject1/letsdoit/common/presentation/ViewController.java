@@ -15,6 +15,8 @@ import teamproject1.letsdoit.member.domain.Member;
 import teamproject1.letsdoit.group.application.GroupService;
 import teamproject1.letsdoit.group.domain.Group;
 import teamproject1.letsdoit.member.domain.repository.MemberRepository;
+import teamproject1.letsdoit.notice.application.NoticeService;
+import teamproject1.letsdoit.notice.domain.Notice;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -32,6 +34,7 @@ public class ViewController {
 
     private final GroupService groupService;
     private final MemberService memberService;
+    private final NoticeService noticeService;
 
     @GetMapping("/")
     public String beforeLoginForm() {
@@ -139,6 +142,18 @@ public class ViewController {
         }
 
         return "redirect:/me/createGroups";
+    }
+
+    @GetMapping("/me/notification")
+    public String notice(Model model, HttpServletRequest request) {
+        String userEmail = getEmail(request);
+        Member member = memberService.findByMemberByEmail(userEmail);
+        List<Notice> notices = noticeService.getNotices(member);
+
+        model.addAttribute("member", member);
+        model.addAttribute("notices", notices);
+
+        return "notification";
     }
 
     @GetMapping("/home")
