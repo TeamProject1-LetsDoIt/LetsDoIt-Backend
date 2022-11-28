@@ -19,6 +19,8 @@ public class Notice extends BaseEntity {
 
     private String content;
 
+    private boolean check;
+
     private Type type;
 
     @Builder
@@ -28,6 +30,7 @@ public class Notice extends BaseEntity {
         this.title = title;
         this.content = content;
         this.type = type;
+        check = false;
     }
 
     public void setId(Long id) {
@@ -36,5 +39,9 @@ public class Notice extends BaseEntity {
 
     public void updateType(Type type) {
         this.type = type;
+    }
+
+    public void updateCheck(boolean check) {
+        this.check = check;
     }
 }

@@ -324,8 +324,8 @@
     <div class="notice" th:each="notice : ${notices}" th:inline-block> <!--notification으로 바꿔야함(???)-->
       <div id="noticeContents" th:attr="onclick=|checkInfo(${notice.getId()})|"> <!--이것도 아마 바꿔야함(???)-->
         <div id="noticeCheck"></div>
-        <h1 id="noticeTitle" th:value="${notice.eventNumber}">제목1</h1> <!--이벤트에 따라서 다르게 출력해야 할 듯함.-->
-        <p id="contents" th:value="${notice.getTitle()}" th:name = "${notice.getContents()}">내용</p> <!--이것 또한 마찬가지-->
+        <h1 id="noticeTitle" th:value="${notice.getType()}" th:text="${notice.getTitle()}">제목1</h1> <!--이벤트에 따라서 다르게 출력해야 할 듯함.-->
+        <p id="contents" th:value="${notice.getTitle()}" th:name = "${notice.getContent()}" th:text="${notice.getContent()}">내용</p> <!--이것 또한 마찬가지-->
       </div>
     </div>
 
@@ -378,23 +378,23 @@
     let title = document.querySelector("#noticeTitle");
     let event = title.value;
 
-    if(event == 1){ /* 모임 참여 완료 이벤트 -> 1 */
+    if(event === "GROUP_JOIN_SUCCESS"){ /* 모임 참여 완료 이벤트 -> 1 */
       title.innerText = "모임 참여 완료"
       setNoticeContent(event);
     }
-    else if(event == 2){ /* 모임 참여 취소 이벤트-> 2 */
+    else if(event === "GROUP_JOIN_CANCEL"){ /* 모임 참여 취소 이벤트-> 2 */
       title.innerText = "모임 참여 취소"
       setNoticeContent(event);
     }
-    else if(event == 3){ /*모임 모집 완료 이벤트 -> 3 */
+    else if(event === "GROUP_GATHER_SUCCESS"){ /*모임 모집 완료 이벤트 -> 3 */
       title.innerText = "모임 모집 완료"
       setNoticeContent(event);
     }
-    else if(event == 4){ /* 모임 참여 취소 이벤트 -> 4 */
+    else if(event === "GROUP_GATHER_CANCEL"){ /* 모임 참여 취소 이벤트 -> 4 */
       title.innerText = "모임 모집 취소"
       setNoticeContent(event);
     }
-    else if(event == 5){ /* 공지사항 이벤트 -> 4 */
+    else if(event === "ANNOUNCEMENT"){ /* 공지사항 이벤트 -> 4 */
       title.innerText = "공지사항"
       setNoticeContent(event);
     }
@@ -403,23 +403,23 @@
   function setNoticeContent(event){
     let content = document.querySelector("#contents");
     let title = content.value;
-    if(event == 1){
+    if(event === "GROUP_JOIN_SUCCESS"){
       content.innerText = "<" + title + ">의 모임 참여가 완료되었습니다."
       setNoticeContent(event);
     }
-    else if(event == 2){
+    else if(event === "GROUP_JOIN_CANCEL"){
       content.innerText = "<" + title + ">의 모임 참여가 취소되었습니다."
       setNoticeContent(event);
     }
-    else if(event == 3){
+    else if(event === "GROUP_GATHER_SUCCESS"){
       content.innerText = "<" + title + ">의 모임 모집이 완료되었습니다."
       setNoticeContent(event);
     }
-    else if(event == 4){
+    else if(event === "GROUP_GATHER_CANCEL"){
       content.innerText = "<" + title + ">의 모임 모집이 취소되었습니다."
       setNoticeContent(event);
     }
-    else if(event == 5){
+    else if(event === "ANNOUNCEMENT"){
       let contents = content.name;
       content.innerText = contents;
       setNoticeContent(event);

@@ -17,6 +17,8 @@ import teamproject1.letsdoit.group.domain.Group;
 import teamproject1.letsdoit.member.domain.repository.MemberRepository;
 import teamproject1.letsdoit.notice.application.NoticeService;
 import teamproject1.letsdoit.notice.domain.Notice;
+import teamproject1.letsdoit.notice.domain.Type;
+import teamproject1.letsdoit.notice.domain.repository.NoticeRepository;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -31,6 +33,7 @@ import java.util.Optional;
 public class ViewController {
 
     private final MemberRepository memberRepository;
+    private final NoticeRepository noticeRepository;
 
     private final GroupService groupService;
     private final MemberService memberService;
@@ -99,6 +102,13 @@ public class ViewController {
         Member member = memberService.findByMemberByEmail(userEmail);
         Group group = groupService.findGroupById(id);
 
+        Notice notice = Notice.builder()
+                .title("모임 참여 취소")
+                .content(group.getTitle() + "의 모임 참여가 취소되었습니다.")
+                .member(member)
+                .type(Type.GROUP_JOIN_CANCEL)
+                .build();
+        noticeRepository.save(notice);
         group.deletePeople(member);
 
         return "redirect:/me/joinGroups";
@@ -138,6 +148,13 @@ public class ViewController {
         Group group = groupService.findGroupById(id);
 
         if (group.getHostMember().equals(member)) {
+            Notice notice = Notice.builder()
+                    .title("모임 모집 취소")
+                    .content(group.getTitle() + "의 모임 모집이 취소되었습니다.")
+                    .member(group.getHostMember())
+                    .type(Type.GROUP_GATHER_CANCEL)
+                    .build();
+            noticeRepository.save(notice);
             groupService.deleteGroup(id);
         }
 
@@ -149,6 +166,8 @@ public class ViewController {
         String userEmail = getEmail(request);
         Member member = memberService.findByMemberByEmail(userEmail);
         List<Notice> notices = noticeService.getNotices(member);
+
+        log.info(notices.toString());
 
         model.addAttribute("member", member);
         model.addAttribute("notices", notices);
@@ -233,6 +252,23 @@ public class ViewController {
         }
 
         group.addPeople(member);
+        Notice joinNotice = Notice.builder()
+                .title("모임 참여 완료")
+                .content(group.getTitle() + "의 모임 참여가 완료되었습니다.")
+                .member(member)
+                .type(Type.GROUP_JOIN_SUCCESS)
+                .build();
+        noticeRepository.save(joinNotice);
+
+        if (group.getPeopleList().size() == group.getMaxPeople()) {
+            Notice notice = Notice.builder()
+                    .title("모임 모집 완료")
+                    .content(group.getTitle() + "의 모임 모집이 완료되었습니다")
+                    .member(group.getHostMember())
+                    .type(Type.GROUP_GATHER_SUCCESS)
+                    .build();
+            noticeRepository.save(notice);
+        }
 
         return "redirect:/home";
     }
