@@ -230,12 +230,14 @@ public class ViewController {
     }
 
     @GetMapping("/group/{groupId}")
-    public String seeGroup(@PathVariable Long groupId, Model model) {
+    public String seeGroup(@PathVariable Long groupId, Model model, HttpServletRequest request) {
+        String email = getEmail(request);
+        Member member = memberRepository.findByEmail(email).orElseThrow(() -> new DefaultException(ErrorCode.INVALID_CHECK, "존재하지 않는 멤버입니다."));
         Group group = groupService.findGroupById(groupId);
         List<Member> participants = group.getPeopleList();
 
         model.addAttribute("participants", participants);
-        model.addAttribute("member", group.getHostMember());
+        model.addAttribute("member", member);
         model.addAttribute("group", group);
 
         return "groupInfo";
