@@ -21,6 +21,8 @@ public class Notice extends BaseEntity {
 
     private boolean check;
 
+    private Status status;
+
     private Type type;
 
     @Builder
@@ -31,6 +33,7 @@ public class Notice extends BaseEntity {
         this.content = content;
         this.type = type;
         check = false;
+        status = Status.ACTIVE;
     }
 
     public void setId(Long id) {
@@ -43,5 +46,9 @@ public class Notice extends BaseEntity {
 
     public void updateCheck(boolean check) {
         this.check = check;
+    }
+
+    public void updateStatus(Status status) {
+        this.status = status;
     }
 }

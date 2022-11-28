@@ -195,7 +195,7 @@
             </div>
             <div class = "party_info">
                 <hr class = "hr_1">
-                <p class = "nickname" th:text="'파티장 :' + ${member.getName()}">파티장</p>
+                <p class = "nickname" th:text="'파티장 :' + ${group.getHostMember().getName()}">파티장</p>
                 <p class = "category" th:text="'카테고리 :' + ${group.getCategory()}">카테고리</p>
                 <p class = "content" th:text="'내용 :' + ${group.getContent()}">내용</p>
                 <div class = "participant" >참가자 :
@@ -237,10 +237,6 @@
             let max_people = document.querySelector('#max_people').innerHTML;
             if(host_email === current_email){
                 alert('방장은 방에 참여할 수 없습니다.')
-                alert(host_email);
-                alert(current_email);
-                alert(curr_people);
-                alert(max_people);
                 return false;
             }else if(curr_people >= max_people){
                 alert('모임 인원이 꽉 차 모임 참여가 불가능합니다!');

@@ -24,4 +24,5 @@ public class NoticeService {
         Collections.reverse(notices);
         return notices;
     }
+
 }

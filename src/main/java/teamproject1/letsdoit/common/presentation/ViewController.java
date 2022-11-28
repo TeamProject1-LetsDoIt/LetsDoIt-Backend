@@ -2,6 +2,7 @@ package teamproject1.letsdoit.common.presentation;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.aspectj.weaver.ast.Not;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +18,7 @@ import teamproject1.letsdoit.group.domain.Group;
 import teamproject1.letsdoit.member.domain.repository.MemberRepository;
 import teamproject1.letsdoit.notice.application.NoticeService;
 import teamproject1.letsdoit.notice.domain.Notice;
+import teamproject1.letsdoit.notice.domain.Status;
 import teamproject1.letsdoit.notice.domain.Type;
 import teamproject1.letsdoit.notice.domain.repository.NoticeRepository;
 
@@ -159,6 +161,19 @@ public class ViewController {
         }
 
         return "redirect:/me/createGroups";
+    }
+
+    @DeleteMapping("/me/notification/{id}")
+    public String deleteNotice(@PathVariable Long id, HttpServletRequest request) {
+        String userEmail = getEmail(request);
+        Member member = memberService.findByMemberByEmail(userEmail);
+        Notice notice = noticeRepository.findById(id).orElseThrow(() -> new DefaultException(ErrorCode.INVALID_OPTIONAL_ISPRESENT, "잘못된 요청입니다."));
+
+        if (notice.getType().equals(Type.ANNOUNCEMENT)) {
+            return "redirect:/me/notification";
+        }
+        notice.updateStatus(Status.DELETE);
+        return "redirect:/me/notification";
     }
 
     @GetMapping("/me/notification")
