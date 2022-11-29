@@ -138,14 +138,28 @@
       line-height: 18px;
       height: 18px;
     }
-    /* 합시다 버튼 */
-    .button_Letsdoit {
+    /* 알림 삭제 버튼 */
+    .button_remove {
       position: absolute;
       z-index : 30;
       width: 75px;
       height: 40px;
-      left: 520px;
-      top: 550px;
+      left: 500px;
+      top: 480px;
+
+      background: #D9D9D9;
+      color : #424242;
+      border-radius: 20px;
+      display: inline-block;
+    }
+    /* 알림확인 버튼 */
+    .button_check {
+      position: absolute;
+      z-index : 30;
+      width: 75px;
+      height: 40px;
+      left: 500px;
+      top: 530px;
 
       background: #D9D9D9;
       color : #424242;
@@ -157,29 +171,32 @@
 <body>
 <div class = "party_background">
   <div class = "party_name">
-    <p id = "title" th:value="${notice.getType()}">제목</p>
     <p hidden id = "name" th:value="${member.getName()}"></p>
+    <p id = "title" th:value="${notice.getType()}">제목</p>
     <button type = "button" onClick='window.close()'>
       <img src = "https://jaksimharu.s3.ap-northeast-2.amazonaws.com/images/x-png-33.png" alt = "button_x" class="button_x">
     </button>
   </div>
   <div class = "party_info">
     <hr class = "hr_1">
-    <p class = "party_title" th:text="'모임 제목 :'+ ${group.getTitle()}">모임 제목 :</p>
-    <p class = "nickname" th:text="'파티장 :' + ${member.getName()}">파티장 : </p>
-    <p class = "category" th:text="'카테고리 :' + ${group.getCategory()}">카테고리 :</p>
-    <p class = "content" th:text="'내용 :' + ${group.getContent()}">내용 :</p>
-    <p class = "member"><span id = "curr_people" th:text="'인원 :' + ${group.getCurrentPeople()}"></span> 인원 : 5/5 <span id = "max_people" th:text="${group.getMaxPeople()}"></span></p>
+    <p class = "party_title" th:text="'모임 제목 : '+ ${group.getTitle()}">모임 제목 :</p>
+    <p class = "nickname" th:text="'파티장 : ' + ${member.getName()}">파티장 : </p>
+    <p class = "category" th:text="'카테고리 : ' + ${group.getCategory()}">카테고리 :</p>
+    <p class = "content" th:text="'내용 : ' + ${group.getContent()}">내용 :</p><br/>
+    <p class = "member"><span id = "curr_people" th:text="'인원 : ' + ${group.getCurrentPeople()}"></span>/<span id = "max_people" th:text="${group.getMaxPeople()}"></span></p>
     <div class = "participant" >참가자 :
       <span class = "participant_hi" th:each="participant: ${participants}">
                         <span class = "participant_span" th:text = "${participant.getName()}">남궁찬</span>
                     </span>
-    </div>
+    </div><br/>
     <input type="hidden" id = expireTime th:value="${group.getExpireTime()}"/>
     <p class = "date" id="outputTime"></p>
   </div>
+  <form name = "remove" action="#" th:action="@{/me/notification/{noticeId}(noticeId=${notice.getId()})}" method="#" th:method="DELETE" target="homePage" >
+    <button type = "submit" class = "button_remove">알림삭제</button>
+  </form>
   <form name = "doit" th:action="@{/me/notification/{noticeId}(noticeId=${notice.getId()})}" method="POST" target="homePage" >
-    <button type = "submit" class = "button_Letsdoit">확인</button>
+    <button type = "submit" class = "button_check">알림확인</button>
   </form>
 </div>
 </body>
@@ -190,7 +207,8 @@
   function setNoticeTitle(){
     let title = document.querySelector("#title");
     let event = title.value;
-    let name = document.querySelector("#name").value;
+    let nameComponent = document.querySelector("#name");
+    let name = nameComponent.value;
 
     if(event === "GROUP_JOIN_SUCCESS"){ /* 모임 참여 완료 이벤트 -> 1 */
       let result = name + "님, 모임 참여가 완료되었습니다!";
@@ -219,8 +237,8 @@
     ExpireTime = ExpireTime.split('T');
     const date = ExpireTime[0].split('-');
     const time = ExpireTime[1].split(':');
-    const result = date[0] + "년 " + date[1] + "월 " + date[2] + "일 " +
-            time[0] + "시 " + time[1] + "분 마감";
+    const result = "마감 날짜 : " + date[0] + "년 " + date[1] + "월 " + date[2] + "일 " +
+            time[0] + "시 " + time[1] + "분";
     console.log(result);
     document.getElementById("outputTime").innerHTML = result;
   }

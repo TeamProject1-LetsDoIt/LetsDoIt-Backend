@@ -256,7 +256,7 @@
       top: 850px;
     }
     /*각각의 알림에 대해 보여줄 칸, 구역을 8개로 분할*/
-    #noticeContents {
+    .noticeContents {
       border-radius: 10px;
       display: inline-block;
       position: relative;
@@ -277,7 +277,7 @@
       z-index: 3;
       word-break:break-all;
     }
-    #noticeCheck {
+    .noticeCheck {
       border-radius: 10px 0px 0px 10px;
       width: 25px;
       height: 77px;
@@ -320,7 +320,6 @@
       font-size: 50px;
       color: #585858;
     }
-
   </style>
 </head>
 
@@ -332,10 +331,10 @@
   <p id = "notification_title">알림 Notification</p>
   <section class="groovyroom">
     <div class="notice" th:each="notice : ${notices}" th:inline-block>
-      <div id="noticeContents" th:attr="onclick=|checkInfo(${notice.getId()})|"> <!--noticeInfo를 열어야함.-->
-        <div id="noticeCheck" th:value="${notice.getCheck()}"></div>
-        <h1 id="noticeTitle" th:value="${notice.getType()}" th:text="${notice.getTitle()}">제목1</h1> <!--이벤트에 따라서 다르게 출력해야 할 듯함.-->
-        <p id="contents" th:value="${notice.getTitle()}" th:name = "${notice.getContent()}" th:text="${notice.getContent()}">내용</p> <!--이것 또한 마찬가지-->
+      <div class="noticeContents" th:attr="onclick=|checkInfo(${notice.getId()})|">
+        <div class="noticeCheck" th:value="${notice.getCheck()}" name = "checking"></div>
+        <h1 id="noticeTitle" th:value="${notice.getType()}" th:text="${notice.getTitle()}">제목1</h1>
+        <p id="contents" th:value="${notice.getTitle()}" th:name = "${notice.getContent()}" th:text="${notice.getContent()}">내용</p>
       </div>
     </div>
 
@@ -359,10 +358,19 @@
     <button class="button_recruiting_party" onclick="gatherGroups()">모집중인 모임</button>
     <button class="button_notification">알림</button>
   </div>
+  <div>
+
+  </div>
 </div>
 </body>
 <script>
   init();
+  /*초기에 실행할 함수를 정하세요*/
+  function init() {
+    initCheck();
+    noticeCheck();
+    setNoticeTitle();
+  }
   /*각각 메인화면, 마이페이지, 참여한 모임, 내가 만든 모임 확인 가능*/
   function home() {
     location.href="/home"
@@ -376,15 +384,21 @@
   function gatherGroups(){
     location.href="/me/createGroups"
   }
+  /*initCheck -> noticeCheck의 check가 True면 회색 / False면 흰색*/
   function initCheck(){
-    let noticeCheck = document.querySelector("#noticeCheck");
-    let check = noticeCheck.value;
-    if(check === true){
-      noticeCheck.style.backgroundColor = "#585858";
-    } else {
-      noticeCheck.style.backgroundColor = "#FFFFFF";
+    let noticeCheck = document.getElementsByName('checking');
+    let notice_length = noticeCheck.length;
+
+    for(let i = 0; i < notice_length; i++){
+      let check = noticeCheck[i].value;
+      if(check === true){
+        noticeCheck[i].style.backgroundColor = "#585858";
+      } else {
+        noticeCheck[i].style.backgroundColor = "#FFFFFF";
+      }
     }
   }
+
   /*notice를 눌렀을 때 나오는 화면 연결*/
   function checkInfo(id){
     window.name="homePage";
@@ -447,16 +461,13 @@
   /*notice를 체크하면 회색으로 변경, notice의 check 변수를 불러와서 자동으로 회색 변경.*/
   function noticeCheck(){
     document.addEventListener('DOMContentLoaded', ()=>{
-      let notice = document.querySelector("#noticeContents");
-      notice.addEventListener('click', function(){
-        document.querySelector("#noticeCheck").style.backgroundColor = "#585858";
-      });
+      let notice = document.getElementsByClassName("noticeContents");
+      for(let i = 0; i<notice.length; i++){
+        notice[i].addEventListener('click', function(){
+          document.querySelectorAll(".noticeCheck")[i].style.backgroundColor = "#585858";
+        });
+      }
     })
-  }
-  /*초기에 실행할 함수를 정해*/
-  function init() {
-    noticeCheck();
-    setNoticeTitle();
   }
 </script>
 </html>

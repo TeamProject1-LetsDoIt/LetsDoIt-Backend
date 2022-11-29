@@ -3,8 +3,10 @@ package teamproject1.letsdoit.notice.domain.repository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 import teamproject1.letsdoit.common.util.BPlusTree.BTree;
+import teamproject1.letsdoit.group.domain.Group;
 import teamproject1.letsdoit.member.domain.Member;
 import teamproject1.letsdoit.notice.domain.Notice;
+import teamproject1.letsdoit.notice.domain.Status;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +42,14 @@ public class BptNoticeRepository implements NoticeRepository{
 
     @Override
     public List<Notice> findAll() {
-        return new ArrayList<>(bTree.values());
+        List<Notice> notices = bTree.values();
+        notices.removeIf(notice -> notice.getStatus().equals(Status.DELETE));
+        return notices;
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        Notice notice = bTree.search(Math.toIntExact(id));
+        notice.updateStatus(Status.DELETE);
     }
 }

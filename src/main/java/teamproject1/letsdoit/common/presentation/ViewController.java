@@ -174,8 +174,6 @@ public class ViewController {
         Member member = memberService.findByMemberByEmail(userEmail);
         List<Notice> notices = noticeService.getNotices(member);
 
-        log.info(notices.toString());
-
         model.addAttribute("member", member);
         model.addAttribute("notices", notices);
 
@@ -204,7 +202,7 @@ public class ViewController {
         Notice notice = noticeRepository.findById(id).orElseThrow(() -> new DefaultException(ErrorCode.INVALID_CHECK));
 
         if (member.equals(notice.getMember())) {
-            notice.updateCheck(true);
+            notice.updateCheck(1);
         }
 
         return "redirect:/me/notification";

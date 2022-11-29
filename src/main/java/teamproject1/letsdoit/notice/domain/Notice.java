@@ -21,7 +21,7 @@ public class Notice extends BaseEntity {
 
     private String content;
 
-    private Boolean check;
+    private Integer check;
 
     private Status status;
 
@@ -35,7 +35,7 @@ public class Notice extends BaseEntity {
         this.title = title;
         this.content = content;
         this.type = type;
-        check = false;
+        check = 0;
         status = Status.ACTIVE;
     }
 
@@ -47,7 +47,7 @@ public class Notice extends BaseEntity {
         this.type = type;
     }
 
-    public void updateCheck(boolean check) {
+    public void updateCheck(Integer check) {
         this.check = check;
     }
 
