@@ -310,6 +310,16 @@
       overflow: hidden;
       white-space: nowrap;
     }
+    /*알림의 제목*/
+    #notification_title {
+      position: absolute;
+      left: 50px;
+      top: -20px;
+
+      z-index: 30;
+      font-size: 50px;
+      color: #585858;
+    }
 
   </style>
 </head>
@@ -319,11 +329,11 @@
   <button onclick="location.href='/home'"><img class="button_home" src="https://jaksimharu.s3.ap-northeast-2.amazonaws.com/images/home_button.png"></button>
   <div class="circle_white"></div>
   <div class="circle_red"><img th:src="${member.getImageUrl()}"></div>
-
+  <p id = "notification_title">알림 Notification</p>
   <section class="groovyroom">
-    <div class="notice" th:each="notice : ${notices}" th:inline-block> <!--notification으로 바꿔야함(???)-->
-      <div id="noticeContents" th:attr="onclick=|checkInfo(${notice.getId()})|"> <!--이것도 아마 바꿔야함(???)-->
-        <div id="noticeCheck"></div>
+    <div class="notice" th:each="notice : ${notices}" th:inline-block>
+      <div id="noticeContents" th:attr="onclick=|checkInfo(${notice.getId()})|"> <!--noticeInfo를 열어야함.-->
+        <div id="noticeCheck" th:value="${notice.getCheck()}"></div>
         <h1 id="noticeTitle" th:value="${notice.getType()}" th:text="${notice.getTitle()}">제목1</h1> <!--이벤트에 따라서 다르게 출력해야 할 듯함.-->
         <p id="contents" th:value="${notice.getTitle()}" th:name = "${notice.getContent()}" th:text="${notice.getContent()}">내용</p> <!--이것 또한 마찬가지-->
       </div>
@@ -366,12 +376,21 @@
   function gatherGroups(){
     location.href="/me/createGroups"
   }
+  function initCheck(){
+    let noticeCheck = document.querySelector("#noticeCheck");
+    let check = noticeCheck.value;
+    if(check === true){
+      noticeCheck.style.backgroundColor = "#585858";
+    } else {
+      noticeCheck.style.backgroundColor = "#FFFFFF";
+    }
+  }
   /*notice를 눌렀을 때 나오는 화면 연결*/
   function checkInfo(id){
     window.name="homePage";
     const myWindow = window.open(`/me/notification/${id}`, "createGroup", "width:300, height=350, resizable=no, scrollbars=no, status=no");
     myWindow.moveTo(500, 100);
-    myWindow.resizeTo(650, 400);
+    myWindow.resizeTo(650, 700);
   }
   /*알림의 이벤트 목록에 따라 달라지는 제목*/
   function setNoticeTitle(){
@@ -425,12 +444,11 @@
       setNoticeContent(event);
     }
   }
-  /*체크하면 자동으로 회색으로 변경*/
+  /*notice를 체크하면 회색으로 변경, notice의 check 변수를 불러와서 자동으로 회색 변경.*/
   function noticeCheck(){
     document.addEventListener('DOMContentLoaded', ()=>{
       let notice = document.querySelector("#noticeContents");
       notice.addEventListener('click', function(){
-        console.log("눌렸어용");
         document.querySelector("#noticeCheck").style.backgroundColor = "#585858";
       });
     })

@@ -11,6 +11,7 @@ import teamproject1.letsdoit.common.exception.advice.error.DefaultException;
 import teamproject1.letsdoit.common.exception.advice.payload.ErrorCode;
 import teamproject1.letsdoit.common.presentation.dto.Category;
 import teamproject1.letsdoit.common.presentation.dto.GroupForm;
+import teamproject1.letsdoit.group.domain.repository.GroupRepository;
 import teamproject1.letsdoit.member.application.MemberService;
 import teamproject1.letsdoit.member.domain.Member;
 import teamproject1.letsdoit.group.application.GroupService;
@@ -36,6 +37,7 @@ public class ViewController {
 
     private final MemberRepository memberRepository;
     private final NoticeRepository noticeRepository;
+    private final GroupRepository groupRepository;
 
     private final GroupService groupService;
     private final MemberService memberService;
@@ -105,6 +107,7 @@ public class ViewController {
         Group group = groupService.findGroupById(id);
 
         Notice notice = Notice.builder()
+                .groupId(group.getId())
                 .title("모임 참여 취소")
                 .content(group.getTitle() + "의 모임 참여가 취소되었습니다.")
                 .member(member)
@@ -151,6 +154,7 @@ public class ViewController {
 
         if (group.getHostMember().equals(member)) {
             Notice notice = Notice.builder()
+                    .groupId(group.getId())
                     .title("모임 모집 취소")
                     .content(group.getTitle() + "의 모임 모집이 취소되었습니다.")
                     .member(group.getHostMember())
@@ -163,18 +167,6 @@ public class ViewController {
         return "redirect:/me/createGroups";
     }
 
-    @DeleteMapping("/me/notification/{id}")
-    public String deleteNotice(@PathVariable Long id, HttpServletRequest request) {
-        String userEmail = getEmail(request);
-        Member member = memberService.findByMemberByEmail(userEmail);
-        Notice notice = noticeRepository.findById(id).orElseThrow(() -> new DefaultException(ErrorCode.INVALID_OPTIONAL_ISPRESENT, "잘못된 요청입니다."));
-
-        if (notice.getType().equals(Type.ANNOUNCEMENT)) {
-            return "redirect:/me/notification";
-        }
-        notice.updateStatus(Status.DELETE);
-        return "redirect:/me/notification";
-    }
 
     @GetMapping("/me/notification")
     public String notice(Model model, HttpServletRequest request) {
@@ -188,6 +180,47 @@ public class ViewController {
         model.addAttribute("notices", notices);
 
         return "notification";
+    }
+
+    @GetMapping("/me/notification/{id}")
+    public String seeNotice(@PathVariable Long id, Model model, HttpServletRequest request) {
+        String userEmail = getEmail(request);
+        Member member = memberService.findByMemberByEmail(userEmail);
+        Notice notice = noticeRepository.findById(id).orElseThrow(() -> new DefaultException(ErrorCode.INVALID_CHECK));
+        Group group = groupRepository.forceFindById(notice.getGroupId()).orElseThrow(() -> new DefaultException(ErrorCode.INVALID_CHECK));
+
+        model.addAttribute("notice", notice);
+        model.addAttribute("member", member);
+        model.addAttribute("group", group);
+        model.addAttribute("participants", group.getPeopleList());
+
+        return "noticeInfo";
+    }
+
+    @PostMapping("/me/notification/{id}")
+    public String updateCheckNotice(@PathVariable Long id, HttpServletRequest request) {
+        String userEmail = getEmail(request);
+        Member member = memberService.findByMemberByEmail(userEmail);
+        Notice notice = noticeRepository.findById(id).orElseThrow(() -> new DefaultException(ErrorCode.INVALID_CHECK));
+
+        if (member.equals(notice.getMember())) {
+            notice.updateCheck(true);
+        }
+
+        return "redirect:/me/notification";
+    }
+
+    @DeleteMapping("/me/notification/{id}")
+    public String deleteNotice(@PathVariable Long id, HttpServletRequest request) {
+        String userEmail = getEmail(request);
+        Member member = memberService.findByMemberByEmail(userEmail);
+        Notice notice = noticeRepository.findById(id).orElseThrow(() -> new DefaultException(ErrorCode.INVALID_OPTIONAL_ISPRESENT, "잘못된 요청입니다."));
+
+        if (notice.getType().equals(Type.ANNOUNCEMENT)) {
+            return "redirect:/me/notification";
+        }
+        notice.updateStatus(Status.DELETE);
+        return "redirect:/me/notification";
     }
 
     @GetMapping("/home")
@@ -270,6 +303,7 @@ public class ViewController {
 
         group.addPeople(member);
         Notice joinNotice = Notice.builder()
+                .groupId(group.getId())
                 .title("모임 참여 완료")
                 .content(group.getTitle() + "의 모임 참여가 완료되었습니다.")
                 .member(member)
@@ -279,6 +313,7 @@ public class ViewController {
 
         if (group.getPeopleList().size() == group.getMaxPeople()) {
             Notice notice = Notice.builder()
+                    .groupId(group.getId())
                     .title("모임 모집 완료")
                     .content(group.getTitle() + "의 모임 모집이 완료되었습니다")
                     .member(group.getHostMember())

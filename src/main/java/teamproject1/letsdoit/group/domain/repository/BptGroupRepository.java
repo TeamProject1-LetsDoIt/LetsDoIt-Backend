@@ -57,4 +57,9 @@ public class BptGroupRepository implements GroupRepository{
         Group group = bTree.search(Math.toIntExact(id));
         group.updateStatus(Status.DELETE);
     }
+
+    @Override
+    public Optional<Group> forceFindById(Long id) {
+        return Optional.ofNullable(bTree.search(Math.toIntExact(id)));
+    }
 }

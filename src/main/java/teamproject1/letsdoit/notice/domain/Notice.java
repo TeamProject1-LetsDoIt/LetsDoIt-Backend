@@ -13,21 +13,24 @@ public class Notice extends BaseEntity {
 
     private Long id;
 
+    private Long groupId;
+
     private Member member;
 
     private String title;
 
     private String content;
 
-    private boolean check;
+    private Boolean check;
 
     private Status status;
 
     private Type type;
 
     @Builder
-    public Notice(Long id, Member member, String title, String content, Type type) {
+    public Notice(Long id, Long groupId, Member member, String title, String content, Type type) {
         this.id = id;
+        this.groupId = groupId;
         this.member = member;
         this.title = title;
         this.content = content;
