@@ -199,13 +199,20 @@
     <input type="hidden" id = expireTime th:value="${group.getExpireTime()}"/>
     <p class = "date" id="outputTime"></p>
     <p class = "member"><span th:text="${group.getCurrentPeople()}"></span> / <span th:text="${group.getMaxPeople()}"></span></p>
-    <form action="#" th:action="@{/me/joinGroups/{groupId}(groupId=${group.id})}" method="#" th:method="DELETE" target="homePage" >
-      <button type = "submit" class = "button_Letsdoit">참가취소</button>
+    <form name="cancelJoin" action="#" th:action="@{/me/joinGroups/{groupId}(groupId=${group.id})}" method="#" th:method="DELETE" target="homePage" >
+      <button  id="button_letsdoit" type = "submit" class = "button_Letsdoit" onclick="cancelJoin()">참가취소</button>
     </form>
   </div>
 </div>
 </body>
 <script th:inline="javascript">
+
+  function cancelJoin(){
+    alert("모임을 나갔습니다.");
+    document.cancelJoin.submit();
+    window.close();
+  }
+
   printExpireTime();
   cancel_party();
 
@@ -245,8 +252,10 @@
     if(limitTime()) {
       target.disabled = true;
       alert("남은 시간이 1시간 이내이므로 참가 취소를 할 수 없습니다!");
+      window.close();
     } else {
       target.disabled = false;
+      window.close();
     }
   }
 </script>

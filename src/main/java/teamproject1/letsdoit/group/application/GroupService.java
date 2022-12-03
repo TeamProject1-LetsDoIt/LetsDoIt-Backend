@@ -104,7 +104,7 @@ public class GroupService {
     public List<Group> findJoinGroups(String email) {
         Member member = memberRepository.findByEmail(email).orElseThrow(() -> new DefaultException(ErrorCode.INVALID_CHECK, "존재하지 않는 유저입니다."));
         return groupRepository.findAll().stream()
-                .filter(group -> group.getPeopleList().contains(member))
+                .filter(group -> group.getPeopleList().contains(member) && !group.getHostMember().equals(member))
                 .collect(Collectors.toList());
     }
 

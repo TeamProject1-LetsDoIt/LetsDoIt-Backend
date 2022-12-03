@@ -237,13 +237,16 @@
             let max_people = document.querySelector('#max_people').innerHTML;
             if(host_email === current_email){
                 alert('방장은 방에 참여할 수 없습니다.')
+                window.close();
                 return false;
             }else if(curr_people >= max_people){
                 alert('모임 인원이 꽉 차 모임 참여가 불가능합니다!');
+                window.close();
                 return false;
             } else {
                 alert('성공적으로 모임에 참여 되었습니다!');
                 document.doit.submit();
+                window.close();
             }
         }
     </script>

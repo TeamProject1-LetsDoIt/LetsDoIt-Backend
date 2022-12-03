@@ -203,13 +203,20 @@
     <input type="hidden" id = expireTime th:value="${group.getExpireTime()}"/>
     <p class = "date" id="outputTime"></p>
     <p class = "member"><span th:text="${group.getCurrentPeople()}"></span> / <span th:text="${group.getMaxPeople()}"></span></p>
-    <form action="#" th:action="@{/me/createGroups/{groupId}(groupId=${group.id})}" method="#" th:method="DELETE" target="homePage" >
-      <button type = "submit" class = "button_Letsdoit">모임종료</button>
+    <form name="endGather" action="#" th:action="@{/me/createGroups/{groupId}(groupId=${group.id})}" method="#" th:method="DELETE" target="homePage" >
+      <button id="button_letsdoit" type = "submit" class = "button_Letsdoit" onclick="endGather()">모임종료</button>
     </form>
   </div>
 </div>
 </body>
 <script th:inline="javascript">
+
+  function endGather(){
+    alert("모집을 종료합니다.");
+    document.endGather.submit();
+    window.close();
+  }
+
   printExpireTime();
   cancel_party();
 
@@ -249,8 +256,10 @@
     if(limitTime()) {
       target.disabled = true;
       alert("남은 시간이 1시간 이내이므로 모집 취소할 수 없습니다!");
+      window.close();
     } else {
       target.disabled = false;
+      window.close();
     }
   }
 </script>
