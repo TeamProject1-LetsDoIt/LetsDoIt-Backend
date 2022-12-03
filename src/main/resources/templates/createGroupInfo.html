@@ -204,14 +204,14 @@
     <p class = "date" id="outputTime"></p>
     <p class = "member"><span th:text="${group.getCurrentPeople()}"></span> / <span th:text="${group.getMaxPeople()}"></span></p>
     <form name="endGather" action="#" th:action="@{/me/createGroups/{groupId}(groupId=${group.id})}" method="#" th:method="DELETE" target="homePage" >
-      <button id="button_letsdoit" type = "submit" class = "button_Letsdoit" onclick="endGather()">모임종료</button>
+      <button id="button_letsdoit" type = "submit" class = "button_Letsdoit" onclick="endGatherFun()">모임종료</button>
     </form>
   </div>
 </div>
 </body>
 <script th:inline="javascript">
 
-  function endGather(){
+  function endGatherFun(){
     alert("모집을 종료합니다.");
     document.endGather.submit();
     window.close();

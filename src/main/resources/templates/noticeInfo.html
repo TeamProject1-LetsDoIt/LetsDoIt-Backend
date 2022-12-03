@@ -193,16 +193,27 @@
     <p class = "date" id="outputTime"></p>
   </div>
   <form name = "remove" action="#" th:action="@{/me/notification/{noticeId}(noticeId=${notice.getId()})}" method="#" th:method="DELETE" target="homePage" >
-    <button type = "submit" class = "button_remove">알림삭제</button>
+    <button type = "submit" class = "button_remove" onclick="deleteNoticeFun()">알림삭제</button>
   </form>
   <form name = "doit" th:action="@{/me/notification/{noticeId}(noticeId=${notice.getId()})}" method="POST" target="homePage" >
-    <button type = "submit" class = "button_check">알림확인</button>
+    <button type = "submit" class = "button_check" onclick="checkNoticeFun()">알림확인</button>
   </form>
 </div>
 </body>
 <script th:inline="javascript">
   setNoticeTitle();
   printExpireTime();
+
+  function checkNoticeFun(){
+    document.doit.submit();
+    window.close();
+  }
+
+  function deleteNoticeFun(){
+    alert("알림이 삭제되었습니다");
+    document.remove.submit();
+    window.close();
+  }
 
   function setNoticeTitle(){
     let title = document.querySelector("#title");
