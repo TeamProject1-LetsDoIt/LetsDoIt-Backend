@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
 <head>
 
     <meta charset="UTF-8">
@@ -198,9 +199,8 @@
 
             flex-flow: row-reverse wrap;
             z-index: 3;
-            word-break:break-all;
+            word-break: break-all;
 
-            float: left;
         }
 
         /*각 모임의 제목*/
@@ -245,7 +245,7 @@
         }
 
         /* 마이페이지의 유저 사진을 원에 나타낸다*/
-        .profile img{
+        .profile img {
             position: relative;
             width: 138px;
             height: 138px;
@@ -449,28 +449,63 @@
             font-size: 25px;
             line-height: 30px;
             color: #585858;
-            margin-left: 110px;
+            margin-left: 115px;
             margin-top: 20px;
+        }
+
+        .prev_page {
+            position: absolute;
+            left: 460px;
+            top: 900px;
+            width: 30px;
+            height: 30px;
+            z-index: 5;
+        }
+
+        #page_num {
+            position: absolute;
+            left: 495px;
+            top: 880px;
+
+            width: 20px;
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+
+            z-index: 5;
+        }
+
+        .next_page {
+            position: absolute;
+            left: 520px;
+            top: 900px;
+
+            width: 30px;
+            height: 30px;
+            z-index: 5;
         }
     </style>
 
 
 </head>
+
 <body>
 <div class="main">
-    <div id = "search_bar">
-        <button onclick = ''>
-            <img id = "search_shape" src = "https://jaksimharu.s3.ap-northeast-2.amazonaws.com/images/search_shape.png">
+    <div id="search_bar">
+        <button onclick=''>
+            <img id="search_shape" src="https://jaksimharu.s3.ap-northeast-2.amazonaws.com/images/search_shape.png">
         </button>
-        <input type="search" id = "search_input" value="검색(최대 10글자)" maxlength="10">
+        <input type="search" id="search_input" value="검색(최대 10글자)" maxlength="10">
 
     </div>
     <section class="groovyroom">
-        <div class="group" th:each="group : ${groups}" th:inline-block >
+        <div class="group" th:each="group : ${groups}" th:inline-block>
             <div id="groupContents" th:attr="onclick=|checkInfo(${group.getId()})|">
                 <h1 id="grouptitle" th:text="${group.title}">제목1</h1>
                 <p id="contents" th:text="${group.content}">내용</p>
-                <p id="numPeople"><span th:text="${group.getCurrentPeople()}"></span> / <span th:text="${group.getMaxPeople()}"></span><span id="numP" th:text="${group.getCategory()}"></span></p>
+                <p id="numPeople"><span th:text="${group.getCurrentPeople()}"></span> / <span
+                        th:text="${group.getMaxPeople()}"></span><span id="numP"
+                                                                       th:text="${group.getCategory()}"></span></p>
             </div>
         </div>
 
@@ -486,11 +521,11 @@
             <div class="nonegroup none9"></div>
             <div class="nonegroup none10"></div>
         </div>
-        <div class="button">
-            <span><button id="Btn1" >이전</button></span>
-            <span>pn</span>
-            <span><button id="Btn2" >다음</button></span>
 
+        <div>
+            <button type="button" id="prev"><img src="https://jaksimharu.s3.ap-northeast-2.amazonaws.com/images/left.png" class="prev_page" ></button>
+            <p id="page_num">0</p>
+            <button type="button" id="next"><img src="https://jaksimharu.s3.ap-northeast-2.amazonaws.com/images/right.png" class="next_page" ></button>
         </div>
 
     </section>
@@ -498,14 +533,17 @@
     <!--닉네임 글자 수 제한 필요, 밑줄을 벗어나지 않도록-->
     <section class="myPage">
         <div class="profile"><img th:src="${member.getImageUrl()}"></div>
-        <div class="myName"><p th:text="${member.getName()}"></p></div>
+        <div class="myName">
+            <p th:text="${member.getName()}"></p>
+        </div>
 
-        <button class = "myInfo" onclick="myPage()">내 정보</button>
+        <button class="myInfo" onclick="myPage()">내 정보</button>
         <div>
-            <img class = "reverse_triangle" src ="https://jaksimharu.s3.ap-northeast-2.amazonaws.com/images/reverse_triangle.png"></img>
-            <ul class = "category">
+            <img class="reverse_triangle"
+                 src="https://jaksimharu.s3.ap-northeast-2.amazonaws.com/images/reverse_triangle.png"></img>
+            <ul class="category">
                 <li><a href="">정렬</a>
-                    <ul class = "menu">
+                    <ul class="menu">
                         <li><a href="/home">전체 합시다</a></li>
                         <li><a href="/home?category=meal">식사 합시다</a></li>
                         <li><a href="/home?category=exercise">운동 합시다</a></li>
@@ -516,8 +554,6 @@
             </ul>
         </div>
 
-
-
         <button id="createBtn" onclick="create();">방 만들기</button>
 
     </section>
@@ -525,23 +561,59 @@
 </div>
 </body>
 <script th:inline="javascript">
-    function checkInfo(id){
-        window.name="homePage";
+    let curr_page = 0;
+    init();
+    function init() {
+        prev_page();
+        next_page();
+        setPageNum();
+    }
+    function checkInfo(id) {
+        window.name = "homePage";
         const myWindow = window.open(`/group/${id}`, "createGroup", "width:300, height=350, resizable=no, scrollbars=no, status=no");
         myWindow.moveTo(500, 100);
         myWindow.resizeTo(650, 400);
     }
 
-    function create(){
-        window.name="homePage";
+    function create() {
+        window.name = "homePage";
         const myWindow = window.open("/home/new", "createGroup", "scrollbars=no, status=no");
         myWindow.moveTo(500, 100);
         myWindow.resizeTo(700, 800);
     }
 
-    function myPage(){
-        location.href="/me"
+    function myPage() {
+        location.href = "/me"
     }
 
+    function setPageNum() {
+        curr_page = 1;
+        let page = document.querySelector("#page_num");
+        page.innerText = curr_page;
+    }
+    function prev_page() {
+        document.addEventListener('DOMContentLoaded', () => {
+            let prev = document.querySelector("#prev");
+            prev.addEventListener("click", function () {
+                if (curr_page > 1) {
+                    curr_page -= 1;
+                    let page = document.querySelector("#page_num");
+                    page.innerText = curr_page;
+                }
+            });
+        });
+    }
+
+    function next_page() {
+        document.addEventListener('DOMContentLoaded', () => {
+            let next = document.querySelector("#next");
+            next.addEventListener("click", function () {
+                curr_page += 1;
+                let page = document.querySelector("#page_num");
+                page.innerText = curr_page;
+            });
+        })
+    }
 </script>
+
 </html>

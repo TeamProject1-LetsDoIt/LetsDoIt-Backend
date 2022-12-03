@@ -68,7 +68,7 @@
       display: block;
     }
 
-    .circle_red img{
+    .circle_red img {
       z-index: 40;
       position: absolute;
       width: 186px;
@@ -120,12 +120,12 @@
     }
 
     .button_notification {
-      z-index : 30;
+      z-index: 30;
       position: absolute;
       width: 220px;
       height: 60px;
       left: 1120px;
-      top : 500px;
+      top: 500px;
 
       line-height: 60px;
 
@@ -134,6 +134,7 @@
       text-align: center;
       display: block;
     }
+
     /*세로 줄*/
     .vertical_line1 {
       z-index: 30;
@@ -157,6 +158,7 @@
       background: #585858;
       border: 2px solid #646464;
     }
+
     /*홈 버튼*/
     .button_home {
       z-index: 30;
@@ -168,23 +170,26 @@
 
       display: inline-block;
     }
+
     /*그룹에 대한 정보*/
     .groovyroom {
 
       position: absolute;
       width: 1200px;
       height: 800px;
-      top : -100px;
-      left : -20px;
+      top: -100px;
+      left: -20px;
 
       z-index: 1;
     }
+
     /*알림 구역*/
     .notice {
       flex-flow: row-reverse wrap;
-      display : inline-block;
+      display: inline-block;
       margin-left: 3px;
     }
+
     /*알림 껍데기 구역*/
     .nonegroup {
       box-sizing: border-box;
@@ -228,7 +233,7 @@
 
     .none4 {
       position: absolute;
-      left : 72px;
+      left: 72px;
       top: 490px;
     }
 
@@ -255,6 +260,7 @@
       left: 72px;
       top: 850px;
     }
+
     /*각각의 알림에 대해 보여줄 칸, 구역을 8개로 분할*/
     .noticeContents {
       border-radius: 10px;
@@ -263,8 +269,8 @@
       width: 979px;
       height: 77px;
 
-      top : 225px;
-      left : 62px;
+      top: 225px;
+      left: 62px;
 
       background-color: #585858;
       box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
@@ -275,17 +281,19 @@
 
       flex-flow: row-reverse wrap;
       z-index: 3;
-      word-break:break-all;
+      word-break: break-all;
     }
+
     .noticeCheck {
       border-radius: 10px 0px 0px 10px;
       width: 25px;
       height: 77px;
       background-color: #FFFFFF;
-      z-index : 30;
+      z-index: 30;
       vertical-align: middle;
       box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.25);
     }
+
     /*알림의 제목*/
     #noticeTitle {
       margin: -70px 20px 5px 50px;
@@ -310,6 +318,7 @@
       overflow: hidden;
       white-space: nowrap;
     }
+
     /*알림의 제목*/
     #notification_title {
       position: absolute;
@@ -320,21 +329,56 @@
       font-size: 50px;
       color: #585858;
     }
+
+    .prev_page {
+      position: absolute;
+      left: 510px;
+      top: 850px;
+
+      width: 30px;
+      height: 30px;
+      z-index: 5;
+    }
+
+    #page_num {
+      position: absolute;
+      left: 545px;
+      top: 830px;
+
+
+      height: 30px;
+      line-height: 30px;
+      text-align: center;
+
+      z-index: 5;
+    }
+
+    .next_page {
+      position: absolute;
+      left: 560px;
+      top: 850px;
+
+      width: 30px;
+      height: 30px;
+      z-index: 5;
+    }
   </style>
 </head>
 
 <body>
 <div class="party_background">
-  <button onclick="location.href='/home'"><img class="button_home" src="https://jaksimharu.s3.ap-northeast-2.amazonaws.com/images/home_button.png"></button>
+  <button onclick="location.href='/home'"><img class="button_home"
+                                               src="https://jaksimharu.s3.ap-northeast-2.amazonaws.com/images/home_button.png"></button>
   <div class="circle_white"></div>
   <div class="circle_red"><img th:src="${member.getImageUrl()}"></div>
-  <p id = "notification_title">알림 Notification</p>
+  <p id="notification_title">알림 Notification</p>
   <section class="groovyroom">
     <div class="notice" th:each="notice : ${notices}" th:inline-block>
       <div class="noticeContents" th:attr="onclick=|checkInfo(${notice.getId()})|">
-        <div class="noticeCheck" th:value="${notice.getCheck()}" name = "checking"></div>
+        <div class="noticeCheck" th:value="${notice.getCheck()}"></div>
         <h1 id="noticeTitle" th:value="${notice.getType()}" th:text="${notice.getTitle()}">제목1</h1>
-        <p id="contents" th:value="${notice.getTitle()}" th:name = "${notice.getContent()}" th:text="${notice.getContent()}">내용</p>
+        <p id="contents" th:value="${notice.getTitle()}" th:name="${notice.getContent()}"
+           th:text="${notice.getContent()}">내용</p>
       </div>
     </div>
 
@@ -359,115 +403,156 @@
     <button class="button_notification">알림</button>
   </div>
   <div>
-
+    <button type="button" id="prev"><img src="https://jaksimharu.s3.ap-northeast-2.amazonaws.com/images/left.png" class="prev_page"></button>
+    <p id="page_num">0</p>
+    <button type="button" id="next"><img src="https://jaksimharu.s3.ap-northeast-2.amazonaws.com/images/right.png" class="next_page"></button>
   </div>
 </div>
 </body>
 <script>
+  let curr_page = 1;
+  let notice_length = 0;
   init();
+
   /*초기에 실행할 함수를 정하세요*/
   function init() {
-    initCheck();
-    noticeCheck();
+    setPageNum();
+    prev_page();
+    next_page();
     setNoticeTitle();
+    noticeCheck();
+    initCheck();
+
   }
   /*각각 메인화면, 마이페이지, 참여한 모임, 내가 만든 모임 확인 가능*/
   function home() {
-    location.href="/home"
+    location.href = "/home"
   }
-  function myPage(){
-    location.href="/me"
+  function myPage() {
+    location.href = "/me"
   }
   function joinGroups() {
-    location.href="/me/joinGroups"
+    location.href = "/me/joinGroups"
   }
-  function gatherGroups(){
-    location.href="/me/createGroups"
+  function gatherGroups() {
+    location.href = "/me/createGroups"
+  }
+  function setPageNum() {
+    curr_page = 1;
+    let page = document.querySelector("#page_num");
+    page.innerText = curr_page;
+    console.log("curr_page " + curr_page);
   }
   /*initCheck -> noticeCheck의 check가 True면 회색 / False면 흰색*/
-  function initCheck(){
-    let noticeCheck = document.getElementsByName('checking');
+  function initCheck() {
+    let noticeCheck = document.querySelectorAll(".noticeCheck");
     let notice_length = noticeCheck.length;
-
-    for(let i = 0; i < notice_length; i++){
-      let check = noticeCheck[i].value;
-      if(check === true){
-        noticeCheck[i].style.backgroundColor = "#585858";
-      } else {
-        noticeCheck[i].style.backgroundColor = "#FFFFFF";
+    if (noticeCheck != null && notice_length > 0) {
+      for (let i = 0; i < notice_length; i++) {
+        let check = noticeCheck[i].value;
+        alert((i+1) + "번째 : " + check);
+        if (check === 1) {
+          noticeCheck[i].style.backgroundColor = "#585858";
+        } else {
+          noticeCheck[i].style.backgroundColor = "#FFFFFF";
+        }
       }
     }
   }
 
   /*notice를 눌렀을 때 나오는 화면 연결*/
-  function checkInfo(id){
-    window.name="homePage";
+  function checkInfo(id) {
+    window.name = "homePage";
     const myWindow = window.open(`/me/notification/${id}`, "createGroup", "width:300, height=350, resizable=no, scrollbars=no, status=no");
     myWindow.moveTo(500, 100);
     myWindow.resizeTo(650, 700);
   }
   /*알림의 이벤트 목록에 따라 달라지는 제목*/
-  function setNoticeTitle(){
+  function setNoticeTitle() {
     let title = document.querySelector("#noticeTitle");
     let event = title.value;
 
-    if(event === "GROUP_JOIN_SUCCESS"){ /* 모임 참여 완료 이벤트 -> 1 */
+    if (event === "GROUP_JOIN_SUCCESS") { /* 모임 참여 완료 이벤트 -> 1 */
       title.innerText = "모임 참여 완료"
       setNoticeContent(event);
     }
-    else if(event === "GROUP_JOIN_CANCEL"){ /* 모임 참여 취소 이벤트-> 2 */
+    else if (event === "GROUP_JOIN_CANCEL") { /* 모임 참여 취소 이벤트-> 2 */
       title.innerText = "모임 참여 취소"
       setNoticeContent(event);
     }
-    else if(event === "GROUP_GATHER_SUCCESS"){ /*모임 모집 완료 이벤트 -> 3 */
+    else if (event === "GROUP_GATHER_SUCCESS") { /*모임 모집 완료 이벤트 -> 3 */
       title.innerText = "모임 모집 완료"
       setNoticeContent(event);
     }
-    else if(event === "GROUP_GATHER_CANCEL"){ /* 모임 참여 취소 이벤트 -> 4 */
+    else if (event === "GROUP_GATHER_CANCEL") { /* 모임 참여 취소 이벤트 -> 4 */
       title.innerText = "모임 모집 취소"
       setNoticeContent(event);
     }
-    else if(event === "ANNOUNCEMENT"){ /* 공지사항 이벤트 -> 4 */
+    else if (event === "ANNOUNCEMENT") { /* 공지사항 이벤트 -> 4 */
       title.innerText = "공지사항"
       setNoticeContent(event);
     }
   }
   /*알림의 이벤트 목록에 따라 달라지는 내용*/
-  function setNoticeContent(event){
+  function setNoticeContent(event) {
     let content = document.querySelector("#contents");
     let title = content.value;
-    if(event === "GROUP_JOIN_SUCCESS"){
+    if (event === "GROUP_JOIN_SUCCESS") {
       content.innerText = "<" + title + ">의 모임 참여가 완료되었습니다."
       setNoticeContent(event);
     }
-    else if(event === "GROUP_JOIN_CANCEL"){
+    else if (event === "GROUP_JOIN_CANCEL") {
       content.innerText = "<" + title + ">의 모임 참여가 취소되었습니다."
       setNoticeContent(event);
     }
-    else if(event === "GROUP_GATHER_SUCCESS"){
+    else if (event === "GROUP_GATHER_SUCCESS") {
       content.innerText = "<" + title + ">의 모임 모집이 완료되었습니다."
       setNoticeContent(event);
     }
-    else if(event === "GROUP_GATHER_CANCEL"){
+    else if (event === "GROUP_GATHER_CANCEL") {
       content.innerText = "<" + title + ">의 모임 모집이 취소되었습니다."
       setNoticeContent(event);
     }
-    else if(event === "ANNOUNCEMENT"){
+    else if (event === "ANNOUNCEMENT") {
       let contents = content.name;
       content.innerText = contents;
       setNoticeContent(event);
     }
   }
   /*notice를 체크하면 회색으로 변경, notice의 check 변수를 불러와서 자동으로 회색 변경.*/
-  function noticeCheck(){
-    document.addEventListener('DOMContentLoaded', ()=>{
+  function noticeCheck() {
+    document.addEventListener('DOMContentLoaded', () => {
       let notice = document.getElementsByClassName("noticeContents");
-      for(let i = 0; i<notice.length; i++){
-        notice[i].addEventListener('click', function(){
+      for (let i = 0; i < notice.length; i++) {
+        notice[i].addEventListener('click', function () {
           document.querySelectorAll(".noticeCheck")[i].style.backgroundColor = "#585858";
         });
       }
     })
   }
+  function prev_page() {
+    document.addEventListener('DOMContentLoaded', () => {
+      let prev = document.querySelector("#prev");
+      prev.addEventListener("click", function () {
+        if (curr_page > 1) {
+          curr_page -= 1;
+          let page = document.querySelector("#page_num");
+          page.innerText = curr_page;
+        }
+      });
+    });
+  }
+
+  function next_page() {
+    document.addEventListener('DOMContentLoaded', () => {
+      let next = document.querySelector("#next");
+      next.addEventListener("click", function () {
+        curr_page += 1;
+        let page = document.querySelector("#page_num");
+        page.innerText = curr_page;
+      });
+    })
+  }
 </script>
+
 </html>
