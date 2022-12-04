@@ -75,11 +75,17 @@ public class ViewController {
     }
 
     @GetMapping("/me/joinGroups")
-    public String joinGroups(Model model, HttpServletRequest request) {
+    public String joinGroups(Model model, HttpServletRequest request,
+                             @RequestParam(value = "page", required = false) Integer page) {
         String userEmail = getEmail(request);
         Member member = memberService.findByMemberByEmail(userEmail);
 
-        List<Group> joinGroups = groupService.findJoinGroups(userEmail);
+        Integer homePage = page;
+        if (homePage == null) {
+            homePage = 1;
+        }
+
+        List<Group> joinGroups = groupService.findJoinGroups(userEmail, homePage);
 
         model.addAttribute("member", member);
         model.addAttribute("groups", joinGroups);
@@ -121,11 +127,17 @@ public class ViewController {
     }
 
     @GetMapping("/me/createGroups")
-    public String gatherGroups(Model model, HttpServletRequest request) {
+    public String gatherGroups(Model model, HttpServletRequest request,
+                               @RequestParam(value = "page", required = false) Integer page) {
         String userEmail = getEmail(request);
         Member member = memberService.findByMemberByEmail(userEmail);
 
-        List<Group> gatherGroups = groupService.findCreateGroups(userEmail);
+        Integer homePage = page;
+        if (homePage == null) {
+            homePage = 1;
+        }
+
+        List<Group> gatherGroups = groupService.findCreateGroups(userEmail, homePage);
 
         model.addAttribute("member", member);
         model.addAttribute("groups", gatherGroups);

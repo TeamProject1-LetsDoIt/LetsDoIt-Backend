@@ -102,18 +102,20 @@ public class GroupService {
         return homePaging(groups, page);
     }
 
-    public List<Group> findCreateGroups(String email) {
+    public List<Group> findCreateGroups(String email, Integer page) {
         Member member = memberRepository.findByEmail(email).orElseThrow(() -> new DefaultException(ErrorCode.INVALID_CHECK, "존재하지 않는 유저입니다"));
-        return groupRepository.findAll().stream()
+        List<Group> groups =  groupRepository.findAll().stream()
                 .filter(group -> group.getHostMember().equals(member))
                 .collect(Collectors.toList());
+        return myPagePaging(groups, page);
     }
 
-    public List<Group> findJoinGroups(String email) {
+    public List<Group> findJoinGroups(String email, Integer page) {
         Member member = memberRepository.findByEmail(email).orElseThrow(() -> new DefaultException(ErrorCode.INVALID_CHECK, "존재하지 않는 유저입니다."));
-        return groupRepository.findAll().stream()
+        List<Group> groups =  groupRepository.findAll().stream()
                 .filter(group -> group.getPeopleList().contains(member) && !group.getHostMember().equals(member))
                 .collect(Collectors.toList());
+        return myPagePaging(groups, page);
     }
 
     public void deleteGroup(Long id) {
