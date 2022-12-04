@@ -122,28 +122,37 @@ public class GroupService {
 
     private List<Group> homePaging(List<Group> groups, Integer page) {
         List<Group> resultGroups = new ArrayList<>();
-        log.info("size: " + groups.size());
-        log.info("page: " + page);
         if ((groups.size() / 10) + 1 < page) {
-            log.info("1");
             return null;
         }
+        int index = (page - 1) * 10;
         if (groups.size() / (page * 10) >= 1) {
-            log.info("2");
-            int index = (page - 1) * 10;
             for (int i = index; i < index + 10; i++) {
                 resultGroups.add(groups.get(i));
             }
         } else {
-            log.info("3");
-            int index = (page - 1) * 10;
             for (int i = index; i < groups.size() - index; i++) {
-                log.info("i: " + i);
-                log.info("group: " + groups.get(i));
                 resultGroups.add(groups.get(i));
             }
         }
-        log.info("groups: " + resultGroups);
+        return resultGroups;
+    }
+
+    private List<Group> myPagePaging(List<Group> groups, Integer page) {
+        List<Group> resultGroups = new ArrayList<>();
+        if ((groups.size() / 8) + 1 < page) {
+            return null;
+        }
+        int index = (page - 1) * 8;
+        if (groups.size() / (page * 8) >= 1) {
+            for (int i = index; i < index + 8; i++) {
+                resultGroups.add(groups.get(i));
+            }
+        } else {
+            for (int i = index; i < groups.size() - index; i++) {
+                resultGroups.add(groups.get(i));
+            }
+        }
         return resultGroups;
     }
 }
