@@ -131,7 +131,7 @@ public class GroupService {
                 resultGroups.add(groups.get(i));
             }
         } else {
-            for (int i = index; i < groups.size() - index; i++) {
+            for (int i = index; i < groups.size(); i++) {
                 resultGroups.add(groups.get(i));
             }
         }
@@ -149,7 +149,7 @@ public class GroupService {
                 resultGroups.add(groups.get(i));
             }
         } else {
-            for (int i = index; i < groups.size() - index; i++) {
+            for (int i = index; i < groups.size(); i++) {
                 resultGroups.add(groups.get(i));
             }
         }
