@@ -38,10 +38,10 @@ public class GroupService {
         return group.get();
     }
 
-    public List<Group> findGroups() {
+    public List<Group> findGroups(Integer page) {
         List<Group> groups = groupRepository.findAll();
         Collections.reverse(groups);
-        return groups;
+        return homePaging(groups, page);
     }
 
     public List<Group> findGroupsMemberJoined(String email) {
@@ -58,14 +58,22 @@ public class GroupService {
         return result;
     }
 
-    public List<Group> sortGroupsByDeadline() {
+    public List<Group> sortGroupsByDeadline(Integer page) {
         List<Group> groups = groupRepository.findAll();
         groups.sort((b, a) -> (int) (ChronoUnit.SECONDS.between(a.getExpireTime(), LocalDateTime.now()) - ChronoUnit.SECONDS.between(b.getExpireTime(), LocalDateTime.now())));
 
-        return groups;
+        return homePaging(groups, page);
     }
 
-    public List<Group> sortGroupByCategory(String category) {
+    public List<Group> findGroupsBySearch(String search, Integer page) {
+        List<Group> result = groupRepository.findAll().stream()
+                .filter(group -> group.getTitle().contains(search))
+                .collect(Collectors.toList());
+        Collections.reverse(result);
+        return homePaging(result, page);
+    }
+
+    public List<Group> sortGroupByCategory(String category, Integer page) {
 
         String result = null;
 
@@ -91,7 +99,7 @@ public class GroupService {
                 .collect(Collectors.toList());
 
         Collections.reverse(groups);
-        return groups;
+        return homePaging(groups, page);
     }
 
     public List<Group> findCreateGroups(String email) {
@@ -110,5 +118,32 @@ public class GroupService {
 
     public void deleteGroup(Long id) {
         groupRepository.deleteById(id);
+    }
+
+    private List<Group> homePaging(List<Group> groups, Integer page) {
+        List<Group> resultGroups = new ArrayList<>();
+        log.info("size: " + groups.size());
+        log.info("page: " + page);
+        if ((groups.size() / 10) + 1 < page) {
+            log.info("1");
+            return null;
+        }
+        if (groups.size() / (page * 10) >= 1) {
+            log.info("2");
+            int index = (page - 1) * 10;
+            for (int i = index; i < index + 10; i++) {
+                resultGroups.add(groups.get(i));
+            }
+        } else {
+            log.info("3");
+            int index = (page - 1) * 10;
+            for (int i = index; i < groups.size() - index; i++) {
+                log.info("i: " + i);
+                log.info("group: " + groups.get(i));
+                resultGroups.add(groups.get(i));
+            }
+        }
+        log.info("groups: " + resultGroups);
+        return resultGroups;
     }
 }

@@ -28,6 +28,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Controller
@@ -223,22 +224,29 @@ public class ViewController {
 
     @GetMapping("/home")
     public String mainForm(Model model, HttpServletRequest request,
-                           @RequestParam(value = "category", required = false) String category) {
+                           @RequestParam(value = "category", required = false) String category,
+                           @RequestParam(value = "page", required = false) Integer page,
+                           @RequestParam(value = "search", required = false) String search) {
         String userEmail = getEmail(request);
         Member member = memberService.findByMemberByEmail(userEmail);
 
         log.info(member.getEmail());
         List<Group> groups;
-
+        Integer homePage = page;
+        if (homePage == null) {
+            homePage = 1;
+        }
 
         if (category != null) {
             if (category.equals("expireTime")) {
-                groups = groupService.sortGroupsByDeadline();
+                groups = groupService.sortGroupsByDeadline(homePage);
             } else {
-                groups = groupService.sortGroupByCategory(category);
+                groups = groupService.sortGroupByCategory(category, homePage);
             }
+        } else if (search != null) {
+            groups = groupService.findGroupsBySearch(search, homePage);
         } else {
-            groups = groupService.findGroups();
+            groups = groupService.findGroups(homePage);
         }
 
         model.addAttribute("groups", groups);

@@ -73,6 +73,8 @@
 
         /*모임 내용을 보여줄 구역*/
         .group {
+            flex-flow: row-reverse wrap;
+            display: inline-block;
             margin-top: 12px;
             margin-left: 25px;
             margin-right: 15px;
@@ -495,7 +497,7 @@
         <button onclick=''>
             <img id="search_shape" src="https://jaksimharu.s3.ap-northeast-2.amazonaws.com/images/search_shape.png">
         </button>
-        <input type="search" id="search_input" value="검색(최대 10글자)" maxlength="10">
+        <input type="search" id="search_input" placeholder="검색(최대 10글자)" maxlength="10">
 
     </div>
     <section class="groovyroom">
