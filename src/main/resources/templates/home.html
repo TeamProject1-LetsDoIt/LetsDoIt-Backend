@@ -489,8 +489,8 @@
 
 <body>
 <div class="main">
-    <div id="search_bar">
-        <button onclick=''>
+    <div id="search_bar" name="">
+        <button onclick="">
             <img id="search_shape" src="https://jaksimharu.s3.ap-northeast-2.amazonaws.com/images/search_shape.png">
         </button>
         <input type="search" id="search_input" placeholder="검색(최대 10글자)" maxlength="10">
@@ -502,7 +502,8 @@
                 <h1 id="grouptitle" th:text="${group.title}">제목1</h1>
                 <p id="contents" th:text="${group.content}">내용</p>
                 <p id="numPeople"><span th:text="${group.getCurrentPeople()}"></span> / <span
-                        th:text="${group.getMaxPeople()}"></span><span id="numP" th:text="${group.getCategory()}"></span></p>
+                        th:text="${group.getMaxPeople()}"></span><span id="numP"
+                                                                       th:text="${group.getCategory()}"></span></p>
             </div>
         </div>
 
@@ -520,9 +521,13 @@
         </div>
 
         <div>
-            <button type="button" id="prev"><img src="https://jaksimharu.s3.ap-northeast-2.amazonaws.com/images/left.png" class="prev_page" ></button>
-            <p id="page_num">0</p>
-            <button type="button" id="next"><img src="https://jaksimharu.s3.ap-northeast-2.amazonaws.com/images/right.png" class="next_page" ></button>
+            <button type="button" id="prev"><img
+                    src="https://jaksimharu.s3.ap-northeast-2.amazonaws.com/images/left.png"
+                    class="prev_page"></button>
+            <p id="page_num">1</p>
+            <button type="button" id="next"><img
+                    src="https://jaksimharu.s3.ap-northeast-2.amazonaws.com/images/right.png"
+                    class="next_page"></button>
         </div>
 
     </section>
@@ -541,11 +546,11 @@
             <ul class="category">
                 <li><a href="">정렬</a>
                     <ul class="menu">
-                        <li><a href="/home">전체 합시다</a></li>
-                        <li><a href="/home?category=meal">식사 합시다</a></li>
-                        <li><a href="/home?category=exercise">운동 합시다</a></li>
-                        <li><a href="/home?category=study">공부 합시다</a></li>
-                        <li><a href="/home?category=expireTime">마감 시간</a></li>
+                        <li><a id="home" data-page="1" href="/home">전체 합시다</a></li>
+                        <li><a id="meal" data-page="1" href="/home?category=meal">식사 합시다</a></li>
+                        <li><a id="exercise" data-page="1" href="/home?category=exercise">운동 합시다</a></li>
+                        <li><a id="study" data-page="1" href="/home?category=study">공부 합시다</a></li>
+                        <li><a id="expireTime" data-page="1" href="/home?category=expireTime">마감 시간</a></li>
                     </ul>
                 </li>
             </ul>
@@ -558,12 +563,13 @@
 </div>
 </body>
 <script th:inline="javascript">
-    let curr_page = 0;
+    let home_page = 1;
+
     init();
+
     function init() {
-        prev_page();
-        next_page();
-        setPageNum();
+        homePage();
+        changePageNum();
     }
     function checkInfo(id) {
         window.name = "homePage";
@@ -582,34 +588,76 @@
     function myPage() {
         location.href = "/me"
     }
-
     function setPageNum() {
-        curr_page = 1;
-        let page = document.querySelector("#page_num");
-        page.innerText = curr_page;
+
     }
-    function prev_page() {
+    function changePageNum() {
+        let load_home_page = sessionStorage.getItem("home_page");
+        if(load_home_page === null)
+            load_home_page = 1;
+        home_page = parseInt(load_home_page);
+        let page = document.querySelector("#page_num");
+        page.innerText = home_page;
+    }
+    function homePage() {
         document.addEventListener('DOMContentLoaded', () => {
             let prev = document.querySelector("#prev");
             prev.addEventListener("click", function () {
-                if (curr_page > 1) {
-                    curr_page -= 1;
+                let load_home_page = sessionStorage.getItem("home_page");
+                if (load_home_page > 1) {
+                    home_page -= 1;
                     let page = document.querySelector("#page_num");
-                    page.innerText = curr_page;
+                    sessionStorage.setItem("home_page", home_page);
+                    if (home_page === 0)
+                        sessionStorage.setItem("home_page", "1");
+                    page.innerText = home_page;
+
+                    changePageNum();
+                    location.href = "?page=" + home_page;
+
                 }
             });
-        });
-    }
 
-    function next_page() {
-        document.addEventListener('DOMContentLoaded', () => {
             let next = document.querySelector("#next");
             next.addEventListener("click", function () {
-                curr_page += 1;
+                home_page += 1;
                 let page = document.querySelector("#page_num");
-                page.innerText = curr_page;
+                sessionStorage.setItem("home_page", home_page);
+                page.innerText = home_page;
+
+                changePageNum();
+                location.href = "?page=" + home_page;
+
+            });
+        });
+
+    }
+
+    function category_study() {
+        location.href = "/home?category=meal?page=" + study_page;
+        document.addEventListener('DOMContentLoaded', () => {
+            let prev = document.querySelector("#prev");
+            prev.addEventListener("click", function () {
+                if (study_page > 1) {
+                    study_page -= 1;
+                    let page = document.querySelector("#page_num");
+                    page.innerText = study_page;
+                    location.href = "?page=" + study_page;
+                }
+            });
+            let next = document.querySelector("#next");
+            next.addEventListener("click", function () {
+                study_page += 1;
+                let page = document.querySelector("#page_num");
+                page.innerText = study_page;
+                location.href = "?page=" + study_page;
             });
         })
+    }
+
+    function search() {
+        let searchText = document.querySelector()
+        location.href = "/home?search=page=" + search_page;
     }
 </script>
 
