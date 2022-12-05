@@ -182,10 +182,16 @@ public class ViewController {
 
 
     @GetMapping("/me/notification")
-    public String notice(Model model, HttpServletRequest request) {
+    public String notice(Model model, HttpServletRequest request,
+                         @RequestParam(value = "page", required = false) Integer page) {
         String userEmail = getEmail(request);
         Member member = memberService.findByMemberByEmail(userEmail);
-        List<Notice> notices = noticeService.getNotices(member);
+
+        Integer noticePage = page;
+        if (noticePage == null) {
+            noticePage = 1;
+        }
+        List<Notice> notices = noticeService.getNotices(member, noticePage);
 
         model.addAttribute("member", member);
         model.addAttribute("notices", notices);
