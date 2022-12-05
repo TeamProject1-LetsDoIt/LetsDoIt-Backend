@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>합시다</title>
+  <style>
+    body {
+      background: #424242;
+    }
+
+    button {
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      background-color: transparent;
+      border: 0;
+      outline: 0;
+
+      cursor: pointer;
+    }
+
+    #title {
+      color: #ffffff;
+      font-weight: bold;
+      font-size: 4em;
+
+      position: absolute;
+      left: 67vw;
+      top: 12vw;
+      margin-left: -724.66px;
+    }
+
+    #comment {
+      color: #ffffff;
+      font-size: 3em;
+
+      position: absolute;
+      left: 50.5vw;
+      top: 19vw;
+      margin-left: -476.25px;
+    }
+
+    #backbutton {
+      position: absolute;
+      width: 388px;
+      height: 80px;
+      left: 526px;
+      top: 502px;
+
+      background: #D9D9D9;
+      border-radius: 8px;
+
+      left: 50vw;
+      margin-top: -40px;
+      margin-left: -194px;
+
+      font-size: 2.5em;
+      font-weight: 550;
+      color: #424242;
+    }
+  </style>
+</head>
+
+<body>
+<div id="title">세션이 만료되었습니다 :(</div>
+<div id="comment">다시 로그인 해주세요.</div>
+<button type="button" id="backbutton" onclick="location.href='/login'">로그인 하러가기→</button>
+</body>
+
+</html>

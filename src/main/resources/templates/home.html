@@ -482,6 +482,32 @@
             height: 30px;
             z-index: 5;
         }
+
+        /*도움말 버튼 */
+        #help{
+            z-index:100;
+            position:absolute;
+            width:70px;
+            height:70px;
+
+            left: 1282px;
+            top: 790px;
+            background:#424242;
+            offset:0px,4px;
+            border-radius:70%;
+        }
+        .helpbtn{
+            margin-top:5px;
+            margin-bottom:10px;
+            margin-left:24px;
+
+            width:22px;
+            height:49px;
+
+            font-size:50px;
+            line-height:60.5px;
+            color:#F0F0F0
+        }
     </style>
 
 
@@ -494,8 +520,13 @@
             <img id="search_shape" src="https://jaksimharu.s3.ap-northeast-2.amazonaws.com/images/search_shape.png">
         </button>
         <input type="search" id="search_input" placeholder="검색(최대 10글자)" maxlength="10">
-
     </div>
+
+    <!--도움말 버튼!-->
+    <div id="help">
+        <div class="helpbtn" onclick="help()">?</div>
+    </div>
+
     <section class="groovyroom">
         <div class="group" th:each="group : ${groups}" th:inline-block>
             <div id="groupContents" th:attr="onclick=|checkInfo(${group.getId()})|">
@@ -617,13 +648,13 @@
                 load_study_page = 1;
             study_page = parseInt(load_study_page);
         }
-        else if (str.includes('?category=study') === true) {
+        else if (str.includes('?category=expireTime') === true) {
             let load_expireTime_page = sessionStorage.getItem("expireTime_page");
             if (load_expireTime_page === null)
                 load_expireTime_page = 1;
             expireTime_page = parseInt(load_expireTime_page);
         }
-        else if (str.includes('?category=study') === true) {
+        else if (str.includes('?search') === true) {
             let load_search_page = sessionStorage.getItem("search_page");
             if (load_search_page === null)
                 load_search_page = 1;
@@ -657,13 +688,60 @@
                 // load_page 변수 선언
                 let load_page;
                 // 현재 페이지를 불러와 뒤에 값에 맞게 load_page 변수 초기화 - sessionStorage를 이용하여 값 불러옴/저장.
-                if (str.includes('?category=meal') === true) load_page = sessionStorage.getItem("meal_page");
-                else if (str.includes('?category=exercise') === true) load_page = sessionStorage.getItem("exercise_page");
-                else if (str.includes('?category=study') === true) load_page = sessionStorage.getItem("study_page");
-                else if (str.includes('?category=expireTime') === true) load_page = sessionStorage.getItem("expireTime_page");
-                else if (str.includes('?category=search') === true) load_page = sessionStorage.getItem("search_page");
-                else load_page = sessionStorage.getItem("home_page");
+                if (str.includes('?category=meal') === true) {
+                    load_page = sessionStorage.getItem("meal_page");
 
+                    sessionStorage.setItem("exercise_page", "1");
+                    sessionStorage.setItem("study_page", "1");
+                    sessionStorage.setItem("expireTime_page", "1");
+                    sessionStorage.setItem("search_page", "1");
+                    sessionStorage.setItem("home_page", "1");
+                }
+                else if (str.includes('?category=exercise') === true) {
+                    load_page = sessionStorage.getItem("exercise_page");
+
+                    sessionStorage.setItem("meal_page", "1");
+                    sessionStorage.setItem("study_page", "1");
+                    sessionStorage.setItem("expireTime_page", "1");
+                    sessionStorage.setItem("search_page", "1");
+                    sessionStorage.setItem("home_page", "1");
+                }
+                else if (str.includes('?category=study') === true) {
+                    load_page = sessionStorage.getItem("study_page");
+
+                    sessionStorage.setItem("meal_page", "1");
+                    sessionStorage.setItem("exercise_page", "1");
+                    sessionStorage.setItem("expireTime_page", "1");
+                    sessionStorage.setItem("search_page", "1");
+                    sessionStorage.setItem("home_page", "1");
+                }
+                else if (str.includes('?category=expireTime') === true) {
+                    load_page = sessionStorage.getItem("expireTime_page");
+
+                    sessionStorage.setItem("meal_page", "1");
+                    sessionStorage.setItem("exercise_page", "1");
+                    sessionStorage.setItem("study_page", "1");
+                    sessionStorage.setItem("search_page", "1");
+                    sessionStorage.setItem("home_page", "1");
+                }
+                else if (str.includes('?category=search') === true) {
+                    load_page = sessionStorage.getItem("search_page");
+
+                    sessionStorage.setItem("meal_page", "1");
+                    sessionStorage.setItem("exercise_page", "1");
+                    sessionStorage.setItem("study_page", "1");
+                    sessionStorage.setItem("expireTime_page", "1");
+                    sessionStorage.setItem("home_page", "1");
+                }
+                else {
+                    load_page = sessionStorage.getItem("home_page");
+
+                    sessionStorage.setItem("meal_page", "1");
+                    sessionStorage.setItem("exercise_page", "1");
+                    sessionStorage.setItem("study_page", "1");
+                    sessionStorage.setItem("expireTime_page", "1");
+                    sessionStorage.setItem("search_page", "1");
+                }
                 let pageNum = document.querySelector("#page_num");
 
                 // 현재 페이지를 불러오고 str 변수에 값에 맞게 화면에 뜨는 페이지 변수를 변경.
@@ -706,7 +784,7 @@
                             sessionStorage.setItem("expireTime_page", "1");
                         pageNum.innerText = expireTime_page;
 
-                        location.href = "/home?category=expireTime&page=2" + expireTime_page;
+                        location.href = "/home?category=expireTime&page=" + expireTime_page;
                     }
                     else if (str.includes('?search') === true) {
                         search_page -= 1;
@@ -743,13 +821,60 @@
             next.addEventListener("click", function () {
                 // load_page : 페이지 주소를 불러와서 주소에 따라 다른 페이지값을 불러온다.(홈 페이지, 카테고리 페이지, 검색 페이지)
                 let load_page;
-                if (str.includes('?category=meal') === true) load_page = sessionStorage.getItem("meal_page");
-                else if (str.includes('?category=exercise') === true) load_page = sessionStorage.getItem("exercise_page");
-                else if (str.includes('?category=study') === true) load_page = sessionStorage.getItem("study_page");
-                else if (str.includes('?category=expireTime') === true) load_page = sessionStorage.getItem("expireTime_page");
-                else if (str.includes('?category=search') === true) load_page = sessionStorage.getItem("search_page");
-                else load_page = sessionStorage.getItem("home_page");
+                if (str.includes('?category=meal') === true) {
+                    load_page = sessionStorage.getItem("meal_page");
 
+                    sessionStorage.setItem("exercise_page", "1");
+                    sessionStorage.setItem("study_page", "1");
+                    sessionStorage.setItem("expireTime_page", "1");
+                    sessionStorage.setItem("search_page", "1");
+                    sessionStorage.setItem("home_page", "1");
+                }
+                else if (str.includes('?category=exercise') === true) {
+                    load_page = sessionStorage.getItem("exercise_page");
+
+                    sessionStorage.setItem("meal_page", "1");
+                    sessionStorage.setItem("study_page", "1");
+                    sessionStorage.setItem("expireTime_page", "1");
+                    sessionStorage.setItem("search_page", "1");
+                    sessionStorage.setItem("home_page", "1");
+                }
+                else if (str.includes('?category=study') === true) {
+                    load_page = sessionStorage.getItem("study_page");
+
+                    sessionStorage.setItem("meal_page", "1");
+                    sessionStorage.setItem("exercise_page", "1");
+                    sessionStorage.setItem("expireTime_page", "1");
+                    sessionStorage.setItem("search_page", "1");
+                    sessionStorage.setItem("home_page", "1");
+                }
+                else if (str.includes('?category=expireTime') === true) {
+                    load_page = sessionStorage.getItem("expireTime_page");
+
+                    sessionStorage.setItem("meal_page", "1");
+                    sessionStorage.setItem("exercise_page", "1");
+                    sessionStorage.setItem("study_page", "1");
+                    sessionStorage.setItem("search_page", "1");
+                    sessionStorage.setItem("home_page", "1");
+                }
+                else if (str.includes('?category=search') === true) {
+                    load_page = sessionStorage.getItem("search_page");
+
+                    sessionStorage.setItem("meal_page", "1");
+                    sessionStorage.setItem("exercise_page", "1");
+                    sessionStorage.setItem("study_page", "1");
+                    sessionStorage.setItem("expireTime_page", "1");
+                    sessionStorage.setItem("home_page", "1");
+                }
+                else {
+                    load_page = sessionStorage.getItem("home_page");
+
+                    sessionStorage.setItem("meal_page", "1");
+                    sessionStorage.setItem("exercise_page", "1");
+                    sessionStorage.setItem("study_page", "1");
+                    sessionStorage.setItem("expireTime_page", "1");
+                    sessionStorage.setItem("search_page", "1");
+                }
                 let pageNum = document.querySelector("#page_num");
 
                 // 현재 페이지를 불러오고 str 변수에 값에 맞게 화면에 뜨는 페이지 변수를 변경. 다음 버튼은 상관 없음.
@@ -826,11 +951,16 @@
     function search() {
         let searchInput = document.querySelector('#search_input');
         let searchText = searchInput.innerText;
+        alert(searchInput);
         if (searchText === '') {
             alert('검색어를 입력하세요!');
         } else {
             location.href = "/home?search=" + searchText + "&page=" + search_page;
         }
+    }
+
+    function help(){
+        location.href="/help"
     }
 </script>
 

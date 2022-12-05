@@ -52,7 +52,7 @@ public class ViewController {
 
     @GetMapping("/error")
     public String error() {
-        return "redirect:/login";
+        return "error";
     }
 
     @GetMapping("/login")
@@ -72,6 +72,16 @@ public class ViewController {
         model.addAttribute("member", member);
 
         return "myPage";
+    }
+
+    @GetMapping("/help")
+    public String help(Model model, HttpServletRequest request) {
+        String email = getEmail(request);
+        Member member = memberService.findByMemberByEmail(email);
+
+        model.addAttribute("member", member);
+
+        return "help";
     }
 
     @GetMapping("/me/joinGroups")
