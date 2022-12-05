@@ -790,7 +790,7 @@
                         search_page -= 1;
 
                         let searchInput = document.querySelector('#search_input');
-                        let searchText = searchInput.innerText;
+                        let searchText = searchInput.value;
 
                         sessionStorage.setItem("search_page", search_page);
                         if (search_page === 0)
@@ -922,7 +922,7 @@
                     search_page += 1;
 
                     let searchInput = document.querySelector('#search_input');
-                    let searchText = searchInput.innerText;
+                    let searchText = searchInput.value;
 
                     sessionStorage.setItem("search_page", search_page);
                     if (search_page === 0)
@@ -950,8 +950,7 @@
 
     function search() {
         let searchInput = document.querySelector('#search_input');
-        let searchText = searchInput.innerText;
-        alert(searchInput);
+        let searchText = searchInput.value;
         if (searchText === '') {
             alert('검색어를 입력하세요!');
         } else {
