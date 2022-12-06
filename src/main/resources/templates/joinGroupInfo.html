@@ -186,7 +186,7 @@
   </div>
   <div class = "party_info">
     <hr class = "hr_1">
-    <p class = "nickname" th:text="'파티장 :' + ${member.getName()}">파티장</p>
+    <p class = "nickname" th:text="'파티장 :' + ${group.getHostMember().getName()}">파티장</p>
     <p class = "category" th:text="'카테고리 :' + ${group.getCategory()}">카테고리</p>
     <p class = "content" th:text="'내용 :' + ${group.getContent()}">내용</p>
     <div class = "participant" >참가자 :
