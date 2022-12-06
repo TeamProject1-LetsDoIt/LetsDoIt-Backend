@@ -2,7 +2,7 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset = "UTF-8">
-  <title>합시다</title>
+  <title>팀프로젝트1 1조 - 합시다 웹</title>
   <meta name = "viewport" content = "width=600, height=600" />
   <style>
     p {
@@ -171,8 +171,9 @@
 <body>
 <div class = "party_background">
   <div class = "party_name">
-    <p hidden id = "name" th:value="${member.getName()}"></p>
-    <p id = "title" th:value="${notice.getType()}">제목</p>
+    <input type = "hidden" class = "name" th:value="${member.getName()}" >
+    <input type = "hidden" class = "type" th:value="${notice.getType()}" >
+    <p class = "title">제목</p>
     <button type = "button" onClick='window.close()'>
       <img src = "https://jaksimharu.s3.ap-northeast-2.amazonaws.com/images/x-png-33.png" alt = "button_x" class="button_x">
     </button>
@@ -180,7 +181,7 @@
   <div class = "party_info">
     <hr class = "hr_1">
     <p class = "party_title" th:text="'모임 제목 : '+ ${group.getTitle()}">모임 제목 :</p>
-    <p class = "nickname" th:text="'파티장 : ' + ${member.getName()}">파티장 : </p>
+    <p class = "nickname" th:text="'파티장 : ' + ${group.getHostMember().getName()}">파티장 : </p>
     <p class = "category" th:text="'카테고리 : ' + ${group.getCategory()}">카테고리 :</p>
     <p class = "content" th:text="'내용 : ' + ${group.getContent()}">내용 :</p><br/>
     <p class = "member"><span id = "curr_people" th:text="'인원 : ' + ${group.getCurrentPeople()}"></span>/<span id = "max_people" th:text="${group.getMaxPeople()}"></span></p>
@@ -192,11 +193,11 @@
     <input type="hidden" id = expireTime th:value="${group.getExpireTime()}"/>
     <p class = "date" id="outputTime"></p>
   </div>
-  <form name = "remove" action="#" th:action="@{/me/notification/{noticeId}(noticeId=${notice.getId()})}" method="#" th:method="DELETE" target="homePage" >
-    <button type = "submit" class = "button_remove" onclick="deleteNoticeFun()">알림삭제</button>
+  <form name = "remove" th:action="@{/group/{groupId}(groupId=${group.id})}" method="POST" target="homePage" >
+    <button type = "submit" class = "button_remove">알림삭제</button>
   </form>
   <form name = "doit" th:action="@{/me/notification/{noticeId}(noticeId=${notice.getId()})}" method="POST" target="homePage" >
-    <button type = "submit" class = "button_check" onclick="checkNoticeFun()">알림확인</button>
+    <button type = "submit" class = "button_check">알림확인</button>
   </form>
 </div>
 </body>
@@ -204,42 +205,37 @@
   setNoticeTitle();
   printExpireTime();
 
-  function checkNoticeFun(){
-    document.doit.submit();
-    window.close();
-  }
-
-  function deleteNoticeFun(){
-    alert("알림이 삭제되었습니다");
-    document.remove.submit();
-    window.close();
-  }
-
   function setNoticeTitle(){
-    let title = document.querySelector("#title");
-    let event = title.value;
-    let nameComponent = document.querySelector("#name");
+    let nameComponent = document.querySelector(".name");
     let name = nameComponent.value;
+    let eventComponent = document.querySelector(".type");
+    let event = eventComponent.value;
+    let titleComponent = document.querySelector(".title");
+
+    let result = "";
+
+    alert("name : " + name);
+    alert("event : " + event);
 
     if(event === "GROUP_JOIN_SUCCESS"){ /* 모임 참여 완료 이벤트 -> 1 */
-      let result = name + "님, 모임 참여가 완료되었습니다!";
-      title.innerText = result;
+      result = name + "님, 모임 참여가 완료되었습니다!";
+      titleComponent.textContent = result;
     }
     else if(event === "GROUP_JOIN_CANCEL"){ /* 모임 참여 취소 이벤트-> 2 */
-      let result = name + "님, 모임 취소가 완료되었습니다!";
-      title.innerText = result;
+      result = name + "님, 모임 취소가 완료되었습니다!";
+      titleComponent.textContent = result;
     }
     else if(event === "GROUP_GATHER_SUCCESS"){ /*모임 모집 완료 이벤트 -> 3 */
-      let result = name + "님, 모임 모집이 완료되었습니다!";
-      title.innerText = result;
+      result = name + "님, 모임 모집이 완료되었습니다!";
+      titleComponent.textContent = result;
     }
     else if(event === "GROUP_GATHER_CANCEL"){ /* 모임 모집 취소 이벤트 -> 4 */
-      let result = name + "님, 모임 모집이 취소되었습니다!";
-      title.innerText = result;
+      result = name + "님, 모임 모집이 취소되었습니다!";
+      titleComponent.textContent = result;
     }
-    else if(event === "ANNOUNCEMENT"){ /* 공지사항 이벤트 -> 4 */
-      let result = "공지사항";
-      title.innerText = result;
+    else if(event === "ANNOUNCEMENT"){ /* 공지사항 이벤트 -> 5 */
+      result = "공지사항";
+      titleComponent.textContent = result;
     }
   }
   function printExpireTime(){

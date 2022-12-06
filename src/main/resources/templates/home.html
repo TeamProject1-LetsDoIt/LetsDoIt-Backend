@@ -419,7 +419,7 @@
         }
 
         /* 마감 시간 아래에 윤곽선 */
-        .menu>li:nth-child(4) {
+        .menu>li:nth-child(5) {
             border-bottom: 1px dashed #646464;
         }
 
@@ -581,6 +581,7 @@
                         <li><a id="meal" data-page="1" href="/home?category=meal&page=1">식사 합시다</a></li>
                         <li><a id="exercise" data-page="1" href="/home?category=exercise&page=1">운동 합시다</a></li>
                         <li><a id="study" data-page="1" href="/home?category=study&page=1">공부 합시다</a></li>
+                        <li><a id="etc" data-page="1" href="/home?category=etc&page=1">기타 합시다</a></li>
                         <li><a id="expireTime" data-page="1" href="/home?category=expireTime&page=1">마감 시간</a></li>
                     </ul>
                 </li>
@@ -598,6 +599,7 @@
     let meal_page = 1;
     let exercise_page = 1;
     let study_page = 1;
+    let etc_page = 1;
     let expireTime_page = 1;
     let search_page = 1;
     init();
@@ -648,6 +650,12 @@
                 load_study_page = 1;
             study_page = parseInt(load_study_page);
         }
+        else if (str.includes('?category=etc') === true) {
+            let load_etc_page = sessionStorage.getItem("etc_page");
+            if (load_etc_page === null)
+                load_etc_page = 1;
+            etc_page = parseInt(load_etc_page);
+        }
         else if (str.includes('?category=expireTime') === true) {
             let load_expireTime_page = sessionStorage.getItem("expireTime_page");
             if (load_expireTime_page === null)
@@ -670,6 +678,7 @@
         if (str.includes('?category=meal') === true) page.innerText = meal_page;
         else if (str.includes('?category=exercise') === true) page.innerText = exercise_page;
         else if (str.includes('?category=study') === true) page.innerText = study_page;
+        else if (str.includes('?category=etc') === true) page.innerText = etc_page;
         else if (str.includes('?category=expireTime') === true) page.innerText = expireTime_page;
         else if (str.includes('?category=search') === true) page.innerText = search_page;
         else page.innerText = home_page;
@@ -693,6 +702,7 @@
 
                     sessionStorage.setItem("exercise_page", "1");
                     sessionStorage.setItem("study_page", "1");
+                    sessionStorage.setItem("etc_page", "1");
                     sessionStorage.setItem("expireTime_page", "1");
                     sessionStorage.setItem("search_page", "1");
                     sessionStorage.setItem("home_page", "1");
@@ -702,6 +712,7 @@
 
                     sessionStorage.setItem("meal_page", "1");
                     sessionStorage.setItem("study_page", "1");
+                    sessionStorage.setItem("etc_page", "1");
                     sessionStorage.setItem("expireTime_page", "1");
                     sessionStorage.setItem("search_page", "1");
                     sessionStorage.setItem("home_page", "1");
@@ -711,6 +722,17 @@
 
                     sessionStorage.setItem("meal_page", "1");
                     sessionStorage.setItem("exercise_page", "1");
+                    sessionStorage.setItem("etc_page", "1");
+                    sessionStorage.setItem("expireTime_page", "1");
+                    sessionStorage.setItem("search_page", "1");
+                    sessionStorage.setItem("home_page", "1");
+                }
+                else if (str.includes('?category=etc') === true) {
+                    load_page = sessionStorage.getItem("etc_page");
+
+                    sessionStorage.setItem("meal_page", "1");
+                    sessionStorage.setItem("exercise_page", "1");
+                    sessionStorage.setItem("study_page", "1");
                     sessionStorage.setItem("expireTime_page", "1");
                     sessionStorage.setItem("search_page", "1");
                     sessionStorage.setItem("home_page", "1");
@@ -721,6 +743,7 @@
                     sessionStorage.setItem("meal_page", "1");
                     sessionStorage.setItem("exercise_page", "1");
                     sessionStorage.setItem("study_page", "1");
+                    sessionStorage.setItem("etc_page", "1");
                     sessionStorage.setItem("search_page", "1");
                     sessionStorage.setItem("home_page", "1");
                 }
@@ -730,6 +753,7 @@
                     sessionStorage.setItem("meal_page", "1");
                     sessionStorage.setItem("exercise_page", "1");
                     sessionStorage.setItem("study_page", "1");
+                    sessionStorage.setItem("etc_page", "1");
                     sessionStorage.setItem("expireTime_page", "1");
                     sessionStorage.setItem("home_page", "1");
                 }
@@ -739,6 +763,7 @@
                     sessionStorage.setItem("meal_page", "1");
                     sessionStorage.setItem("exercise_page", "1");
                     sessionStorage.setItem("study_page", "1");
+                    sessionStorage.setItem("etc_page", "1");
                     sessionStorage.setItem("expireTime_page", "1");
                     sessionStorage.setItem("search_page", "1");
                 }
@@ -775,6 +800,16 @@
                         pageNum.innerText = study_page;
 
                         location.href = "/home?category=study&page=" + study_page;
+                    }
+                    else if (str.includes('?category=etc') === true) {
+                        etc_page -= 1;
+
+                        sessionStorage.setItem("etc_page", etc_page);
+                        if (etc_page === 0)
+                            sessionStorage.setItem("etc_page", "1");
+                        pageNum.innerText = etc_page;
+
+                        location.href = "/home?category=etc&page=" + etc_page;
                     }
                     else if (str.includes('?category=expireTime') === true) {
                         expireTime_page -= 1;
@@ -826,6 +861,7 @@
 
                     sessionStorage.setItem("exercise_page", "1");
                     sessionStorage.setItem("study_page", "1");
+                    sessionStorage.setItem("etc_page", "1");
                     sessionStorage.setItem("expireTime_page", "1");
                     sessionStorage.setItem("search_page", "1");
                     sessionStorage.setItem("home_page", "1");
@@ -835,6 +871,7 @@
 
                     sessionStorage.setItem("meal_page", "1");
                     sessionStorage.setItem("study_page", "1");
+                    sessionStorage.setItem("etc_page", "1");
                     sessionStorage.setItem("expireTime_page", "1");
                     sessionStorage.setItem("search_page", "1");
                     sessionStorage.setItem("home_page", "1");
@@ -844,6 +881,17 @@
 
                     sessionStorage.setItem("meal_page", "1");
                     sessionStorage.setItem("exercise_page", "1");
+                    sessionStorage.setItem("etc_page", "1");
+                    sessionStorage.setItem("expireTime_page", "1");
+                    sessionStorage.setItem("search_page", "1");
+                    sessionStorage.setItem("home_page", "1");
+                }
+                else if (str.includes('?category=etc') === true) {
+                    load_page = sessionStorage.getItem("etc_page");
+
+                    sessionStorage.setItem("meal_page", "1");
+                    sessionStorage.setItem("exercise_page", "1");
+                    sessionStorage.setItem("study_page", "1");
                     sessionStorage.setItem("expireTime_page", "1");
                     sessionStorage.setItem("search_page", "1");
                     sessionStorage.setItem("home_page", "1");
@@ -854,6 +902,7 @@
                     sessionStorage.setItem("meal_page", "1");
                     sessionStorage.setItem("exercise_page", "1");
                     sessionStorage.setItem("study_page", "1");
+                    sessionStorage.setItem("etc_page", "1");
                     sessionStorage.setItem("search_page", "1");
                     sessionStorage.setItem("home_page", "1");
                 }
@@ -863,6 +912,7 @@
                     sessionStorage.setItem("meal_page", "1");
                     sessionStorage.setItem("exercise_page", "1");
                     sessionStorage.setItem("study_page", "1");
+                    sessionStorage.setItem("etc_page", "1");
                     sessionStorage.setItem("expireTime_page", "1");
                     sessionStorage.setItem("home_page", "1");
                 }
@@ -872,6 +922,7 @@
                     sessionStorage.setItem("meal_page", "1");
                     sessionStorage.setItem("exercise_page", "1");
                     sessionStorage.setItem("study_page", "1");
+                    sessionStorage.setItem("etc_page", "1");
                     sessionStorage.setItem("expireTime_page", "1");
                     sessionStorage.setItem("search_page", "1");
                 }
@@ -907,6 +958,16 @@
                     pageNum.innerText = study_page;
 
                     location.href = "/home?category=study&page=" + study_page;
+                }
+                else if (str.includes('?category=etc') === true) {
+                    etc_page += 1;
+
+                    sessionStorage.setItem("etc_page", etc_page);
+                    if (etc_page === 0)
+                        sessionStorage.setItem("etc_page", "1");
+                    pageNum.innerText = etc_page;
+
+                    location.href = "/home?category=etc&page=" + etc_page;
                 }
                 else if (str.includes('?category=expireTime') === true) {
                     expireTime_page += 1;

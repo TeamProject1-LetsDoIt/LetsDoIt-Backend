@@ -375,7 +375,8 @@
   <section class="groovyroom">
     <div class="notice" th:each="notice : ${notices}" th:inline-block>
       <div class="noticeContents" th:attr="onclick=|checkInfo(${notice.getId()})|">
-        <div class="noticeCheck" th:value="${notice.getCheck()}"></div>
+        <input type = "hidden" class ="check" th:value="${notice.getCheck()}">
+        <div class="noticeCheck"></div>
         <h1 id="noticeTitle" th:value="${notice.getType()}" th:text="${notice.getTitle()}">제목1</h1>
         <p id="contents" th:value="${notice.getTitle()}" th:name="${notice.getContent()}"
            th:text="${notice.getContent()}">내용</p>
@@ -422,9 +423,9 @@
   function init() {
     pagination();
     changePageNum();
-    setNoticeTitle();
-    noticeCheck();
     initCheck();
+    noticeCheck();
+    setNoticeTitle();
   }
   /*각각 메인화면, 마이페이지, 참여한 모임, 내가 만든 모임 확인 가능*/
   function home() {
@@ -447,7 +448,7 @@
       load_page = 1;
     notice_page = parseInt(load_page);
 
-    page.innerText = notice_page;
+    page.textContent = notice_page;
   }
   function pagination() {
     document.addEventListener('DOMContentLoaded', () => {
@@ -462,7 +463,7 @@
           sessionStorage.setItem("noticePage", notice_page);
           if (notice_page === 0)
             sessionStorage.setItem("noticePage", "1");
-          page.innerText = notice_page;
+          page.textContent = notice_page;
 
           location.href = "/me/notification?page=" + notice_page;
         }
@@ -474,7 +475,7 @@
         sessionStorage.setItem("noticePage", notice_page);
         if (notice_page === 0)
           sessionStorage.setItem("noticePage", "1");
-        page.innerText = notice_page;
+        page.textContent = notice_page;
 
         location.href = "/me/notification?page=" + notice_page;
       });
@@ -482,6 +483,7 @@
   }
   /*initCheck -> noticeCheck의 check가 True면 회색 / False면 흰색*/
   function initCheck() {
+    let Check = document.querySelectorAll(".check");
     let noticeCheck = document.querySelectorAll(".noticeCheck");
     notice_length = noticeCheck.length;
 
@@ -489,11 +491,13 @@
       alert('notice_length : '+ notice_length);
       alert('noticeCheck가 존재합니다.');
     }
+
+    let checkValue = 0;
     if (noticeCheck != null && notice_length > 0) {
       for (let i = 0; i < notice_length; i++) {
-        let check = noticeCheck[i].value;
-        alert((i+1) + "번째 : " + check);
-        if (check === 1) {
+        checkValue = Check[i].value;
+        alert((i+1) + "번째 : " + checkValue);
+        if (checkValue === 1) {
           noticeCheck[i].style.backgroundColor = "#585858";
         } else {
           noticeCheck[i].style.backgroundColor = "#FFFFFF";
@@ -515,56 +519,53 @@
     let event = title.value;
 
     if (event === "GROUP_JOIN_SUCCESS") { /* 모임 참여 완료 이벤트 -> 1 */
-      title.innerText = "모임 참여 완료"
+      title.textContent = "모임 참여 완료"
       setNoticeContent(event);
     }
     else if (event === "GROUP_JOIN_CANCEL") { /* 모임 참여 취소 이벤트-> 2 */
-      title.innerText = "모임 참여 취소"
+      title.textContent = "모임 참여 취소"
       setNoticeContent(event);
     }
     else if (event === "GROUP_GATHER_SUCCESS") { /*모임 모집 완료 이벤트 -> 3 */
-      title.innerText = "모임 모집 완료"
+      title.textContent = "모임 모집 완료"
       setNoticeContent(event);
     }
     else if (event === "GROUP_GATHER_CANCEL") { /* 모임 참여 취소 이벤트 -> 4 */
-      title.innerText = "모임 모집 취소"
+      title.textContent = "모임 모집 취소"
       setNoticeContent(event);
     }
     else if (event === "ANNOUNCEMENT") { /* 공지사항 이벤트 -> 4 */
-      title.innerText = "공지사항"
+      title.textContent = "공지사항"
       setNoticeContent(event);
     }
   }
   /*알림의 이벤트 목록에 따라 달라지는 내용*/
   function setNoticeContent(event) {
-    let content = document.querySelector("#contents");
-    let title = content.value;
+    let contentElements = document.querySelector("#contents");
+    let party_title = contentElements.value;
+    let text = "";
     if (event === "GROUP_JOIN_SUCCESS") {
-      content.innerText = "<" + title + ">의 모임 참여가 완료되었습니다."
-      setNoticeContent(event);
+      text = "<" + party_title + ">의 모임 참여가 완료되었습니다.";
+      content.textContent = text
     }
     else if (event === "GROUP_JOIN_CANCEL") {
-      content.innerText = "<" + title + ">의 모임 참여가 취소되었습니다."
-      setNoticeContent(event);
+      content.textContent = "<" + party_title + ">의 모임 참여가 취소되었습니다."
     }
     else if (event === "GROUP_GATHER_SUCCESS") {
-      content.innerText = "<" + title + ">의 모임 모집이 완료되었습니다."
-      setNoticeContent(event);
+      content.textContent = "<" + party_title + ">의 모임 모집이 완료되었습니다."
     }
     else if (event === "GROUP_GATHER_CANCEL") {
-      content.innerText = "<" + title + ">의 모임 모집이 취소되었습니다."
-      setNoticeContent(event);
+      content.textContent = "<" + title + ">의 모임 모집이 취소되었습니다."
     }
     else if (event === "ANNOUNCEMENT") {
-      let contents = content.name;
-      content.innerText = contents;
-      setNoticeContent(event);
+      let contents = contentElements.name;
+      content.textContent = contents;
     }
   }
   /*notice를 체크하면 회색으로 변경, notice의 check 변수를 불러와서 자동으로 회색 변경.*/
   function noticeCheck() {
     document.addEventListener('DOMContentLoaded', () => {
-      let notice = document.getElementsByClassName("noticeContents");
+      let notice = document.querySelectorAll(".noticeContents");
       for (let i = 0; i < notice.length; i++) {
         notice[i].addEventListener('click', function () {
           document.querySelectorAll(".noticeCheck")[i].style.backgroundColor = "#585858";
