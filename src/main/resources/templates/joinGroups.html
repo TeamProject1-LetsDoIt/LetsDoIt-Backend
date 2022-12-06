@@ -273,7 +273,7 @@
 
       background-color: #585858;
       margin-top: 4.8px;
-      margin-bottom: 10px;
+      margin-bottom: 10.3px;
 
       flex-flow: row-reverse wrap;
       z-index: 3;
@@ -395,21 +395,24 @@
     <button class="button_notification" onclick="notification()">알림</button>
   </div>
   <div>
-    <button type="button" id="prev"><img src="./left.png" class="prev_page"></button>
-    <p id="page_num">0</p>
-    <button type="button" id="next"><img src="./right.png" class="next_page"></button>
+    <button type="button" id="prev"><img
+            src="https://jaksimharu.s3.ap-northeast-2.amazonaws.com/images/left.png"
+            class="prev_page"></button>
+    <p id="page_num">1</p>
+    <button type="button" id="next"><img
+            src="https://jaksimharu.s3.ap-northeast-2.amazonaws.com/images/right.png"
+            class="next_page"></button>
   </div>
 </div>
 </body>
 <script>
 
-  let curr_page = 0;
+  let join_page = 1;
   init();
 
   function init() {
-    prev_page();
-    next_page();
-    setPageNum();
+    pagination();
+    changePageNum();
   }
   function home() {
     location.href = "/home"
@@ -430,32 +433,44 @@
     myWindow.moveTo(500, 100);
     myWindow.resizeTo(650, 400);
   }
-  function setPageNum() {
-    curr_page = 1;
+  function changePageNum() {
     let page = document.querySelector("#page_num");
-    page.innerText = curr_page;
-    console.log("curr_page " + curr_page);
+
+    let load_page = sessionStorage.getItem("joinGroupPage");
+    if (load_page === null)
+      load_page = 1;
+    join_page = parseInt(load_page);
+
+    page.innerText = join_page;
   }
-  function prev_page() {
+  function pagination() {
     document.addEventListener('DOMContentLoaded', () => {
+      let load_page = sessionStorage.getItem("joinGroupPage");
+      let page = document.querySelector("#page_num");
+
       let prev = document.querySelector("#prev");
       prev.addEventListener("click", function () {
-        if (curr_page > 1) {
-          curr_page -= 1;
-          let page = document.querySelector("#page_num");
-          page.innerText = curr_page;
+        if (load_page > 1) {
+          join_page -= 1;
+
+          sessionStorage.setItem("joinGroupPage", join_page);
+          if (join_page === 0)
+            sessionStorage.setItem("joinGroupPage", "1");
+          page.innerText = join_page;
+
+          location.href = "/me/joinGroups?page=" + join_page;
         }
       });
-    });
-  }
 
-  function next_page() {
-    document.addEventListener('DOMContentLoaded', () => {
       let next = document.querySelector("#next");
       next.addEventListener("click", function () {
-        curr_page += 1;
-        let page = document.querySelector("#page_num");
-        page.innerText = curr_page;
+        join_page += 1;
+        sessionStorage.setItem("joinGroupPage", join_page);
+        if (join_page === 0)
+          sessionStorage.setItem("joinGroupPage", "1");
+        page.innerText = join_page;
+
+        location.href = "/me/joinGroups?page=" + join_page;
       });
     })
   }

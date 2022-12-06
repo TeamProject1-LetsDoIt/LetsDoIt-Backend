@@ -693,6 +693,38 @@
     .none7>#numPeople>#numP{
       color:#F0F0F0;
     }
+
+    .prev_page {
+      position: absolute;
+      left: 460px;
+      top: 900px;
+      width: 30px;
+      height: 30px;
+      z-index: 5;
+    }
+
+    #page_num {
+      position: absolute;
+      left: 495px;
+      top: 880px;
+
+      width: 20px;
+      height: 30px;
+      line-height: 30px;
+      text-align: center;
+
+      z-index: 5;
+    }
+
+    .next_page {
+      position: absolute;
+      left: 520px;
+      top: 900px;
+
+      width: 30px;
+      height: 30px;
+      z-index: 5;
+    }
   </style>
 
 
@@ -775,11 +807,14 @@
       <div class="nonegroup none9"></div>
       <div class="nonegroup none10"></div>
     </div>
-    <div class="button">
-      <span><button id="Btn1" >이전</button></span>
-      <span>pn</span>
-      <span><button id="Btn2" >다음</button></span>
-
+    <div>
+      <button type="button" id="prev"><img
+              src="https://jaksimharu.s3.ap-northeast-2.amazonaws.com/images/left.png"
+              class="prev_page"></button>
+      <p id="page_num">1</p>
+      <button type="button" id="next"><img
+              src="https://jaksimharu.s3.ap-northeast-2.amazonaws.com/images/right.png"
+              class="next_page"></button>
     </div>
 
   </section>

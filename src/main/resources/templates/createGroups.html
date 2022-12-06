@@ -181,12 +181,6 @@
       z-index: 1;
     }
 
-    .group {
-      flex-flow: row-reverse wrap;
-      display: inline-block;
-      margin-left: 10px;
-    }
-
     .nonegroup {
       box-sizing: border-box;
       display: inline-block;
@@ -259,6 +253,12 @@
       top: 750px;
     }
 
+    .group {
+      flex-flow: row-reverse wrap;
+      display: inline-block;
+      margin-left: 10px;
+    }
+
     /*각각의 모임의 내용에 대해 보여줄 칸, 구역을 10개로 분할*/
     #groupContents {
       border-radius: 10px;
@@ -272,7 +272,7 @@
 
       background-color: #585858;
       margin-top: 4.8px;
-      margin-bottom: 10px;
+      margin-bottom: 10.3px;
 
       flex-flow: row-reverse wrap;
       z-index: 3;
@@ -391,24 +391,27 @@
     </hr>
     <button onclick="location.href='/me'" class="button_privacy">개인정보</button>
     <button onclick="location.href='/me/joinGroups'" class="button_participated_party">참여한 모임</button>
-    <button onclick="location.href='/me/createGroups'" class="button_recruiting_party">모집중인 모임</button>
+    <button class="button_recruiting_party">모집중인 모임</button>
     <button onclick="location.href='/me/notification'" class="button_notification">알림</button>
   </div>
   <div>
-    <button type="button" id="prev"><img src="./left.png" class="prev_page"></button>
-    <p id="page_num">0</p>
-    <button type="button" id="next"><img src="./right.png" class="next_page"></button>
+    <button type="button" id="prev"><img
+            src="https://jaksimharu.s3.ap-northeast-2.amazonaws.com/images/left.png"
+            class="prev_page"></button>
+    <p id="page_num">1</p>
+    <button type="button" id="next"><img
+            src="https://jaksimharu.s3.ap-northeast-2.amazonaws.com/images/right.png"
+            class="next_page"></button>
   </div>
 </div>
 </body>
 <script>
-  let curr_page = 0;
+  let create_page = 1;
   init();
 
   function init() {
-    prev_page();
-    next_page();
-    setPageNum();
+    pagination();
+    changePageNum();
   }
 
   function checkInfo(id) {
@@ -417,32 +420,44 @@
     myWindow.moveTo(500, 100);
     myWindow.resizeTo(650, 400);
   }
-  function setPageNum() {
-    curr_page = 1;
+  function changePageNum() {
     let page = document.querySelector("#page_num");
-    page.innerText = curr_page;
+
+    let load_page = sessionStorage.getItem("createGroupPage");
+    if (load_page === null)
+      load_page = 1;
+    create_page = parseInt(load_page);
+
+    page.innerText = create_page;
   }
-  function prev_page() {
+  function pagination() {
     document.addEventListener('DOMContentLoaded', () => {
+      let load_page = sessionStorage.getItem("createGroupPage");
+      let page = document.querySelector("#page_num");
+
       let prev = document.querySelector("#prev");
       prev.addEventListener("click", function () {
-        if (curr_page > 1) {
-          curr_page -= 1;
-          let page = document.querySelector("#page_num");
-          page.innerText = curr_page;
+        if (load_page > 1) {
+          create_page -= 1;
 
+          sessionStorage.setItem("createGroupPage", create_page);
+          if (create_page === 0)
+            sessionStorage.setItem("createGroupPage", "1");
+          page.innerText = create_page;
+
+          location.href = "/me/createGroups?page=" + create_page;
         }
       });
-    });
-  }
 
-  function next_page() {
-    document.addEventListener('DOMContentLoaded', () => {
       let next = document.querySelector("#next");
       next.addEventListener("click", function () {
-        curr_page += 1;
-        let page = document.querySelector("#page_num");
-        page.innerText = curr_page;
+        create_page += 1;
+        sessionStorage.setItem("createGroupPage", create_page);
+        if (create_page === 0)
+          sessionStorage.setItem("createGroupPage", "1");
+        page.innerText = create_page;
+
+        location.href = "/me/createGroups?page=" + create_page;
       });
     })
   }
