@@ -89,6 +89,7 @@ public class GroupService {
                 break;
             case "etc":
                 result = "기타합시다";
+                break;
             default:
                 result = "";
         }
