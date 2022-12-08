@@ -193,7 +193,7 @@
     <input type="hidden" id = expireTime th:value="${group.getExpireTime()}"/>
     <p class = "date" id="outputTime"></p>
   </div>
-  <form name = "remove" th:action="@{/group/{groupId}(groupId=${group.id})}" method="POST" target="homePage" >
+  <form name = "remove" action="#" th:action="@{/me/notification/{noticeId}(noticeId=${notice.getId()})}" method="#" th:method="DELETE" target="homePage" >
     <button type = "submit" class = "button_remove">알림삭제</button>
   </form>
   <form name = "doit" th:action="@{/me/notification/{noticeId}(noticeId=${notice.getId()})}" method="POST" target="homePage" >
