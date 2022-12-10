@@ -24,7 +24,11 @@ public class Member extends BaseEntity {
 
     private Role role;
 
+    private Integer reportCount;
+
     private Provider provider;
+
+    private Status status;
 
     private String providerId;
 
@@ -36,6 +40,8 @@ public class Member extends BaseEntity {
         this.role = role;
         this.provider = provider;
         this.providerId = providerId;
+        this.status = Status.ACTIVE;
+        this.reportCount = 0;
     }
 
     public void setId(Long id) {
@@ -48,6 +54,13 @@ public class Member extends BaseEntity {
 
     public void updateImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    public void updateReportCount(){
+        reportCount++;
+        if (reportCount >= 5) {
+            this.status = Status.BAN;
+        }
     }
 
 }

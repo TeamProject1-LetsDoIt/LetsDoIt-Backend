@@ -509,6 +509,26 @@
             line-height:60.5px;
             color:#F0F0F0
         }
+
+        /*신고 버튼 */
+        #report{
+            z-index:100;
+            position:absolute;
+            width:55px;
+            height:55px;
+
+            left: 1320px;
+            top: 80px;
+            background:#424242;
+            offset:0px,4px;
+            border-radius:8px;
+        }
+        .reportbtn{
+            width:40px;
+            height:40px;
+            margin-top: 3px;
+            margin-left: 2px;
+        }
     </style>
 
 
@@ -526,6 +546,12 @@
     <!--도움말 버튼!-->
     <div id="help">
         <div class="helpbtn" onclick="help()">?</div>
+    </div>
+
+    <div id = "report">
+        <button onclick = "report()">
+            <img class = "reportbtn" src="https://jaksimharu.s3.ap-northeast-2.amazonaws.com/images/siren.png">
+        </button>
     </div>
 
     <section class="groovyroom">
@@ -1023,6 +1049,13 @@
     function help(){
         location.href="/help"
     }
-</script>
 
+    function report(){
+        window.name = "homePage";
+        const myWindow = window.open("/report", "report", "scrollbars=no, status=no");
+        myWindow.moveTo(500, 100);
+        myWindow.resizeTo(650, 700);
+    }
+
+</script>
 </html>

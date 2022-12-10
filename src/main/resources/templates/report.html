@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content = "width=600, height=600">
+    <link href="https://jaksimharu.s3.ap-northeast-2.amazonaws.com/images/logo.png" rel="shortcut icon" type="image/x-icon">
+    <title>합시다</title>
+    <style>
+        p {
+            color: #FFFFFF;
+            font-family: 'Inter';
+            font-style: normal;
+            font-weight: 400;
+            font-size: 18px;
+            line-height: 22px;
+        }
+
+        span {
+            color: #FFFFFF;
+            font-family: 'Inter';
+            font-style: normal;
+            font-size: 18px;
+            line-height: 22px;
+        }
+
+        body {
+            display: relative;
+        }
+
+        input {
+            background-color: transparent;
+            color: #FFFFFF;
+            font-family: 'Inter';
+            font-style: normal;
+            font-weight: 400;
+        }
+
+        button {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            background-color: transparent;
+            border: 0;
+            outline: 0;
+
+            cursor: pointer;
+        }
+
+        body {
+            background-color: #5f5f5f;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .party_background {
+            /*relative*/
+            position: relative;
+            width: 600px;
+            height: 600px;
+            margin: 0px auto;
+
+            background: #5F5F5F;
+            border-radius: 8px;
+            display: block;
+        }
+
+        /*make_party_title : 맨 윗줄, x버튼 */
+        .make_party_title {
+            z-index: 30;
+            position: absolute;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .button_x {
+            z-index: 10;
+            position: absolute;
+            width: 20px;
+            height: 20px;
+
+            left: 570px;
+            border: 0;
+            display: inline-block;
+        }
+
+        /* 파티 제목 */
+        .make_title {
+            position: absolute;
+            font-size: 18px;
+            line-height: 22px;
+            width: 140px;
+            height: 22px;
+            top: -10px;
+            left: 240px;
+            text-align: left;
+        }
+
+        .rep_type {
+            position: absolute;
+            left: 135px;
+            top: 60px;
+        }
+
+        .input_content1 {
+            position: absolute;
+            width: 470px;
+            height: 50px;
+            top: 145px;
+            left: 60px;
+            background: #323232;
+            resize: none;
+
+            color: #FFFFFF;
+            font-family: 'Inter';
+            font-style: normal;
+            font-weight: 400;
+            font-size: 18px;
+            line-height: 22px;
+            border: 0;
+            outline: 0;
+        }
+
+        .input_content2 {
+            position: absolute;
+
+            width: 470px;
+            height: 250px;
+            top: 230px;
+            left: 60px;
+            background: #323232;
+            resize: none;
+
+            color: #FFFFFF;
+            font-family: 'Inter';
+            font-style: normal;
+            font-weight: 400;
+            font-size: 18px;
+            line-height: 22px;
+            border: 0;
+            outline: 0;
+        }
+
+        #person {
+            position: absolute;
+            top: 95px;
+            left: 60px;
+        }
+
+        #reason {
+            position: absolute;
+            top: 185px;
+            left: 60px;
+        }
+
+        /* 합시다 버튼 */
+        .button_report {
+            z-index: 30;
+            position: absolute;
+            width: 85px;
+            height: 40px;
+            left: 489px;
+            top: 530px;
+
+            background: #D9D9D9;
+            color: #424242;
+            border-radius: 20px;
+            display: inline-block;
+            font-size: 18px;
+            line-height: 18px;
+
+            border: 0;
+            outline: 0;
+
+            cursor: pointer;
+        }
+
+        .button_report:hover {
+            background-color: #aca9a9;
+        }
+    </style>
+</head>
+
+<body>
+
+<form action="/report" id="report" th:action th:object="${reportMember}" method="post" target="homePage">
+    <div class="party_background">
+        <div class="make_party_title">
+
+            <p class="make_title">유저 신고하기</p>
+
+            <button type="button" onClick='window.close()'>
+                <img src="https://jaksimharu.s3.ap-northeast-2.amazonaws.com/images/x-png-33.png" alt="button_x"
+                     class="button_x">
+            </button>
+
+            <!--form 내용 부분-->
+        </div>
+
+        <!--field부분 교체-->
+        <div class="rep_type">
+            <input type="radio" class="noshow" name="inputTitle" value="모임에 미참여"
+                   placeholder="제목">
+            <span>모임에 미참여</span>
+            <input type="radio" class="badgroup" name="inputTitle" value="부적절한 모임"
+                   placeholder="제목">
+            <span>부적절한 모임 생성</span><br>
+        </div>
+
+
+        <div class="dest_user">
+            <p id="person">대상자:</p>
+            <textarea placeholder="대상자의 Email을 쓰세요." name="content1" class="input_content1" th:field="*{email}"
+                      required></textarea>
+        </div>
+        <div class="report_reason">
+            <p id="reason">신고사유:</p>
+            <textarea placeholder="신고 사유를 작성하세요." name="content2" class="input_content2" th:field="*{content}"
+                      required maxlength="100"></textarea>
+        </div>
+
+        <!-- 제출 -->
+        <input type="submit" class="button_report" value="신고하기">
+    </div>
+</form>
+</body>
+<script type="text/javascript">
+    document.querySelector("#report").onsubmit = function () {
+
+        alert("신고가 완료되었습니다.");
+        window.close();
+    };
+</script>
+
+</html>

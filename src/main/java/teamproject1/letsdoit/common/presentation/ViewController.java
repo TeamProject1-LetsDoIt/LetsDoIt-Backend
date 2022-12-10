@@ -2,7 +2,6 @@ package teamproject1.letsdoit.common.presentation;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.aspectj.weaver.ast.Not;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -11,6 +10,7 @@ import teamproject1.letsdoit.common.exception.advice.error.DefaultException;
 import teamproject1.letsdoit.common.exception.advice.payload.ErrorCode;
 import teamproject1.letsdoit.common.presentation.dto.Category;
 import teamproject1.letsdoit.common.presentation.dto.GroupForm;
+import teamproject1.letsdoit.common.presentation.dto.ReportMemberForm;
 import teamproject1.letsdoit.group.domain.repository.GroupRepository;
 import teamproject1.letsdoit.member.application.MemberService;
 import teamproject1.letsdoit.member.domain.Member;
@@ -28,8 +28,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
+
+import static teamproject1.letsdoit.member.domain.Status.BAN;
 
 @Controller
 @RequiredArgsConstructor
@@ -82,6 +83,24 @@ public class ViewController {
         model.addAttribute("member", member);
 
         return "help";
+    }
+
+    @GetMapping("/report")
+    public String report(Model model) {
+
+        model.addAttribute("reportMember", new ReportMemberForm());
+
+        return "report";
+    }
+
+    @PostMapping("/report")
+    public String postReport(@Valid ReportMemberForm reportMemberForm, HttpServletRequest request) {
+        String userEmail = getEmail(request);
+        Member member = memberService.findByMemberByEmail(reportMemberForm.getEmail());
+
+        member.updateReportCount();
+
+        return "redirect:/home";
     }
 
     @GetMapping("/me/joinGroups")
@@ -295,6 +314,9 @@ public class ViewController {
 
         String email = getEmail(request);
         Member member = memberRepository.findByEmail(email).orElseThrow(() -> new DefaultException(ErrorCode.INVALID_CHECK, "존재하지 않는 멤버입니다"));
+        if (member.getStatus().equals(BAN)) {
+            return "redirect:/home";
+        }
 
         Group group = Group.builder()
                 .title(groupForm.getTitle())
@@ -330,6 +352,10 @@ public class ViewController {
         String email = getEmail(request);
         Member member = memberRepository.findByEmail(email).orElseThrow(() -> new DefaultException(ErrorCode.INVALID_CHECK, "존재하지 않는 멤버입니다."));
         Group group = groupService.findGroupById(Long.valueOf(groupId));
+
+        if (member.getStatus().equals(BAN)) {
+            return "redirect:/home";
+        }
 
         if (group.getPeopleList().stream().anyMatch(people -> people.getEmail().equals(email))) {
             return "redirect:/home";
