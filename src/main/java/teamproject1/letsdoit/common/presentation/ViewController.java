@@ -361,6 +361,10 @@ public class ViewController {
             return "redirect:/home";
         }
 
+        if (group.getMaxPeople() == group.getCurrentPeople()) {
+            return "redirect:/home";
+        }
+
         group.addPeople(member);
         Notice joinNotice = Notice.builder()
                 .groupId(group.getId())
