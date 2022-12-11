@@ -362,7 +362,7 @@ public class ViewController {
             return "redirect:/home";
         }
 
-        if (group.getMaxPeople() == group.getCurrentPeople()) {
+        if (group.getMaxPeople() == group.getPeopleList().size()) {
             return "redirect:/home";
         }
 
