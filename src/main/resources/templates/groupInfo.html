@@ -232,8 +232,8 @@
         function participate_party(){
             let current_email = document.querySelector('#current_email').innerHTML;
             let host_email = document.querySelector('#host_email').innerHTML;
-            let curr_people = document.querySelector('#curr_people').innerHTML;
-            let max_people = document.querySelector('#max_people').innerHTML;
+            let curr_people = document.querySelector('#curr_people').innerText;
+            let max_people = document.querySelector('#max_people').innerText;
             if(host_email === current_email){
                 alert('방장은 방에 참여할 수 없습니다.')
                 window.close();
