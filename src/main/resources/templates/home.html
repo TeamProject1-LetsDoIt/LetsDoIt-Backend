@@ -550,7 +550,7 @@
 <body>
 <div class="main">
     <div id="search_bar" name="">
-        <button onclick="search()">
+        <button id = "searchbtn">
             <img id="search_shape" src="https://jaksimharu.s3.ap-northeast-2.amazonaws.com/images/search_shape.png">
         </button>
         <input type="search" id="search_input" placeholder="검색(최대 10글자)" maxlength="10">
@@ -1053,8 +1053,9 @@
     function search() {
         document.addEventListener('DOMContentLoaded', () => {
             let searchInput = document.querySelector('#search_input');
+            let searchBtn = document.querySelector('#searchbtn');
             let searchText = '';
-            searchInput.addEventListener('click', function () {
+            searchBtn.addEventListener('click', function () {
                 searchText = searchInput.value;
                 if (searchText == '') {
                     alert('검색어를 입력하세요!');
@@ -1062,10 +1063,8 @@
                     location.href = "/home?search=" + searchText + "&page=" + search_page;
                 }
             });
-            //Enter 입력 이벤트
-            searchInput.addEventListener('keydown', (e) => {
-                const key = document.getElementById(e.key);
-                if (key == 13) {
+            document.addEventListener('keydown', function (e) {
+                if (e.keyCode === 13) {
                     searchText = searchInput.value;
                     if (searchText == '') {
                         alert('검색어를 입력하세요!');
@@ -1075,9 +1074,9 @@
                 }
             });
 
+
         });
     }
-
     function help() {
         location.href = "/help"
     }
