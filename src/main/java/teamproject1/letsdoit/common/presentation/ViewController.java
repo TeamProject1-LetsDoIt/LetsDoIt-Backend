@@ -29,6 +29,7 @@ import javax.validation.Valid;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static teamproject1.letsdoit.member.domain.Status.BAN;
 
