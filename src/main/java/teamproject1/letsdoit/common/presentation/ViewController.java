@@ -198,8 +198,8 @@ public class ViewController {
         if (group.getHostMember().equals(member)) {
             Notice notice = Notice.builder()
                     .groupId(group.getId())
-                    .title("모임 모집 취소")
-                    .content(group.getTitle() + "의 모임 모집이 취소되었습니다.")
+                    .title("모임이 해체되었습니다.")
+                    .content(group.getTitle() + "의 모임이 해체되었습니다.")
                     .member(group.getHostMember())
                     .type(Type.GROUP_GATHER_CANCEL)
                     .build();
@@ -359,6 +359,10 @@ public class ViewController {
         }
 
         if (group.getPeopleList().stream().anyMatch(people -> people.getEmail().equals(email))) {
+            return "redirect:/home";
+        }
+
+        if (group.getMaxPeople() == group.getPeopleList().size()) {
             return "redirect:/home";
         }
 

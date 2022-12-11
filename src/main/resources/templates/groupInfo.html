@@ -1,252 +1,252 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
-    <head>
-        <meta charset = "UTF-8">
-        <link href="https://jaksimharu.s3.ap-northeast-2.amazonaws.com/images/logo.png" rel="shortcut icon" type="image/x-icon">
-        <title>합시다</title>
-        <meta name = "viewport" content = "width=600, height=300" />
-        <style>
-            p {
-                color : #FFFFFF;
-                font-family: 'Inter';
-                font-style: normal;
-                font-weight: 400;
-                font-size: 15px;
-                line-height: 18px;
-            }
-            button {
-                -webkit-appearance: none;
-                -moz-appearance: none;
-                appearance: none;
-                background-color: transparent;
-                border : 0;
-                outline : 0;
+<head>
+    <meta charset = "UTF-8">
+    <link href="https://jaksimharu.s3.ap-northeast-2.amazonaws.com/images/logo.png" rel="shortcut icon" type="image/x-icon">
+    <title>합시다</title>
+    <meta name = "viewport" content = "width=600, height=300" />
+    <style>
+        p {
+            color : #FFFFFF;
+            font-family: 'Inter';
+            font-style: normal;
+            font-weight: 400;
+            font-size: 15px;
+            line-height: 18px;
+        }
+        button {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            background-color: transparent;
+            border : 0;
+            outline : 0;
 
-                cursor : pointer;
-            }
-            body {
-                background-color : #5f5f5f;
-                background-size : cover;
-                background-position : center;
+            cursor : pointer;
+        }
+        body {
+            background-color : #5f5f5f;
+            background-size : cover;
+            background-position : center;
 
-            }
-            .party_background{ /*relative*/
-                position: relative;
-                width: 600px;
-                height: 300px;
+        }
+        .party_background{ /*relative*/
+            position: relative;
+            width: 600px;
+            height: 300px;
 
-                background: #5F5F5F;
-                border-radius: 8px;
-                display : block;
-                margin : 0px auto;
-            }
-            /*party_name : 제목과 x버튼 */
-            .party_name {
-                z-index : 30;
-                position : absolute;
-                display : inline-block;
-            }
-            .button_x {
-                z-index : 10;
-                position: absolute;
-                width: 20px;
-                height: 20px;
-                left: 570px;
-                border: 0;
-                border-radius: 20px;
-                display: inline-block;
-            }
-            /* 파티 제목 */
-            .title {
-                position: absolute;
-                font-size: 20px;
-                line-height: 24px;
-                width: 500px;
-                height: 20px;
-                top : -10px;
-                text-align: left;
-            }
+            background: #5F5F5F;
+            border-radius: 8px;
+            display : block;
+            margin : 0px auto;
+        }
+        /*party_name : 제목과 x버튼 */
+        .party_name {
+            z-index : 30;
+            position : absolute;
+            display : inline-block;
+        }
+        .button_x {
+            z-index : 10;
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            left: 570px;
+            border: 0;
+            border-radius: 20px;
+            display: inline-block;
+        }
+        /* 파티 제목 */
+        .title {
+            position: absolute;
+            font-size: 20px;
+            line-height: 24px;
+            width: 500px;
+            height: 20px;
+            top : -10px;
+            text-align: left;
+        }
 
-            /* party_info : 수평선, 닉네임, category, 모임 설명*/
-            .party_info {
-                z-index: 30;
-                position : absolute;
-                display : block;
-                top : 40px;
-            }
-            /*노란색 수평선*/
-            .hr_1 {
-                z-index : 30;
-                width : 500px;
-                border: 1px solid #DEC054;
-            }
-            /* 닉네임 */
-            .nickname {
-                position: absolute;
-                font-size: 15px;
-                line-height: 18px;
-                width: 500px;
-                height: 18px;
-                top : 0px;
-            }
-            /*카테고리*/
-            .category {
-                position: absolute;
-                font-size: 15px;
-                line-height: 18px;
-                width: 500px;
-                height: 18px;
-                top : 20px;
-            }
-            /*이 부분부터*/
-            .content{
-                position: absolute;
-                font-size: 15px;
-                line-height: 18px;
-                width: 500px;
-                height: 76px;
-                top : 40px;
-                word-break:break-all;
+        /* party_info : 수평선, 닉네임, category, 모임 설명*/
+        .party_info {
+            z-index: 30;
+            position : absolute;
+            display : block;
+            top : 40px;
+        }
+        /*노란색 수평선*/
+        .hr_1 {
+            z-index : 30;
+            width : 500px;
+            border: 1px solid #DEC054;
+        }
+        /* 닉네임 */
+        .nickname {
+            position: absolute;
+            font-size: 15px;
+            line-height: 18px;
+            width: 500px;
+            height: 18px;
+            top : 0px;
+        }
+        /*카테고리*/
+        .category {
+            position: absolute;
+            font-size: 15px;
+            line-height: 18px;
+            width: 500px;
+            height: 18px;
+            top : 20px;
+        }
+        /*이 부분부터*/
+        .content{
+            position: absolute;
+            font-size: 15px;
+            line-height: 18px;
+            width: 500px;
+            height: 76px;
+            top : 40px;
+            word-break:break-all;
 
-            }
-            /* 여기부터 */
-            /*참가자 그룹*/
-            .participant {
-                color : #FFFFFF;
-                font-family: 'Inter';
-                font-style: normal;
-                font-weight: 400;
-                position: relative;
-                display : inline;
+        }
+        /* 여기부터 */
+        /*참가자 그룹*/
+        .participant {
+            color : #FFFFFF;
+            font-family: 'Inter';
+            font-style: normal;
+            font-weight: 400;
+            position: relative;
+            display : inline;
 
-                font-size: 15px;
-                line-height: 18px;
-                top : 120px;
-                width : 580px;
-                margin-right : 5px;
-                flex-flow : row wrap;
+            font-size: 15px;
+            line-height: 18px;
+            top : 120px;
+            width : 580px;
+            margin-right : 5px;
+            flex-flow : row wrap;
 
-            }
-            /*참가자 글씨 */
-            .participant_span {
-                position: relative;
-                display : inline;
-                margin-right: 5px;
-            }
-            /* 여기까지 */
-            /*party_group : 날짜, 시간, 인원수, 버튼*/
-            .party_group {
-                z-index: 30;
-                position : absolute;
-                display : inline-block;
-                top : 240px;
-            }
-            /* 날짜 */
-            .date {
-                position: absolute;
-                top : -10px;
-                font-size: 15px;
-                line-height: 18px;
-                width: 350px;
-                height: 18px;
-            }
-            /* 인원 생성 글씨 */
-            .member {
-                position: absolute;
-                left: 400px;
-                top: -20px;
-                font-size: 24px;
-                line-height: 30px;
-                text-align: right;
-                width: 60px;
-                height: 30px;
-            }
-            /* 합시다 버튼 */
-            .button_Letsdoit {
-                z-index : 30;
-                position: absolute;
-                width: 75px;
-                height: 40px;
-                left: 520px;
+        }
+        /*참가자 글씨 */
+        .participant_span {
+            position: relative;
+            display : inline;
+            margin-right: 5px;
+        }
+        /* 여기까지 */
+        /*party_group : 날짜, 시간, 인원수, 버튼*/
+        .party_group {
+            z-index: 30;
+            position : absolute;
+            display : inline-block;
+            top : 240px;
+        }
+        /* 날짜 */
+        .date {
+            position: absolute;
+            top : -10px;
+            font-size: 15px;
+            line-height: 18px;
+            width: 350px;
+            height: 18px;
+        }
+        /* 인원 생성 글씨 */
+        .member {
+            position: absolute;
+            left: 380px;
+            top: -20px;
+            font-size: 24px;
+            line-height: 30px;
+            text-align: right;
+            width: 90px;
+            height: 30px;
+        }
+        /* 합시다 버튼 */
+        .button_Letsdoit {
+            z-index : 30;
+            position: absolute;
+            width: 75px;
+            height: 40px;
+            left: 520px;
 
-                background: #D9D9D9;
-                color : #424242;
-                border-radius: 20px;
-                display: inline-block;
-            }
+            background: #D9D9D9;
+            color : #424242;
+            border-radius: 20px;
+            display: inline-block;
+        }
 
-            .current_email {
-                display: none;
-            }
+        .current_email {
+            display: none;
+        }
 
-            .host_email {
-                display: none;
-            }
+        .host_email {
+            display: none;
+        }
 
-        </style>
-    </head>
-    <body>
-        <div class = "party_background">
-            <div class = "party_name">
-                <p class = "title" th:text="${group.getTitle()}"></p>
-                <button type = "button" onClick='window.close()'>
-                    <img src = "https://jaksimharu.s3.ap-northeast-2.amazonaws.com/images/x-png-33.png" alt = "button_x" class="button_x">
-                </button>
-            </div>
-            <div class = "party_info">
-                <hr class = "hr_1">
-                <p class = "nickname" th:text="'파티장 :' + ${group.getHostMember().getName()}">파티장</p>
-                <p class = "category" th:text="'카테고리 :' + ${group.getCategory()}">카테고리</p>
-                <p class = "content" th:text="'내용 :' + ${group.getContent()}">내용</p>
-                <div class = "participant" >참가자 :
-                    <span class = "participant_hi" th:each="participant: ${participants}">
+    </style>
+</head>
+<body>
+<div class = "party_background">
+    <div class = "party_name">
+        <p class = "title" th:text="${group.getTitle()}"></p>
+        <button type = "button" onClick='window.close()'>
+            <img src = "https://jaksimharu.s3.ap-northeast-2.amazonaws.com/images/x-png-33.png" alt = "button_x" class="button_x">
+        </button>
+    </div>
+    <div class = "party_info">
+        <hr class = "hr_1">
+        <p class = "nickname" th:text="'파티장 :' + ${group.getHostMember().getName()}">파티장</p>
+        <p class = "category" th:text="'카테고리 :' + ${group.getCategory()}">카테고리</p>
+        <p class = "content" th:text="'내용 :' + ${group.getContent()}">내용</p>
+        <div class = "participant" >참가자 :
+            <span class = "participant_hi" th:each="participant: ${participants}">
                         <span class = "participant_span" th:text = "${participant.getName()}">남궁찬</span>
                     </span>
-                </div>
-            </div>
-            <div class = "party_group">
-                <input type="hidden" id = expireTime th:value="${group.getExpireTime()}"/>
-                <p th:type="hidden" class="host_email" id=host_email th:text="${group.getHostMember().getEmail()}">
-                <p th:type="hidden" class="current_email" id=current_email th:text="${member.getEmail()}">
-                <p class = "date" id="outputTime"></p>
-                <p class = "member"><span id = "curr_people" th:text="${group.getCurrentPeople()}"></span> / <span id = "max_people" th:text="${group.getMaxPeople()}"></span></p>
-                <form name = "doit" th:action="@{/group/{groupId}(groupId=${group.id})}" method="POST" target="homePage" >
-                    <button type = "submit" class = "button_Letsdoit" onclick = "participate_party();">합시다</button>
-                </form>
-            </div>
-    </body>
-    <script th:inline="javascript">
-        printExpireTime();
+        </div>
+    </div>
+    <div class = "party_group">
+        <input type="hidden" id = expireTime th:value="${group.getExpireTime()}"/>
+        <p th:type="hidden" class="host_email" id=host_email th:text="${group.getHostMember().getEmail()}">
+        <p th:type="hidden" class="current_email" id=current_email th:text="${member.getEmail()}">
+        <p class = "date" id="outputTime"></p>
+        <p class = "member"><span id = "curr_people" th:text="${group.getCurrentPeople()}"></span> / <span id = "max_people" th:text="${group.getMaxPeople()}"></span></p>
+        <form name = "doit" th:action="@{/group/{groupId}(groupId=${group.id})}" method="POST" target="homePage" >
+            <button type = "submit" class = "button_Letsdoit" onclick = "participate_party();">합시다</button>
+        </form>
+    </div>
+</body>
+<script th:inline="javascript">
+    printExpireTime();
 
-        function printExpireTime(){
-            let ExpireTime = document.getElementById('expireTime').value;
-            console.log(ExpireTime);
-            ExpireTime = ExpireTime.split('T');
-            const date = ExpireTime[0].split('-');
-            const time = ExpireTime[1].split(':');
-            const result = "기한 : " + date[0] + "년 " + date[1] + "월 " + date[2] + "일 " +
-                time[0] + "시 " + time[1] + "분 마감";
-            console.log(result);
-            document.getElementById("outputTime").innerHTML = result;
+    function printExpireTime(){
+        let ExpireTime = document.getElementById('expireTime').value;
+        console.log(ExpireTime);
+        ExpireTime = ExpireTime.split('T');
+        const date = ExpireTime[0].split('-');
+        const time = ExpireTime[1].split(':');
+        const result = "기한 : " + date[0] + "년 " + date[1] + "월 " + date[2] + "일 " +
+            time[0] + "시 " + time[1] + "분 마감";
+        console.log(result);
+        document.getElementById("outputTime").innerHTML = result;
+    }
+    function participate_party(){
+        let current_email = document.querySelector('#current_email').innerHTML;
+        let host_email = document.querySelector('#host_email').innerHTML;
+        let curr_people = document.querySelector('#curr_people').innerText;
+        let max_people = document.querySelector('#max_people').innerText;
+        if(host_email == current_email){
+            alert('방장은 방에 참여할 수 없습니다.')
+            window.close();
+            return false;
+        }else if(curr_people == max_people){
+            alert('모임 인원이 꽉 차 모임 참여가 불가능합니다!');
+            window.close();
+            return false;
+        } else {
+            alert('성공적으로 모임에 참여 되었습니다!');
+            document.doit.submit();
+            window.close();
         }
-        function participate_party(){
-            let current_email = document.querySelector('#current_email').innerHTML;
-            let host_email = document.querySelector('#host_email').innerHTML;
-            let curr_people = document.querySelector('#curr_people').innerHTML;
-            let max_people = document.querySelector('#max_people').innerHTML;
-            if(host_email === current_email){
-                alert('방장은 방에 참여할 수 없습니다.')
-                window.close();
-                return false;
-            }else if(curr_people >= max_people){
-                alert('모임 인원이 꽉 차 모임 참여가 불가능합니다!');
-                window.close();
-                return false;
-            } else {
-                alert('성공적으로 모임에 참여 되었습니다!');
-                document.doit.submit();
-                window.close();
-            }
-        }
-    </script>
+    }
+</script>
 </html>
