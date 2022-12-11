@@ -6,7 +6,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://jaksimharu.s3.ap-northeast-2.amazonaws.com/images/logo.png" rel="shortcut icon" type="image/x-icon">
+    <link href="https://jaksimharu.s3.ap-northeast-2.amazonaws.com/images/logo.png" rel="shortcut icon"
+          type="image/x-icon">
     <title>합시다</title>
     <script src="mainWeb.js"></script>
 
@@ -25,6 +26,7 @@
             left: 50vw;
             margin-left: -715px;
         }
+
         /* button 기본 CSS 제거 */
         button {
             -webkit-appearance: none;
@@ -197,7 +199,7 @@
             margin-left: 33px;
             margin-right: -14px;
         }
-        
+
         /*각각의 모임의 내용에 대해 보여줄 칸, 구역을 10개로 분할*/
         #groupContents {
             border-radius: 10px;
@@ -494,47 +496,49 @@
         }
 
         /*도움말 버튼 */
-        #help{
-            z-index:100;
-            position:absolute;
-            width:70px;
-            height:70px;
+        #help {
+            z-index: 100;
+            position: absolute;
+            width: 70px;
+            height: 70px;
 
             left: 1282px;
             top: 790px;
-            background:#424242;
-            offset:0px,4px;
-            border-radius:70%;
+            background: #424242;
+            offset: 0px, 4px;
+            border-radius: 70%;
         }
-        .helpbtn{
-            margin-top:5px;
-            margin-bottom:10px;
-            margin-left:24px;
 
-            width:22px;
-            height:49px;
+        .helpbtn {
+            margin-top: 5px;
+            margin-bottom: 10px;
+            margin-left: 24px;
 
-            font-size:50px;
-            line-height:60.5px;
-            color:#F0F0F0
+            width: 22px;
+            height: 49px;
+
+            font-size: 50px;
+            line-height: 60.5px;
+            color: #F0F0F0
         }
 
         /*신고 버튼 */
-        #report{
-            z-index:100;
-            position:absolute;
-            width:55px;
-            height:55px;
+        #report {
+            z-index: 100;
+            position: absolute;
+            width: 55px;
+            height: 55px;
 
             left: 1320px;
             top: 80px;
-            background:#424242;
-            offset:0px,4px;
-            border-radius:8px;
+            background: #424242;
+            offset: 0px, 4px;
+            border-radius: 8px;
         }
-        .reportbtn{
-            width:40px;
-            height:40px;
+
+        .reportbtn {
+            width: 40px;
+            height: 40px;
             margin-top: 3px;
             margin-left: 2px;
         }
@@ -557,9 +561,9 @@
         <div class="helpbtn" onclick="help()">?</div>
     </div>
 
-    <div id = "report">
-        <button onclick = "report()">
-            <img class = "reportbtn" src="https://jaksimharu.s3.ap-northeast-2.amazonaws.com/images/siren.png">
+    <div id="report">
+        <button onclick="report()">
+            <img class="reportbtn" src="https://jaksimharu.s3.ap-northeast-2.amazonaws.com/images/siren.png">
         </button>
     </div>
 
@@ -643,6 +647,7 @@
     function init() {
         pagination();
         changePageNum();
+        search();
     }
     function checkInfo(id) {
         window.name = "homePage";
@@ -868,7 +873,7 @@
                             sessionStorage.setItem("search_page", "1");
                         pageNum.innerText = search_page;
 
-                        if(searchText !== '')
+                        if (searchText !== '')
                             location.href = "/home?search=" + searchText + "&page=" + search_page;
                         else
                             location.href = "/home?page=1";
@@ -1026,7 +1031,7 @@
                         sessionStorage.setItem("search_page", "1");
                     pageNum.innerText = search_page;
 
-                    if(searchText !== '')
+                    if (searchText !== '')
                         location.href = "/home?search=" + searchText + "&page=" + search_page;
                     else
                         location.href = "/home?page=1";
@@ -1035,7 +1040,7 @@
                     home_page += 1;
 
                     sessionStorage.setItem("home_page", home_page);
-                    if (home_page === 0)
+                    if (home_page == 0)
                         sessionStorage.setItem("home_page", "1");
                     pageNum.innerText = home_page;
 
@@ -1046,20 +1051,38 @@
     }
 
     function search() {
-        let searchInput = document.querySelector('#search_input');
-        let searchText = searchInput.value;
-        if (searchText === '') {
-            alert('검색어를 입력하세요!');
-        } else {
-            location.href = "/home?search=" + searchText + "&page=" + search_page;
-        }
+        document.addEventListener('DOMContentLoaded', () => {
+            let searchInput = document.querySelector('#search_input');
+            let searchText = '';
+            searchInput.addEventListener('click', function () {
+                searchText = searchInput.value;
+                if (searchText == '') {
+                    alert('검색어를 입력하세요!');
+                } else {
+                    location.href = "/home?search=" + searchText + "&page=" + search_page;
+                }
+            });
+            //Enter 입력 이벤트
+            searchInput.addEventListener('keydown', (e) => {
+                const key = document.getElementById(e.key);
+                if (key == 13) {
+                    searchText = searchInput.value;
+                    if (searchText == '') {
+                        alert('검색어를 입력하세요!');
+                    } else {
+                        location.href = "/home?search=" + searchText + "&page=" + search_page;
+                    }
+                }
+            });
+
+        });
     }
 
-    function help(){
-        location.href="/help"
+    function help() {
+        location.href = "/help"
     }
 
-    function report(){
+    function report() {
         window.name = "homePage";
         const myWindow = window.open("/report", "report", "scrollbars=no, status=no");
         myWindow.moveTo(500, 100);
@@ -1067,4 +1090,5 @@
     }
 
 </script>
+
 </html>
