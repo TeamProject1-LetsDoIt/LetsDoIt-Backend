@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://jaksimharu.s3.ap-northeast-2.amazonaws.com/images/logo.png" rel="shortcut icon" type="image/x-icon">
+  <title>합시다</title>
+  <script src="mainWeb.js"></script>
+
+  <style>
+    /*웹페이지 뒷배경색*/
+    body {
+      background-color: #424242;
+    }
+
+    /*main창 크기 조정*/
+    .main {
+      position: absolute;
+      width: 1440px;
+      height: 1024px;
+
+      left: 50vw;
+      margin-left: -715px;
+      z-index:22;
+      background:rgba(66,66,66,0.5)
+    }
+
+    /* button 기본 CSS 제거 */
+    button {
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      background-color: transparent;
+      border: 0;
+      outline: 0;
+
+      cursor: pointer;
+    }
+
+    /*메인창의 왼쪽, 그룹에 대한 정보*/
+    /*버튼 구역과 모임 내용 구역으로 나눈다 */
+    .groovyroom {
+
+      position: absolute;
+      width: 1011px;
+      height: 938px;
+      left: 26px;
+      bottom: 24px;
+      top: 62px;
+
+      background: rgba(217,217,217,0.5);
+      box-shadow: inset -1px -2px 4px rgba(0, 0, 0, 0.25);
+      border-radius: 8px;
+
+      z-index: 1;
+    }
+
+    /*메인창의 오른쪽, 유저 자신에 대한 정보 및 카테고리*/
+    .myPage {
+
+      position: absolute;
+      width: 326px;
+      height: 938px;
+      left: 1069px;
+      top: 62px;
+      bottom: 24px;
+
+      background: rgba(217,217,217,0.5);
+      box-shadow: inset 0px -2px 4px rgba(0, 0, 0, 0.25);
+      border-radius: 8px;
+
+    }
+
+    /*모임 내용을 보여줄 구역*/
+    .group {
+      margin-top: 12px;
+      margin-left: 25px;
+      margin-right: 15px;
+    }
+
+    /* 빈칸 모임 구역 */
+    .nonegroup {
+      box-sizing: border-box;
+      display: inline-block;
+
+      width: 460px;
+      height: 160px;
+
+      margin-top: 5px;
+      margin-bottom: 5px;
+      margin-left: 7.5px;
+      margin-right: 7.5px;
+
+      background: rgba(187,187,187,0.5);
+      border: 1px solid #BBBBBB;
+      box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+      border-radius: 8px;
+
+      flex: none;
+      order: 0;
+      flex-grow: 0;
+
+      z-index: 2;
+    }
+
+    .none1 {
+      position: absolute;
+      left: 25px;
+      top: 12px;
+      background: rgba(66,66,66,1);
+
+    }
+
+    .none2 {
+      position: absolute;
+      left: 25px;
+      top: 188px;
+      background:rgba(66,66,66,1)
+    }
+
+    .none3 {
+      position: absolute;
+      left: 25px;
+      top: 365px;
+      background: rgba(150,150,150,0.5);
+    }
+
+    .none4 {
+
+      position: absolute;
+      left: 25px;
+      top: 542px;
+      background: rgba(150,150,150,0.5);
+
+    }
+
+    .none5 {
+      position: absolute;
+      left: 25px;
+      top: 719px;
+      background: rgba(150,150,150,0.5);
+    }
+    .none6 {
+      position: absolute;
+      right: 25px;
+      top: 12px;
+      background:rgba(66,66,66,1)
+    }
+
+    .none7 {
+      position: absolute;
+      right: 25px;
+      top: 188px;
+      background:rgba(42,42,42,0.5);
+
+    }
+
+    .none8 {
+      position: absolute;
+      right: 25px;
+      top: 365px;
+      background: rgba(150,150,150,0.5);
+    }
+
+    .none9 {
+      position: absolute;
+      right: 25px;
+      top: 542px;
+      background: rgba(150,150,150,0.5);
+    }
+
+    .none10 {
+      position: absolute;
+      right: 25px;
+      top: 719px;
+      background: rgba(150,150,150,0.5);
+    }
+
+    /*버튼 구역*/
+    .button {
+      position: absolute;
+
+      top: 899px;
+      height: 30px;
+      left: 44.5%;
+
+      box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    }
+
+    #Btn1 {
+
+      background: #7A7A7A;
+
+    }
+
+    #Btn2 {
+      background: #7A7A7A;
+    }
+
+    /*각각의 모임의 내용에 대해 보여줄 칸, 구역을 10개로 분할*/
+    #groupContents {
+      border-radius: 10px;
+      display: inline-block;
+      position: relative;
+      width: 460px;
+      height: 160px;
+      background-color: #585858;
+      margin-top: 4.8px;
+      margin-bottom: 12px;
+      margin-left: 8px;
+      margin-right: 17px;
+
+      flex-flow: row-reverse wrap;
+      z-index: 3;
+      word-break:break-all;
+
+      float: left;
+    }
+
+    /*각 모임의 제목*/
+    #grouptitle {
+      margin: 10px 30px 5px 20px;
+      font-size: 20px;
+      border-bottom: #E0C35C solid 1px;
+      color: rgba(187,187,187,0.5);
+    }
+
+    /*각 모임의 간략한 내용*/
+    #contents {
+      height: 80px;
+
+      margin: 5px 30px 5px 20px;
+      border-bottom: #D9D9D9 solid 1px;
+
+      font-style: normal;
+      font-weight: 400;
+      font-size: 15px;
+      line-height: 18px;
+      color: rgba(187,187,187,0.5);
+    }
+
+    /*각 모임의 인원수를 이미지로 표현*/
+    #numPeople {
+      margin: 5px 30px 5px 20px;
+      color: rgba(187,187,187,0.5);
+    }
+
+    /*각 모임의 제한 인원과 참여 인원 수*/
+    #numP {
+
+      position: relative;
+      float: right;
+
+      font-weight: 400;
+      font-size: 20px;
+      line-height: 29px;
+      color: rgba(187,187,187,0.5);
+
+    }
+
+    /* 마이페이지의 유저 사진을 원에 나타낸다*/
+    .profile img{
+      position: relative;
+      width: 138px;
+      height: 138px;
+
+      margin-top: 46px;
+      margin-left: 94px;
+      margin-right: 94px;
+
+      background-color: #9B5E5E;
+      border-radius: 70%;
+    }
+
+    /*유저 사진 바로 아래 닉네임을 나타낸다*/
+    /*최대 닉네임 숫자를 제한한다.*/
+    .myName {
+      position: relative;
+      width: 200px;
+      height: 36px;
+
+
+      margin-top: 9px;
+      margin-left: 63px;
+      margin-right: 63px;
+
+      font-family: 'Inter';
+      font-size: 30px;
+      line-height: 36px;
+      font-weight: 400;
+      text-align: center;
+
+      font-style: normal;
+
+      border-bottom: #585858 solid;
+    }
+
+    #createBtn {
+      position: absolute;
+      width: 240px;
+      height: 92px;
+      left: 45px;
+      top: 815px;
+
+      background:rgba(42,42,42,0.5);
+      box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25), inset -1px -2px 2px rgba(0, 0, 0, 0.25);
+      border-radius: 20px;
+      border: #424242;
+
+      font-family: 'Inter';
+      font-style: normal;
+      font-weight: 100;
+      font-size: 45px;
+      line-height: 54px;
+
+      color: #EDEDED;
+    }
+
+    #createBtn:active {
+      background: #1b1b1b;
+    }
+
+    /* 검색 창 */
+    #search_bar {
+      position: absolute;
+      z-index: 10;
+
+      width: 653px;
+      height: 29px;
+
+      left: 26px;
+      top: 23px;
+
+      background: rgba(256,256,256,1);
+      border-radius: 15px;
+    }
+
+    /* 검색 모양 png */
+    #search_shape {
+      position: absolute;
+      z-index: 20;
+
+      width: 20px;
+      height: 20px;
+
+      left: 7px;
+      top: 5px;
+
+      opacity:1;
+    }
+
+    /* 검색 입력 창 */
+    #search_input {
+      position: absolute;
+      z-index: 20;
+
+      width: 600px;
+      height: 20px;
+
+      left: 30px;
+      top: 5px;
+
+      background: transparent;
+      border: 0;
+
+      z-index:100;
+      opacity:1;
+    }
+
+    /* category 구현 */
+    .category {
+      position: absolute;
+
+      margin: 0;
+      padding: 0;
+      list-style-type: none;
+
+
+      width: 160px;
+      height: 30px;
+
+      top: 320px;
+      left: 80px;
+
+      text-align: center;
+      line-height: 30px;
+      border-top: 1px solid #646464;
+      background-color: transparent;
+
+      color: #585858;
+    }
+
+    .category>li {
+      float: center;
+    }
+
+    /* 정렬 글씨 */
+    .category>li>a {
+      font-family: 'Inter';
+      font-style: normal;
+      font-size: 25px;
+      line-height: 30px;
+      color: #585858;
+      text-align: center;
+      text-decoration: none;
+      letter-spacing: 0.05em;
+
+      display: block;
+      padding: 12px 30px;
+    }
+
+    /* 하위 메뉴들 */
+    .menu {
+      font-family: 'Inter';
+      font-style: normal;
+      font-size: 15px;
+      line-height: 20px;
+      color: #585858;
+      margin: 0;
+      padding: 0;
+      list-style-type: none;
+      position: absolute;
+      opacity: 1;
+      visibility:visible;
+
+      left: 10px;
+    }
+
+    .menu>li {
+      padding: 10px 30px;
+    }
+
+    .menu>li>a {
+      color: #585858;
+      text-decoration: none;
+    }
+
+    /* 밥 합시다 위에 윤곽선 */
+    .menu>li:nth-child(1) {
+      border-top: 1px dashed #646464;
+    }
+
+    /* 마감 시간 아래에 윤곽선 */
+    .menu>li:nth-child(4) {
+      border-bottom: 1px dashed #646464;
+    }
+
+    /* 정렬 옆에 역삼각형 모양 */
+    .category>li{
+      opacity: 1;
+      visibility: visible;
+    }
+
+    /* 정렬 옆에 역삼각형 모양 */
+    .reverse_triangle {
+      display: absolute;
+      z-index: 20;
+      width: 20px;
+      height: 18px;
+      margin-left: 190px;
+      margin-top: 30px;
+
+    }
+
+    /*내 정보 */
+    .myInfo {
+      font-family: 'Inter';
+      font-style: normal;
+      font-size: 25px;
+      line-height: 30px;
+      color: #585858;
+      margin-left: 110px;
+      margin-top: 20px;
+    }
+    /*도움말 버튼 */
+    #help{
+      z-index:100;
+      position:absolute;
+      width:70px;
+      height:70px;
+
+      left: 1282px;
+      top: 790px;
+      background:#424242;
+      offset:0px,4px;
+      border-radius:70%;
+    }
+    .helpbtn{
+      margin-top:5px;
+      margin-bottom:10px;
+      margin-left:24px;
+
+      width:22px;
+      height:49px;
+
+      font-size:50px;
+      line-height:60.5px;
+      color:#F0F0F0
+    }
+
+    /*도움말 텍스트 박스 CSS입니다!!*/
+    #textbox1Trg{
+
+      position:absolute;
+
+      z-index:30;
+      left:26px;
+      top:47px;
+      width:0px;
+      height:0px;
+
+      border-top:16px solid none;
+      border-bottom:32px solid  #F0F0F0;
+      border-left:16px solid transparent;
+      border-right:16px solid transparent;
+    }
+    #textbox1{
+      background-color: #F0F0F0;
+      position:absolute;
+      z-index:30;
+      left:26px;
+      top:75px;
+      border-radius: 8px;
+
+      width:444px;
+      height:153px;
+
+    }
+    #textbox2Trg{
+
+      position:absolute;
+
+      z-index:30;
+      left:587px;
+      top:418px;
+      width:0px;
+      height:0px;
+
+      border-top:16px solid none;
+      border-bottom:32px solid  #F0F0F0;
+      border-left:16px solid transparent;
+      border-right:16px solid transparent;
+    }
+    #textbox2{
+      background-color: #F0F0F0;
+      position:absolute;
+      z-index:30;
+      left:182px;
+      top:450px;
+      border-radius: 8px;
+
+      width:444px;
+      height:153px;
+    }
+    #textbox3Trg{
+
+      position:absolute;
+
+      z-index:30;
+      left:1139px;
+      top:384px;
+      width:0px;
+      height:0px;
+
+      border-top:16px solid transparent;
+      border-bottom:16px solid transparent;
+      border-left:32px solid  #F0F0F0;
+      border-right:16px solid none;
+    }
+    #textbox3{
+      background-color: #F0F0F0;
+      position:absolute;
+      z-index:30;
+      left:829px;
+      top:375px;
+      border-radius: 8px;
+
+      width:310px;
+      height:143px;
+    }
+
+    #textbox4Trg{
+
+      position:absolute;
+
+      z-index:30;
+      left:1079px;
+      top:911px;
+      width:0px;
+      height:0px;
+
+      border-top:16px solid transparent;
+      border-bottom:16px solid transparent;
+      border-left:32px solid  #F0F0F0;
+      border-right:16px solid none;
+    }
+    #textbox4{
+      background-color: #F0F0F0;
+      position:absolute;
+      z-index:30;
+      left:769px;
+      top:817px;
+      border-radius: 8px;
+
+      width:310px;
+      height:143px;
+    }
+
+    #tb1{
+      width:381px;
+      height:101px;
+
+      margin-top:20px;
+      margin-left:20px;
+      margin-bottom: 10px;
+      margin-right:20px;
+
+      Font-family: Inter;
+      Font-style: Regular;
+      Font-size: 18px;
+      Line-height: 20px;
+      Line-height: 100%;
+      text-Align: Left;
+      Vertical-align: Top;
+    }
+    #tb2{
+      width:387px;
+      height:105px;
+
+      margin-top:20px;
+      margin-left:20px;
+      margin-bottom: 10px;
+      margin-right:20px;
+
+      Font-family: Inter;
+      Font-style: Regular;
+      Font-size: 18px;
+      Line-height: 20px;
+      Line-height: 100%;
+      text-Align: Left;
+      Vertical-align: Top;
+    }
+    #tb3{
+      position:relative;
+
+      width:247px;
+      height:99px;
+
+      margin-top:20px;
+      margin-left:20px;
+      margin-bottom: 10px;
+      margin-right:20px;
+
+      Font-family: Inter;
+      Font-style: Regular;
+      Font-size: 18px;
+      Line-height: 20px;
+      Line-height: 100%;
+      text-Align: Left;
+      Vertical-align: Top;
+    }
+    #tb4{
+      position:relative;
+
+      width:234px;
+      height:96px;
+
+      margin-top:20px;
+      margin-left:20px;
+      margin-bottom: 10px;
+      margin-right:20px;
+
+      Font-family: Inter;
+      Font-style: Regular;
+      Font-size: 18px;
+      Line-height: 20px;
+      Line-height: 100%;
+      text-Align: Left;
+      Vertical-align: Top;
+    }
+
+
+    .none7>#grouptitle{
+      color:#F0F0F0;
+    }
+    .none7>#contents{
+      color:#F0F0F0;
+    }
+    .none7>#numPeople{
+      color:#F0F0F0;
+    }
+    .none7>#numPeople>#numP{
+      color:#F0F0F0;
+    }
+
+    .prev_page {
+      position: absolute;
+      left: 460px;
+      top: 900px;
+      width: 30px;
+      height: 30px;
+      z-index: 5;
+    }
+
+    #page_num {
+      position: absolute;
+      left: 495px;
+      top: 880px;
+
+      width: 20px;
+      height: 30px;
+      line-height: 30px;
+      text-align: center;
+
+      z-index: 5;
+    }
+
+    .next_page {
+      position: absolute;
+      left: 520px;
+      top: 900px;
+
+      width: 30px;
+      height: 30px;
+      z-index: 5;
+    }
+  </style>
+
+
+</head>
+<body>
+<div class="main" onclick="endHelp()">
+  <div id = "search_bar">
+    <button onclick = ''>
+      <img id = "search_shape" src = "https://jaksimharu.s3.ap-northeast-2.amazonaws.com/images/search_shape.png">
+    </button>
+    <input type="search" id = "search_input" value="검색(최대 10글자)" maxlength="10">
+
+  </div>
+
+  <!--도움말 버튼-->
+  <div id="help">
+    <div class="helpbtn" onclick="help()">?</div>
+  </div>
+
+  <div id="textbox1Trg"></div>
+  <div id="textbox1">
+    <div id="tb1">
+      <p>검색 기능을 제공합니다.</p><br>
+      <p>클릭시 모집하는 사람의 닉네임으로 생성된 모임을 검색할 수 있습니다.</p>
+    </div>
+  </div>
+
+  <div id="textbox2Trg"></div>
+  <div id="textbox2">
+    <div id="tb2">
+      <p>모임글의 간략화된 정보입니다.</p><br>
+      <p> 클릭시 새로운 창에서 상세한 내용과 원할 경우 “참여” 버튼으로 모임에 참여할 수 있습니다.</p>
+    </div>
+  </div>
+
+  <div id="textbox3Trg"></div>
+  <div id="textbox3">
+    <div id="tb3">
+      <p>정렬기능 입니다.</p><br>
+      <p> 각 카테고리와 짧은 마감시간 순으로 정렬할 수 있습니다.</p>
+    </div>
+  </div>
+
+  <div id="textbox4Trg"></div>
+  <div id="textbox4">
+    <div id="tb4">
+      <p>모임글 생성 버튼입니다.</p><br>
+      <p>클릭하여 새로운 모임글을 생성할 수 있습니다.</p>
+    </div>
+  </div>
+
+
+  <section class="groovyroom">
+
+    <div>
+      <div class="nonegroup none1">
+        <h1 id="grouptitle" >공부합시다</h1>
+        <p id="contents" >같이 공부해요~</p>
+        <p id="numPeople"><span >4</span> / <span >5</span><span id="numP" >공부합시다</span></p>
+      </div>
+      <div class="nonegroup none2">
+        <h1 id="grouptitle" >식사합시다</h1>
+        <p id="contents" >같이 식사해요~</p>
+        <p id="numPeople"><span >4</span> / <span ></span><span id="numP" >식사합시다</span></p>
+      </div>
+      <div class="nonegroup none3"></div>
+      <div class="nonegroup none4"></div>
+      <div class="nonegroup none5"></div>
+      <div class="nonegroup none6">
+        <h1 id="grouptitle" >운동합시다</h1>
+        <p id="contents" >같이 운동해요~</p>
+        <p id="numPeople"><span >4</span> / <span >5</span><span id="numP" >공부합시다</span></p>
+      </div>
+      <div class="nonegroup none7">
+        <h1 id="grouptitle" >공부합시다</h1>
+        <p id="contents" >같이 공부해요~</p>
+        <p id="numPeople"><span >4</span> / <span >5</span><span id="numP" >공부합시다</span></p>
+      </div>
+      <div class="nonegroup none8"></div>
+      <div class="nonegroup none9"></div>
+      <div class="nonegroup none10"></div>
+    </div>
+    <div>
+      <button type="button" id="prev"><img
+              src="https://jaksimharu.s3.ap-northeast-2.amazonaws.com/images/left.png"
+              class="prev_page"></button>
+      <p id="page_num">1</p>
+      <button type="button" id="next"><img
+              src="https://jaksimharu.s3.ap-northeast-2.amazonaws.com/images/right.png"
+              class="next_page"></button>
+    </div>
+
+  </section>
+
+  <!--닉네임 글자 수 제한 필요, 밑줄을 벗어나지 않도록-->
+  <section class="myPage">
+    <div class="profile"><img th:src="${member.getImageUrl()}"></div>
+    <div class="myName"><p th:text="${member.getName()}"></p></div>
+
+    <button class = "myInfo" onclick="myPage()">내 정보</button>
+    <div>
+      <img class = "reverse_triangle" src ="https://jaksimharu.s3.ap-northeast-2.amazonaws.com/images/reverse_triangle.png"></img>
+      <ul class = "category">
+        <li><a href="">정렬</a>
+          <ul class = "menu">
+            <li><a href="/home">전체 합시다</a></li>
+            <li><a href="/home?category=meal">식사 합시다</a></li>
+            <li><a href="/home?category=exercise">운동 합시다</a></li>
+            <li><a href="/home?category=study">공부 합시다</a></li>
+            <li><a href="/home?category=expireTime">마감 시간</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+
+    <button id="createBtn" onclick="create();">방 만들기</button>
+
+  </section>
+
+</div>
+</body>
+<script th:inline="javascript">
+
+  //help 창에서 마우스 클릭시 다시 home으로 이동
+  //const main = document.querySelector('.main');
+  //main.addEventListener('mousedown',(event)=>{
+  //   location.href="/home";
+  //})
+
+  function checkInfo(id){
+    window.name="homePage";
+    const myWindow = window.open(`/group/${id}`, "createGroup", "width:300, height=350, resizable=no, scrollbars=no, status=no");
+    myWindow.moveTo(500, 100);
+    myWindow.resizeTo(650, 400);
+  }
+
+  function create(){
+    window.name="homePage";
+    const myWindow = window.open("/home/new", "createGroup", "scrollbars=no, status=no");
+    myWindow.moveTo(500, 100);
+    myWindow.resizeTo(700, 800);
+  }
+
+  function myPage(){
+    location.href="/me"
+  }
+
+  function endHelp(){
+    location.href="/home"
+  }
+
+</script>
+</html>

@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset = "UTF-8">
+  <link href="https://jaksimharu.s3.ap-northeast-2.amazonaws.com/images/logo.png" rel="shortcut icon" type="image/x-icon">
+  <title>합시다</title>
+  <meta name = "viewport" content = "width=600, height=300" />
+  <style>
+    p {
+      color : #FFFFFF;
+      font-family: 'Inter';
+      font-style: normal;
+      font-weight: 400;
+      font-size: 15px;
+      line-height: 18px;
+    }
+    button {
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      background-color: transparent;
+      border : 0;
+      outline : 0;
+
+      cursor : pointer;
+    }
+    button:disabled {
+      opacity : 0.5;
+    }
+    body {
+      background-color : #5f5f5f;
+      background-size : cover;
+      background-position : center;
+
+    }
+    .party_background{ /*relative*/
+      position: relative;
+      width: 600px;
+      height: 300px;
+
+      background: #5F5F5F;
+      border-radius: 8px;
+      display : block;
+      margin : 0px auto;
+    }
+    /*party_name : 제목과 x버튼 */
+    .party_name {
+      z-index : 30;
+      position : absolute;
+      display : inline-block;
+    }
+    .button_x {
+      z-index : 10;
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      left: 570px;
+      border: 0;
+
+      border-radius: 20px;
+      display: inline-block;
+    }
+    /* 파티 제목 */
+    .title {
+      position: absolute;
+      font-size: 20px;
+      line-height: 24px;
+      width: 500px;
+      height: 20px;
+      top : -10px;
+      text-align: left;
+    }
+
+    /* party_info : 수평선, 닉네임, category, 모임 설명*/
+    .party_info {
+      z-index: 30;
+      position : absolute;
+      display : block;
+      top : 40px;
+    }
+    /*노란색 수평선*/
+    .hr_1 {
+      z-index : 30;
+      width : 500px;
+      border: 1px solid #DEC054;
+    }
+    /* 닉네임 */
+    .nickname {
+      position: absolute;
+      font-size: 15px;
+      line-height: 18px;
+      width: 500px;
+      height: 18px;
+      top : 0px;
+    }
+    /*카테고리*/
+    .category {
+      position: absolute;
+      font-size: 15px;
+      line-height: 18px;
+      width: 500px;
+      height: 18px;
+      top : 20px;
+    }
+    /*이 부분부터*/
+    .content{
+      position: absolute;
+      font-size: 15px;
+      line-height: 18px;
+      width: 500px;
+      height: 76px;
+      top : 40px;
+      word-break:break-all;
+
+    }
+    /* 여기부터 */
+    /*참가자 그룹*/
+    .participant {
+      color : #FFFFFF;
+      font-family: 'Inter';
+      font-style: normal;
+      font-weight: 400;
+      position: relative;
+      display : inline;
+
+      font-size: 15px;
+      line-height: 18px;
+      top : 120px;
+      width : 580px;
+      margin-right : 5px;
+      flex-flow : row wrap;
+
+    }
+    /*참가자 글씨 */
+    .participant_span {
+      position: relative;
+      display : inline;
+      margin-right: 5px;
+    }
+    /* 여기까지 */
+    /*party_group : 날짜, 시간, 인원수, 버튼*/
+    .party_group {
+      z-index: 30;
+      position : absolute;
+      display : inline-block;
+      top : 240px;
+    }
+    /* 날짜 */
+    .date {
+      position: absolute;
+      top : -10px;
+      font-size: 15px;
+      line-height: 18px;
+      width: 350px;
+      height: 18px;
+    }
+    /* 인원 생성 글씨 */
+    .member {
+      position: absolute;
+      left: 400px;
+      top: -20px;
+      font-size: 24px;
+      line-height: 30px;
+      text-align: right;
+      width: 60px;
+      height: 30px;
+    }
+    /* 합시다 버튼 */
+    .button_Letsdoit {
+      z-index : 30;
+      position: absolute;
+      width: 75px;
+      height: 40px;
+      left: 520px;
+
+      background: #D9D9D9;
+      color : #424242;
+      border-radius: 20px;
+      display: inline-block;
+    }
+
+  </style>
+</head>
+<body>
+<div class = "party_background">
+  <div class = "party_name">
+    <p class = "title" th:text="${group.getTitle()}"></p>
+    <button type = "button" onClick='window.close()'>
+      <img src = "https://jaksimharu.s3.ap-northeast-2.amazonaws.com/images/x-png-33.png" alt = "button_x" class="button_x">
+    </button>
+  </div>
+  <div class = "party_info">
+    <hr class = "hr_1">
+    <p class = "nickname" th:text="'파티장 :' + ${group.getHostMember().getName()}">파티장</p>
+    <p class = "category" th:text="'카테고리 :' + ${group.getCategory()}">카테고리</p>
+    <p class = "content" th:text="'내용 :' + ${group.getContent()}">내용</p>
+    <div class = "participant" >참가자 :
+      <span class = "participant_hi" th:each="participant: ${participants}">
+                        <span class = "participant_span" th:text = "${participant.getName()}">남궁찬</span>
+                    </span>
+    </div>
+  </div>
+  <div class = "party_group">
+    <input type="hidden" id = expireTime th:value="${group.getExpireTime()}"/>
+    <p class = "date" id="outputTime"></p>
+    <p class = "member"><span th:text="${group.getCurrentPeople()}"></span> / <span th:text="${group.getMaxPeople()}"></span></p>
+    <form name="endGather" action="#" th:action="@{/me/createGroups/{groupId}(groupId=${group.id})}" method="#" th:method="DELETE" target="homePage" >
+      <button id="button_letsdoit" type = "submit" class = "button_Letsdoit" onclick="endGatherFun()">모임종료</button>
+    </form>
+  </div>
+</div>
+</body>
+<script th:inline="javascript">
+
+  function endGatherFun(){
+    alert("모집을 종료합니다.");
+    document.endGather.submit();
+    window.close();
+  }
+
+  printExpireTime();
+  cancel_party();
+
+  function printExpireTime(){
+    let ExpireTime = document.getElementById('expireTime').value;
+    console.log(ExpireTime);
+    ExpireTime = ExpireTime.split('T');
+    const date = ExpireTime[0].split('-');
+    const time = ExpireTime[1].split(':');
+    const result = "기한 : " + date[0] + "년 " + date[1] + "월 " + date[2] + "일 " +
+            time[0] + "시 " + time[1] + "분 마감";
+    console.log(result);
+    document.getElementById("outputTime").innerHTML = result;
+  }
+  function limitTime(){
+    // 마감 기한 가져오기.
+    let ExpireTime = document.getElementById('expireTime').value;
+    console.log(ExpireTime)
+    ExpireTime = Expirtime.split('T')
+    const date = ExpireTime[0].split('-')
+    const time = ExpireTime[1].split(':')
+    let bring_date = date[0] + '-' + date[1]+ '-' + date[2] + " " +
+            time[0] + ":" + time[1] + ":" + time[2]
+    let writtenDate = new Date(bring_date)
+    // 오늘 날짜 시간 변수 뽑아오기.
+    let today = new Date()
+
+    // 남은 시간 계산 : 남은 시간이 1시간 이하면 함수는 true를 반환
+    let diff_time = Math.trunc((writtenDate.getTime() - today.getTime()) / 1000)
+    console.log("남은 시간 : ", diff_time)
+    console.log("제한 시간 되나요? : " , diff_time <= 3600)
+
+    return diff_time <= 3600
+  }
+  function cancel_party() {
+    const target = document.querySelector(".button_Letsdoit");
+    if(limitTime()) {
+      target.disabled = true;
+      alert("남은 시간이 1시간 이내이므로 모집 취소할 수 없습니다!");
+      window.close();
+    } else {
+      target.disabled = false;
+      window.close();
+    }
+  }
+</script>
+</html>

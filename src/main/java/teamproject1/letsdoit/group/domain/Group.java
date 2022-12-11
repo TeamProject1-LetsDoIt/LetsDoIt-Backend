@@ -5,7 +5,9 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import teamproject1.letsdoit.common.domain.BaseEntity;
+import teamproject1.letsdoit.member.domain.Member;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +17,7 @@ public class Group extends BaseEntity {
 
     private Long id;
 
-    private String hostEmail;
+    private Member hostMember;
 
     private String title;
 
@@ -27,36 +29,43 @@ public class Group extends BaseEntity {
 
     private Integer currentPeople;
 
-    private List<String> peopleList;
+    private List<Member> peopleList;
 
-    private String expireTime;
+    private LocalDateTime expireTime;
 
     private Status status;
 
     @Builder
-    public Group(String hostEmail, String title, String category, String content, Integer maxPeople, Integer currentPeople,  String expireTime) {
-        this.hostEmail = hostEmail;
+    public Group(Member hostMember, String title, String category, String content, Integer maxPeople, Integer currentPeople,  String expireTime) {
+        this.hostMember = hostMember;
         this.title = title;
         this.category = category;
         this.content = content;
         this.maxPeople = maxPeople;
         this.currentPeople = currentPeople;
         this.peopleList = new ArrayList<>();
-        peopleList.add(hostEmail);
-        this.expireTime = expireTime;
-        this.status = Status.JOINABLE;
+        peopleList.add(hostMember);
+        this.expireTime = LocalDateTime.parse(expireTime);
+        this.status = Status.ACTIVE;
     }
 
     public void setId(Long id) {
         this.id = id;
     }
 
-    public void countUp(){
-        this.currentPeople++;
+    public void addPeople(Member member) {
+        if (currentPeople < maxPeople) {
+            peopleList.add(member);
+            currentPeople ++;
+        }
     }
 
-    public void addPeople(String email) {
-        peopleList.add(email);
+    public void deletePeople(Member member) {
+        if (hostMember.equals(member) || !getPeopleList().contains(member)) {
+            return;
+        }
+        getPeopleList().remove(member);
+        currentPeople--;
     }
 
     public void updateTitle(String title) {
@@ -69,6 +78,10 @@ public class Group extends BaseEntity {
 
     public void updateMaxPeople(Integer maxPeople) {
         this.maxPeople = maxPeople;
+    }
+
+    public void updateStatus(Status status) {
+        this.status = status;
     }
 
 }

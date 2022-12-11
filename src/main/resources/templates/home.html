@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
 <head>
 
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link href="https://jaksimharu.s3.ap-northeast-2.amazonaws.com/images/logo.png" rel="shortcut icon" type="image/x-icon">
+    <title>합시다</title>
     <script src="mainWeb.js"></script>
 
     <style>
@@ -35,6 +37,18 @@
             cursor: pointer;
         }
 
+        /* button 기본 CSS 제거 */
+        button {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            background-color: transparent;
+            border: 0;
+            outline: 0;
+
+            cursor: pointer;
+        }
+
         /*메인창의 왼쪽, 그룹에 대한 정보*/
         /*버튼 구역과 모임 내용 구역으로 나눈다 */
         .groovyroom {
@@ -47,7 +61,7 @@
             top: 62px;
 
             background: #D9D9D9;
-            box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25), inset -1px -2px 4px rgba(0, 0, 0, 0.25);
+            box-shadow: inset -1px -2px 4px rgba(0, 0, 0, 0.25);
             border-radius: 8px;
 
             z-index: 1;
@@ -64,17 +78,9 @@
             bottom: 24px;
 
             background: #D9D9D9;
-            box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.25);
+            box-shadow: inset 0px -2px 4px rgba(0, 0, 0, 0.25);
             border-radius: 8px;
 
-        }
-
-        /*모임 내용을 보여줄 구역*/
-        .group {
-            margin-top: 13px;
-            margin-bottom: 13px;
-            margin-left: 25px;
-            margin-right: 25px;
         }
 
         /* 빈칸 모임 구역 */
@@ -105,61 +111,61 @@
         .none1 {
             position: absolute;
             left: 25px;
-            top: 13px;
+            top: 12px;
         }
 
         .none2 {
             position: absolute;
             left: 25px;
-            top: 189px;
+            top: 188px;
         }
 
         .none3 {
             position: absolute;
             left: 25px;
-            top: 366px;
+            top: 365px;
         }
 
         .none4 {
             position: absolute;
             left: 25px;
-            top: 543px;
+            top: 542px;
         }
 
         .none5 {
             position: absolute;
             left: 25px;
-            top: 720px;
+            top: 719px;
         }
 
         .none6 {
             position: absolute;
             right: 25px;
-            top: 13px;
+            top: 12px;
         }
 
         .none7 {
             position: absolute;
             right: 25px;
-            top: 189px;
+            top: 188px;
         }
 
         .none8 {
             position: absolute;
             right: 25px;
-            top: 366px;
+            top: 365px;
         }
 
         .none9 {
             position: absolute;
             right: 25px;
-            top: 543px;
+            top: 542px;
         }
 
         .none10 {
             position: absolute;
             right: 25px;
-            top: 720px;
+            top: 719px;
         }
 
         /*버튼 구역*/
@@ -181,6 +187,16 @@
         #Btn2 {
             background: #7A7A7A;
         }
+
+        /*모임 내용을 보여줄 구역*/
+        .group {
+            flex-flow: row-reverse wrap;
+            display: inline-block;
+
+            margin-top: 16.8px;
+            margin-left: 33px;
+            margin-right: -14px;
+        }
         
         /*각각의 모임의 내용에 대해 보여줄 칸, 구역을 10개로 분할*/
         #groupContents {
@@ -190,12 +206,10 @@
             width: 460px;
             height: 160px;
             background-color: #585858;
-            margin-top: 5px;
-            margin-bottom: 5px;
-            margin-left: 7.5px;
-            margin-right: 7.5px;
-            flex-flow: row-reverse wrap;
+
             z-index: 3;
+            word-break: break-all;
+
         }
 
         /*각 모임의 제목*/
@@ -231,9 +245,6 @@
 
             position: relative;
             float: right;
-
-            position: relative;
-            float: right;
             font-weight: 400;
             font-size: 20px;
             line-height: 29px;
@@ -242,7 +253,7 @@
         }
 
         /* 마이페이지의 유저 사진을 원에 나타낸다*/
-        .profile img{
+        .profile img {
             position: relative;
             width: 138px;
             height: 138px;
@@ -295,6 +306,7 @@
             font-weight: 100;
             font-size: 45px;
             line-height: 54px;
+
             color: #EDEDED;
         }
 
@@ -417,7 +429,7 @@
         }
 
         /* 마감 시간 아래에 윤곽선 */
-        .menu>li:nth-child(4) {
+        .menu>li:nth-child(5) {
             border-bottom: 1px dashed #646464;
         }
 
@@ -445,44 +457,120 @@
             font-size: 25px;
             line-height: 30px;
             color: #585858;
-            margin-left: 110px;
+            margin-left: 115px;
             margin-top: 20px;
         }
 
-        /*내 정보 */
-        .myInfo {
-            font-family: 'Inter';
-            font-style: normal;
-            font-size: 25px;
+        .prev_page {
+            position: absolute;
+            left: 460px;
+            top: 900px;
+            width: 30px;
+            height: 30px;
+            z-index: 5;
+        }
+
+        #page_num {
+            position: absolute;
+            left: 495px;
+            top: 880px;
+
+            width: 20px;
+            height: 30px;
             line-height: 30px;
-            color: #585858;
-            margin-left: 110px;
-            margin-top: 20px;
-            border: 0;
-            outline: 0;
-            background-color: #D9D9D9;
+            text-align: center;
+
+            z-index: 5;
         }
 
-        /*여기까지 */
+        .next_page {
+            position: absolute;
+            left: 520px;
+            top: 900px;
+
+            width: 30px;
+            height: 30px;
+            z-index: 5;
+        }
+
+        /*도움말 버튼 */
+        #help{
+            z-index:100;
+            position:absolute;
+            width:70px;
+            height:70px;
+
+            left: 1282px;
+            top: 790px;
+            background:#424242;
+            offset:0px,4px;
+            border-radius:70%;
+        }
+        .helpbtn{
+            margin-top:5px;
+            margin-bottom:10px;
+            margin-left:24px;
+
+            width:22px;
+            height:49px;
+
+            font-size:50px;
+            line-height:60.5px;
+            color:#F0F0F0
+        }
+
+        /*신고 버튼 */
+        #report{
+            z-index:100;
+            position:absolute;
+            width:55px;
+            height:55px;
+
+            left: 1320px;
+            top: 80px;
+            background:#424242;
+            offset:0px,4px;
+            border-radius:8px;
+        }
+        .reportbtn{
+            width:40px;
+            height:40px;
+            margin-top: 3px;
+            margin-left: 2px;
+        }
     </style>
 
 
 </head>
+
 <body>
 <div class="main">
-    <div id = "search_bar">
-        <button onclick = ''>
-            <img id = "search_shape" src = "https://jaksimharu.s3.ap-northeast-2.amazonaws.com/images/search_shape.png">
+    <div id="search_bar" name="">
+        <button onclick="search()">
+            <img id="search_shape" src="https://jaksimharu.s3.ap-northeast-2.amazonaws.com/images/search_shape.png">
         </button>
-        <input type="search" id = "search_input" value="검색(최대 10글자)" maxlength="10">
-
+        <input type="search" id="search_input" placeholder="검색(최대 10글자)" maxlength="10">
     </div>
+
+    <!--도움말 버튼!-->
+    <div id="help">
+        <div class="helpbtn" onclick="help()">?</div>
+    </div>
+
+    <div id = "report">
+        <button onclick = "report()">
+            <img class = "reportbtn" src="https://jaksimharu.s3.ap-northeast-2.amazonaws.com/images/siren.png">
+        </button>
+    </div>
+
     <section class="groovyroom">
-        <div class="group" th:each="group : ${groups}" th:inline-block >
+        <div class="group" th:each="group : ${groups}" th:inline-block>
             <div id="groupContents" th:attr="onclick=|checkInfo(${group.getId()})|">
                 <h1 id="grouptitle" th:text="${group.title}">제목1</h1>
                 <p id="contents" th:text="${group.content}">내용</p>
-                <p id="numPeople"><span th:text="${group.getCurrentPeople()}"></span> / <span th:text="${group.getMaxPeople()}"></span></p>
+                <p id="numPeople"><span th:text="${group.getCurrentPeople()}"></span> / <span
+                        th:text="${group.getMaxPeople()}"></span><span id="numP"
+                                                                       th:text="${group.getCategory()}"></span></p>
             </div>
         </div>
 
@@ -498,11 +586,15 @@
             <div class="nonegroup none9"></div>
             <div class="nonegroup none10"></div>
         </div>
-        <div class="button">
-            <span><button id="Btn1" >이전</button></span>
-            <span>pn</span>
-            <span><button id="Btn2" >다음</button></span>
 
+        <div>
+            <button type="button" id="prev"><img
+                    src="https://jaksimharu.s3.ap-northeast-2.amazonaws.com/images/left.png"
+                    class="prev_page"></button>
+            <p id="page_num">1</p>
+            <button type="button" id="next"><img
+                    src="https://jaksimharu.s3.ap-northeast-2.amazonaws.com/images/right.png"
+                    class="next_page"></button>
         </div>
 
     </section>
@@ -510,25 +602,27 @@
     <!--닉네임 글자 수 제한 필요, 밑줄을 벗어나지 않도록-->
     <section class="myPage">
         <div class="profile"><img th:src="${member.getImageUrl()}"></div>
-        <div class="myName"><p th:text="${member.getName()}"></p></div>
+        <div class="myName">
+            <p th:text="${member.getName()}"></p>
+        </div>
 
-        <button class = "myInfo" onclick="myPage()">내 정보</button>
+        <button class="myInfo" onclick="myPage()">내 정보</button>
         <div>
-            <img class = "reverse_triangle" src ="https://jaksimharu.s3.ap-northeast-2.amazonaws.com/images/reverse_triangle.png"></img>
-            <ul class = "category">
+            <img class="reverse_triangle"
+                 src="https://jaksimharu.s3.ap-northeast-2.amazonaws.com/images/reverse_triangle.png"></img>
+            <ul class="category">
                 <li><a href="">정렬</a>
-                    <ul class = "menu">
-                        <li><a href="/home">전체 합시다</a></li>
-                        <li><a href="/home?category=meal">식사 합시다</a></li>
-                        <li><a href="/home?category=exercise">운동 합시다</a></li>
-                        <li><a href="/home?category=study">공부 합시다</a></li>
-                        <li><a href="/home?category=expireTime">마감 시간</a></li>
+                    <ul class="menu">
+                        <li><a id="home" data-page="1" href="/home?page=1">전체 합시다</a></li>
+                        <li><a id="meal" data-page="1" href="/home?category=meal&page=1">식사 합시다</a></li>
+                        <li><a id="exercise" data-page="1" href="/home?category=exercise&page=1">운동 합시다</a></li>
+                        <li><a id="study" data-page="1" href="/home?category=study&page=1">공부 합시다</a></li>
+                        <li><a id="etc" data-page="1" href="/home?category=etc&page=1">기타 합시다</a></li>
+                        <li><a id="expireTime" data-page="1" href="/home?category=expireTime&page=1">마감 시간</a></li>
                     </ul>
                 </li>
             </ul>
         </div>
-
-
 
         <button id="createBtn" onclick="create();">방 만들기</button>
 
@@ -537,22 +631,439 @@
 </div>
 </body>
 <script th:inline="javascript">
-    function checkInfo(id){
-        window.name="homePage";
+    let home_page = 1;
+    let meal_page = 1;
+    let exercise_page = 1;
+    let study_page = 1;
+    let etc_page = 1;
+    let expireTime_page = 1;
+    let search_page = 1;
+    init();
+
+    function init() {
+        pagination();
+        changePageNum();
+    }
+    function checkInfo(id) {
+        window.name = "homePage";
         const myWindow = window.open(`/group/${id}`, "createGroup", "width:300, height=350, resizable=no, scrollbars=no, status=no");
         myWindow.moveTo(500, 100);
         myWindow.resizeTo(650, 400);
     }
 
-    function create(){
-        window.name="homePage";
+    function create() {
+        window.name = "homePage";
         const myWindow = window.open("/home/new", "createGroup", "scrollbars=no, status=no");
         myWindow.moveTo(500, 100);
         myWindow.resizeTo(700, 800);
     }
 
-    function myPage(){
-        location.href="/me"
+    function myPage() {
+        location.href = "/me"
+    }
+    function changePageNum() {
+        let page = document.querySelector("#page_num");
+
+        let page_address = window.location.href;
+        page_address = page_address.split('/');
+        let str = page_address[3];
+
+        if (str.includes('?category=meal') === true) {
+            let load_meal_page = sessionStorage.getItem("meal_page");
+            if (load_meal_page === null)
+                load_meal_page = 1;
+            meal_page = parseInt(load_meal_page);
+        }
+        else if (str.includes('?category=exercise') === true) {
+            let load_exercise_page = sessionStorage.getItem("exercise_page");
+            if (load_exercise_page === null)
+                load_exercise_page = 1;
+            exercise_page = parseInt(load_exercise_page);
+        }
+        else if (str.includes('?category=study') === true) {
+            let load_study_page = sessionStorage.getItem("study_page");
+            if (load_study_page === null)
+                load_study_page = 1;
+            study_page = parseInt(load_study_page);
+        }
+        else if (str.includes('?category=etc') === true) {
+            let load_etc_page = sessionStorage.getItem("etc_page");
+            if (load_etc_page === null)
+                load_etc_page = 1;
+            etc_page = parseInt(load_etc_page);
+        }
+        else if (str.includes('?category=expireTime') === true) {
+            let load_expireTime_page = sessionStorage.getItem("expireTime_page");
+            if (load_expireTime_page === null)
+                load_expireTime_page = 1;
+            expireTime_page = parseInt(load_expireTime_page);
+        }
+        else if (str.includes('?search') === true) {
+            let load_search_page = sessionStorage.getItem("search_page");
+            if (load_search_page === null)
+                load_search_page = 1;
+            search_page = parseInt(load_search_page);
+        }
+        else {
+            let load_home_page = sessionStorage.getItem("home_page");
+            if (load_home_page === null)
+                load_home_page = 1;
+            home_page = parseInt(load_home_page);
+        }
+        //주소의 뒤에 변수 따라 반영되는 page값
+        if (str.includes('?category=meal') === true) page.innerText = meal_page;
+        else if (str.includes('?category=exercise') === true) page.innerText = exercise_page;
+        else if (str.includes('?category=study') === true) page.innerText = study_page;
+        else if (str.includes('?category=etc') === true) page.innerText = etc_page;
+        else if (str.includes('?category=expireTime') === true) page.innerText = expireTime_page;
+        else if (str.includes('?category=search') === true) page.innerText = search_page;
+        else page.innerText = home_page;
+    }
+    function pagination() {
+        // DOM 이벤트 추가 : DOMContentLoaded는 웹페이지를 열었을 때 실행되는 이벤트임.
+        document.addEventListener('DOMContentLoaded', () => {
+            // 현재 페이지 주소 가져오기
+            let page_address = window.location.href;
+            page_address = page_address.split('/'); // 가져온 현재 주소 페이지를 '/' 기준으로 자름.
+            let str = page_address[3]; // 3번째 값만 다름. (ex) /home, /home?category=meal)
+
+            // 페이지의 이전 버튼 클릭했을 때의 이벤트
+            let prev = document.querySelector("#prev");
+            prev.addEventListener("click", function () {
+                // load_page 변수 선언
+                let load_page;
+                // 현재 페이지를 불러와 뒤에 값에 맞게 load_page 변수 초기화 - sessionStorage를 이용하여 값 불러옴/저장.
+                if (str.includes('?category=meal') === true) {
+                    load_page = sessionStorage.getItem("meal_page");
+
+                    sessionStorage.setItem("exercise_page", "1");
+                    sessionStorage.setItem("study_page", "1");
+                    sessionStorage.setItem("etc_page", "1");
+                    sessionStorage.setItem("expireTime_page", "1");
+                    sessionStorage.setItem("search_page", "1");
+                    sessionStorage.setItem("home_page", "1");
+                }
+                else if (str.includes('?category=exercise') === true) {
+                    load_page = sessionStorage.getItem("exercise_page");
+
+                    sessionStorage.setItem("meal_page", "1");
+                    sessionStorage.setItem("study_page", "1");
+                    sessionStorage.setItem("etc_page", "1");
+                    sessionStorage.setItem("expireTime_page", "1");
+                    sessionStorage.setItem("search_page", "1");
+                    sessionStorage.setItem("home_page", "1");
+                }
+                else if (str.includes('?category=study') === true) {
+                    load_page = sessionStorage.getItem("study_page");
+
+                    sessionStorage.setItem("meal_page", "1");
+                    sessionStorage.setItem("exercise_page", "1");
+                    sessionStorage.setItem("etc_page", "1");
+                    sessionStorage.setItem("expireTime_page", "1");
+                    sessionStorage.setItem("search_page", "1");
+                    sessionStorage.setItem("home_page", "1");
+                }
+                else if (str.includes('?category=etc') === true) {
+                    load_page = sessionStorage.getItem("etc_page");
+
+                    sessionStorage.setItem("meal_page", "1");
+                    sessionStorage.setItem("exercise_page", "1");
+                    sessionStorage.setItem("study_page", "1");
+                    sessionStorage.setItem("expireTime_page", "1");
+                    sessionStorage.setItem("search_page", "1");
+                    sessionStorage.setItem("home_page", "1");
+                }
+                else if (str.includes('?category=expireTime') === true) {
+                    load_page = sessionStorage.getItem("expireTime_page");
+
+                    sessionStorage.setItem("meal_page", "1");
+                    sessionStorage.setItem("exercise_page", "1");
+                    sessionStorage.setItem("study_page", "1");
+                    sessionStorage.setItem("etc_page", "1");
+                    sessionStorage.setItem("search_page", "1");
+                    sessionStorage.setItem("home_page", "1");
+                }
+                else if (str.includes('?category=search') === true) {
+                    load_page = sessionStorage.getItem("search_page");
+
+                    sessionStorage.setItem("meal_page", "1");
+                    sessionStorage.setItem("exercise_page", "1");
+                    sessionStorage.setItem("study_page", "1");
+                    sessionStorage.setItem("etc_page", "1");
+                    sessionStorage.setItem("expireTime_page", "1");
+                    sessionStorage.setItem("home_page", "1");
+                }
+                else {
+                    load_page = sessionStorage.getItem("home_page");
+
+                    sessionStorage.setItem("meal_page", "1");
+                    sessionStorage.setItem("exercise_page", "1");
+                    sessionStorage.setItem("study_page", "1");
+                    sessionStorage.setItem("etc_page", "1");
+                    sessionStorage.setItem("expireTime_page", "1");
+                    sessionStorage.setItem("search_page", "1");
+                }
+                let pageNum = document.querySelector("#page_num");
+
+                // 현재 페이지를 불러오고 str 변수에 값에 맞게 화면에 뜨는 페이지 변수를 변경.
+                if (load_page > 1) { // load_page가 1이 넘어야함. 1이면 페이지 prev 버튼을 누르지 못하게 함.
+                    if (str.includes('?category=meal') === true) {
+                        meal_page -= 1;
+
+                        sessionStorage.setItem("meal_page", meal_page);
+                        if (meal_page === 0)
+                            sessionStorage.setItem("meal_page", "1");
+                        pageNum.innerText = meal_page;
+
+                        location.href = "/home?category=meal&page=" + meal_page;
+                    }
+                    else if (str.includes('?category=exercise') === true) {
+                        exercise_page -= 1;
+
+                        sessionStorage.setItem("exercise_page", exercise_page);
+                        if (exercise_page === 0)
+                            sessionStorage.setItem("exercise_page", "1");
+                        pageNum.innerText = exercise_page;
+
+                        location.href = "/home?category=exercise&page=" + exercise_page;
+                    }
+                    else if (str.includes('?category=study') === true) {
+                        study_page -= 1;
+
+                        sessionStorage.setItem("study_page", study_page);
+                        if (study_page === 0)
+                            sessionStorage.setItem("study_page", "1");
+                        pageNum.innerText = study_page;
+
+                        location.href = "/home?category=study&page=" + study_page;
+                    }
+                    else if (str.includes('?category=etc') === true) {
+                        etc_page -= 1;
+
+                        sessionStorage.setItem("etc_page", etc_page);
+                        if (etc_page === 0)
+                            sessionStorage.setItem("etc_page", "1");
+                        pageNum.innerText = etc_page;
+
+                        location.href = "/home?category=etc&page=" + etc_page;
+                    }
+                    else if (str.includes('?category=expireTime') === true) {
+                        expireTime_page -= 1;
+
+                        sessionStorage.setItem("expireTime_page", expireTime_page);
+                        if (expireTime_page === 0)
+                            sessionStorage.setItem("expireTime_page", "1");
+                        pageNum.innerText = expireTime_page;
+
+                        location.href = "/home?category=expireTime&page=" + expireTime_page;
+                    }
+                    else if (str.includes('?search') === true) {
+                        search_page -= 1;
+
+                        let searchInput = document.querySelector('#search_input');
+                        let searchText = searchInput.value;
+
+                        sessionStorage.setItem("search_page", search_page);
+                        if (search_page === 0)
+                            sessionStorage.setItem("search_page", "1");
+                        pageNum.innerText = search_page;
+
+                        if(searchText !== '')
+                            location.href = "/home?search=" + searchText + "&page=" + search_page;
+                        else
+                            location.href = "/home?page=1";
+                    }
+                    else {
+                        home_page -= 1;
+
+                        sessionStorage.setItem("home_page", home_page);
+                        if (home_page === 0)
+                            sessionStorage.setItem("home_page", "1");
+                        pageNum.innerText = home_page;
+
+                        location.href = "/home?page=" + home_page;
+                    }
+
+                }
+            });
+
+            // 페이지의 다음 버튼 클릭했을 때의 이벤트
+            let next = document.querySelector("#next");
+            next.addEventListener("click", function () {
+                // load_page : 페이지 주소를 불러와서 주소에 따라 다른 페이지값을 불러온다.(홈 페이지, 카테고리 페이지, 검색 페이지)
+                let load_page;
+                if (str.includes('?category=meal') === true) {
+                    load_page = sessionStorage.getItem("meal_page");
+
+                    sessionStorage.setItem("exercise_page", "1");
+                    sessionStorage.setItem("study_page", "1");
+                    sessionStorage.setItem("etc_page", "1");
+                    sessionStorage.setItem("expireTime_page", "1");
+                    sessionStorage.setItem("search_page", "1");
+                    sessionStorage.setItem("home_page", "1");
+                }
+                else if (str.includes('?category=exercise') === true) {
+                    load_page = sessionStorage.getItem("exercise_page");
+
+                    sessionStorage.setItem("meal_page", "1");
+                    sessionStorage.setItem("study_page", "1");
+                    sessionStorage.setItem("etc_page", "1");
+                    sessionStorage.setItem("expireTime_page", "1");
+                    sessionStorage.setItem("search_page", "1");
+                    sessionStorage.setItem("home_page", "1");
+                }
+                else if (str.includes('?category=study') === true) {
+                    load_page = sessionStorage.getItem("study_page");
+
+                    sessionStorage.setItem("meal_page", "1");
+                    sessionStorage.setItem("exercise_page", "1");
+                    sessionStorage.setItem("etc_page", "1");
+                    sessionStorage.setItem("expireTime_page", "1");
+                    sessionStorage.setItem("search_page", "1");
+                    sessionStorage.setItem("home_page", "1");
+                }
+                else if (str.includes('?category=etc') === true) {
+                    load_page = sessionStorage.getItem("etc_page");
+
+                    sessionStorage.setItem("meal_page", "1");
+                    sessionStorage.setItem("exercise_page", "1");
+                    sessionStorage.setItem("study_page", "1");
+                    sessionStorage.setItem("expireTime_page", "1");
+                    sessionStorage.setItem("search_page", "1");
+                    sessionStorage.setItem("home_page", "1");
+                }
+                else if (str.includes('?category=expireTime') === true) {
+                    load_page = sessionStorage.getItem("expireTime_page");
+
+                    sessionStorage.setItem("meal_page", "1");
+                    sessionStorage.setItem("exercise_page", "1");
+                    sessionStorage.setItem("study_page", "1");
+                    sessionStorage.setItem("etc_page", "1");
+                    sessionStorage.setItem("search_page", "1");
+                    sessionStorage.setItem("home_page", "1");
+                }
+                else if (str.includes('?category=search') === true) {
+                    load_page = sessionStorage.getItem("search_page");
+
+                    sessionStorage.setItem("meal_page", "1");
+                    sessionStorage.setItem("exercise_page", "1");
+                    sessionStorage.setItem("study_page", "1");
+                    sessionStorage.setItem("etc_page", "1");
+                    sessionStorage.setItem("expireTime_page", "1");
+                    sessionStorage.setItem("home_page", "1");
+                }
+                else {
+                    load_page = sessionStorage.getItem("home_page");
+
+                    sessionStorage.setItem("meal_page", "1");
+                    sessionStorage.setItem("exercise_page", "1");
+                    sessionStorage.setItem("study_page", "1");
+                    sessionStorage.setItem("etc_page", "1");
+                    sessionStorage.setItem("expireTime_page", "1");
+                    sessionStorage.setItem("search_page", "1");
+                }
+                let pageNum = document.querySelector("#page_num");
+
+                // 현재 페이지를 불러오고 str 변수에 값에 맞게 화면에 뜨는 페이지 변수를 변경. 다음 버튼은 상관 없음.
+                if (str.includes('?category=meal') === true) {
+                    meal_page += 1;
+
+                    sessionStorage.setItem("meal_page", meal_page);
+                    if (meal_page === 0)
+                        sessionStorage.setItem("meal_page", "1");
+                    pageNum.innerText = meal_page;
+
+                    location.href = "/home?category=meal&page=" + meal_page;
+                }
+                else if (str.includes('?category=exercise') === true) {
+                    exercise_page += 1;
+
+                    sessionStorage.setItem("exercise_page", exercise_page);
+                    if (exercise_page === 0)
+                        sessionStorage.setItem("exercise_page", "1");
+                    pageNum.innerText = exercise_page;
+
+                    location.href = "/home?category=exercise&page=" + exercise_page;
+                }
+                else if (str.includes('?category=study') === true) {
+                    study_page += 1;
+
+                    sessionStorage.setItem("study_page", study_page);
+                    if (study_page === 0)
+                        sessionStorage.setItem("study_page", "1");
+                    pageNum.innerText = study_page;
+
+                    location.href = "/home?category=study&page=" + study_page;
+                }
+                else if (str.includes('?category=etc') === true) {
+                    etc_page += 1;
+
+                    sessionStorage.setItem("etc_page", etc_page);
+                    if (etc_page === 0)
+                        sessionStorage.setItem("etc_page", "1");
+                    pageNum.innerText = etc_page;
+
+                    location.href = "/home?category=etc&page=" + etc_page;
+                }
+                else if (str.includes('?category=expireTime') === true) {
+                    expireTime_page += 1;
+
+                    sessionStorage.setItem("expireTime_page", expireTime_page);
+                    if (expireTime_page === 0)
+                        sessionStorage.setItem("expireTime_page", "1");
+                    pageNum.innerText = expireTime_page;
+
+                    location.href = "/home?category=expireTime&page=" + expireTime_page;
+                }
+                else if (str.includes('?search') === true) {
+                    search_page += 1;
+
+                    let searchInput = document.querySelector('#search_input');
+                    let searchText = searchInput.value;
+
+                    sessionStorage.setItem("search_page", search_page);
+                    if (search_page === 0)
+                        sessionStorage.setItem("search_page", "1");
+                    pageNum.innerText = search_page;
+
+                    if(searchText !== '')
+                        location.href = "/home?search=" + searchText + "&page=" + search_page;
+                    else
+                        location.href = "/home?page=1";
+                }
+                else {
+                    home_page += 1;
+
+                    sessionStorage.setItem("home_page", home_page);
+                    if (home_page === 0)
+                        sessionStorage.setItem("home_page", "1");
+                    pageNum.innerText = home_page;
+
+                    location.href = "/home?page=" + home_page;
+                }
+            });
+        });
+    }
+
+    function search() {
+        let searchInput = document.querySelector('#search_input');
+        let searchText = searchInput.value;
+        if (searchText === '') {
+            alert('검색어를 입력하세요!');
+        } else {
+            location.href = "/home?search=" + searchText + "&page=" + search_page;
+        }
+    }
+
+    function help(){
+        location.href="/help"
+    }
+
+    function report(){
+        window.name = "homePage";
+        const myWindow = window.open("/report", "report", "scrollbars=no, status=no");
+        myWindow.moveTo(500, 100);
+        myWindow.resizeTo(650, 700);
     }
 
 </script>

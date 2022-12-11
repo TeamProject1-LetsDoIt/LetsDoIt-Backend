@@ -1,33 +1,37 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset = "UTF-8">
-    <title>팀프로젝트1 1조 - 합시다 웹</title>
-    <meta name = "viewport" content = "width=600, height=700" />
+    <meta charset="UTF-8">
+    <link href="https://jaksimharu.s3.ap-northeast-2.amazonaws.com/images/logo.png" rel="shortcut icon" type="image/x-icon">
+    <title>합시다</title>
+    <meta name="viewport" content="width=600, height=700"/>
     <style>
         p {
-            color : #FFFFFF;
+            color: #FFFFFF;
             font-family: 'Inter';
             font-style: normal;
             font-weight: 400;
             font-size: 18px;
             line-height: 22px;
         }
+
         body {
             display: relative;
         }
+
         input {
             background-color: transparent;
-            color : #FFFFFF;
+            color: #FFFFFF;
             font-family: 'Inter';
             font-style: normal;
             font-weight: 400;
         }
+
         select {
             background-color: transparent;
-            outline-color : transparent;
+            outline-color: transparent;
 
-            color : #FFFFFF;
+            color: #FFFFFF;
             font-family: 'Inter';
             font-style: normal;
             font-weight: 400;
@@ -35,47 +39,54 @@
             line-height: 22px;
 
         }
+
         select option {
-            background-color : #5f5f5f;
-            color : #FFFFFF;
+            background-color: #5f5f5f;
+            color: #FFFFFF;
         }
+
         select option:hover {
             background-color: #777777;
         }
+
         button {
             -webkit-appearance: none;
             -moz-appearance: none;
             appearance: none;
             background-color: transparent;
-            border : 0;
-            outline : 0;
+            border: 0;
+            outline: 0;
 
-            cursor : pointer;
+            cursor: pointer;
         }
+
         body {
-            background-color : #5f5f5f;
-            background-size : cover;
-            background-position : center;
+            background-color: #5f5f5f;
+            background-size: cover;
+            background-position: center;
         }
-        .party_background{ /*relative*/
+
+        .party_background { /*relative*/
             position: relative;
             width: 600px;
             height: 700px;
-            margin : 0px auto;
+            margin: 0px auto;
 
             background: #5F5F5F;
             border-radius: 8px;
-            display : block;
+            display: block;
         }
+
         /*make_party_title : 맨 윗줄, x버튼 */
         .make_party_title {
-            z-index : 30;
-            position : absolute;
-            display : inline-block;
+            z-index: 30;
+            position: absolute;
+            display: inline-block;
             text-align: center;
         }
+
         .button_x {
-            z-index : 10;
+            z-index: 10;
             position: absolute;
             width: 20px;
             height: 20px;
@@ -84,6 +95,7 @@
             border: 0;
             display: inline-block;
         }
+
         /* 파티 제목 */
         .make_title {
             position: absolute;
@@ -91,23 +103,24 @@
             line-height: 22px;
             width: 140px;
             height: 22px;
-            top : -11px;
-            left : 230px;
+            top: -11px;
+            left: 230px;
             text-align: center;
         }
 
         /* party_name : 파티 제목 - 제목 */
         .party_name {
             z-index: 20;
-            position : absolute;
+            position: absolute;
             width: 540px;
             height: 40px;
-            left : 30px;
-            top : 48px;
+            left: 30px;
+            top: 48px;
 
             background: #323232;
             border-radius: 8px;
         }
+
         /* 제목 */
         .input_title {
             position: absolute;
@@ -116,9 +129,10 @@
 
             width: 490px;
             height: 24px;
-            top : 5px;
-            left : 20px;
+            top: 5px;
+            left: 20px;
         }
+
         /* party_category : 파티 카테고리 - 배경, 카테고리 */
         .party_category {
             z-index: 30;
@@ -130,9 +144,10 @@
             background: #323232;
             border-radius: 8px;
 
-            position : absolute;
-            display : inline-block;
+            position: absolute;
+            display: inline-block;
         }
+
         .select_category {
             position: absolute;
             font-size: 20px;
@@ -140,9 +155,10 @@
 
             width: 492px;
             height: 30px;
-            top : 5px;
-            left : 20px;
+            top: 5px;
+            left: 20px;
         }
+
         /* party_contents : 파티 내용 - 배경, 내용 */
         .party_contents {
             position: absolute;
@@ -155,6 +171,7 @@
             background: #323232;
             border-radius: 8px;
         }
+
         .input_content {
             position: absolute;
             font-size: 20px;
@@ -162,18 +179,19 @@
 
             width: 490px;
             height: 340px;
-            top : 7px;
-            left : 20px;
+            top: 7px;
+            left: 20px;
             background: transparent;
-            resize : none;
+            resize: none;
 
-            color : #FFFFFF;
+            color: #FFFFFF;
             font-family: 'Inter';
             font-style: normal;
             font-weight: 400;
             font-size: 18px;
             line-height: 22px;
         }
+
         /* 날짜 & 시간*/
         .party_datetime {
             position: absolute;
@@ -185,15 +203,17 @@
             background: #323232;
             border-radius: 8px;
         }
+
         .input_datetime {
             position: absolute;
             font-size: 20px;
             line-height: 24px;
             width: 490px;
             height: 24px;
-            top : 5px;
-            left : 20px;
+            top: 5px;
+            left: 20px;
         }
+
         /* party_member : 파티 인원 배경 */
         .party_member {
             position: absolute;
@@ -205,6 +225,7 @@
             background: #323232;
             border-radius: 8px;
         }
+
         /* 인원 생성 글씨 */
         .input_member {
             position: absolute;
@@ -212,12 +233,13 @@
             line-height: 24px;
             width: 490px;
             height: 24px;
-            top : 5px;
-            left : 20px;
+            top: 5px;
+            left: 20px;
         }
+
         /* 합시다 버튼 */
         .button_makeParty {
-            z-index : 30;
+            z-index: 30;
             position: absolute;
             width: 85px;
             height: 40px;
@@ -225,7 +247,7 @@
             top: 640px;
 
             background: #D9D9D9;
-            color : #424242;
+            color: #424242;
             border-radius: 20px;
             display: inline-block;
             font-size: 20px;
@@ -234,58 +256,60 @@
             -moz-appearance: none;
             appearance: none;
 
-            border : 0;
-            outline : 0;
+            border: 0;
+            outline: 0;
 
-            cursor : pointer;
+            cursor: pointer;
         }
+
         .button_makeParty:hover {
             background-color: #aca9a9;
         }
     </style>
 </head>
 <body>
-<form action = "/home/new" th:action th:object="${group}" method = "post" target="homePage" >
-    <div class = "party_background">
-        <div class = "make_party_title">
-            <p class = "make_title">모임 생성하기</p>
-            <button type = "button" onClick='window.close()'>
-                <img src = "https://jaksimharu.s3.ap-northeast-2.amazonaws.com/images/x-png-33.png" alt = "button_x" class="button_x">
+<form action="/home/new" id="createGroup" th:action th:object="${group}" method="post" target="homePage">
+    <div class="party_background">
+        <div class="make_party_title">
+            <p class="make_title">모임 생성하기</p>
+            <button type="button" onClick='window.close()'>
+                <img src="https://jaksimharu.s3.ap-northeast-2.amazonaws.com/images/x-png-33.png" alt="button_x"
+                     class="button_x">
             </button>
         </div>
-        <div class = "party_name">
-            <input type = "text" class = "input_title" th:field="*{title}" value ="파티 제목"  placeholder="제목" required maxlength="50"><br>
+        <div class="party_name">
+            <input type="text" class="input_title" name="inputTitle" th:field="*{title}" value="파티 제목" placeholder="제목"
+                   required maxlength="20"><br>
         </div>
-        <div class = "party_category">
-            <select class = "select_category" th:field="*{category}" required>
+        <div class="party_category">
+            <select class="select_category" name="category" th:field="*{category}" required>
                 <option value="">카테고리 선택</option>
                 <option th:each="category : ${categories}"
                         th:value="${category}" th:utext="${category}"></option>
             </select>
         </div>
-        <div class = "party_contents">
-            <textarea placeholder="내용" class = "input_content" th:field="*{content}" required maxlength="200"></textarea>
+        <div class="party_contents">
+            <textarea placeholder="내용" name="content" class="input_content" th:field="*{content}" required
+                      maxlength="100"></textarea>
         </div>
         <div>
-            <div class = "party_datetime"> <!-- 출력 방식 : 2022-10-23T23:45-->
-                <input type = "datetime-local" class = "input_datetime" th:field="*{expireTime}" required><br>
+            <div class="party_datetime"> <!-- 출력 방식 : 2022-10-23T23:45-->
+                <input type="datetime-local" name="dateTime" class="input_datetime" th:field="*{expireTime}"
+                       required><br>
             </div>
-            <div class = "party_member">
-                <input type = "number" class = "input_member" th:field="*{maxPeople}" min="1" max ="8"  placeholder="인원 수" required><br>
+            <div class="party_member">
+                <input type="number" name="inputMember" class="input_member" th:field="*{maxPeople}" min="1" max="30"
+                       placeholder="인원 수" required><br>
             </div>
         </div>
-        <input type ="submit" class = "button_makeParty" value = "확인">
+        <input type="submit" class="button_makeParty" value="확인">
     </div>
 </form>
 </body>
 <script type="text/javascript">
-    function popupClose(form){
-        form.target=opener.name;
-        form.submit();
-        if(opener != null){
-            opener.insert=null;
-            self.close();
-        }
-    }
+    document.getElementById("createGroup").onsubmit = function () {
+        alert("모임이 생성되었습니다");
+        window.close();
+    };
 </script>
 </html>
